@@ -1,5 +1,5 @@
 import React from "react";
-import '../index.css'
+import "../index.css";
 import {
   Navbar,
   Collapse,
@@ -11,12 +11,14 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
+  Button,
 } from "@material-tailwind/react";
 import {
   ChevronDownIcon,
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+
 import {
   Bars4Icon,
   GlobeAmericasIcon,
@@ -59,11 +61,11 @@ function NavListMenu() {
   const renderItems = navListMenuItems.map(({ title }, key) => (
     <a href="#" key={key}>
       <MenuItem className="flex items-center gap-3 rounded-lg">
-         <div>
+        <div>
           <Typography
-            variant="h6"
-            color="c1"
-            className="flex items-center text-sm font-font2 font-bold"
+            variant="h4"
+            color="black"
+            className="flex items-center text-sm  font-bold font-[Montserrat]"
           >
             {title}
           </Typography>
@@ -77,26 +79,33 @@ function NavListMenu() {
       <Menu
         open={isMenuOpen}
         handler={setIsMenuOpen}
-        offset={{ mainAxis: 25 }}
+        offset={{ mainAxis: 40 }}
         placement="bottom"
         allowHover={true}
       >
         <MenuHandler>
-          <Typography as="div" variant="small" className="font-medium">
+          <Typography
+            as="div"
+            variant="medium"
+            className="font-bold font-[Montserrat]"
+          >
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
+              className="flex items-center gap-1 py-2 pr-4 font-bold font-[Montserrat] text-black"
+              color="black"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
               All Products
               <ChevronDownIcon
                 strokeWidth={2.5}
+                color={"black"}
                 className={`hidden h-3 w-3 transition-transform lg:block ${
                   isMenuOpen ? "rotate-180" : ""
                 }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
+                color={"black"}
                 className={`block h-3 w-3 transition-transform lg:hidden ${
                   isMobileMenuOpen ? "rotate-180" : ""
                 }`}
@@ -104,8 +113,8 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl bg-c1 rounded-xl lg:block">
-          <ul className="grid grid-cols-1 gap-y-2 outline-none outline-0">
+        <MenuList className="hidden max-w-screen-xl bg-c1 lg:block">
+          <ul className="grid grid-cols-1 gap-y-2 outline-none outline-0 text-black">
             {renderItems}
           </ul>
         </MenuList>
@@ -123,9 +132,9 @@ function NavList() {
       <Typography
         as="a"
         href="#"
-        variant="small"
-        color="blue-gray"
-        className="font-medium"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat]"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
       </Typography>
@@ -133,13 +142,100 @@ function NavList() {
       <Typography
         as="a"
         href="#"
-        variant="small"
-        color="blue-gray"
-        className="font-medium"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat]"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
+      </Typography>
+      <Typography
+        as="a"
+        href="#"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat]"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           Contact Us
         </ListItem>
+      </Typography>
+      <Typography
+        as="a"
+        href="#"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat] hover-bg-red-500"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          Outlets
+        </ListItem>
+      </Typography>
+      <Typography
+        as="a"
+        href="#"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat] hover-bg-red-500 pl-20"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          Login
+        </ListItem>
+      </Typography>
+      <Typography
+        color="black"
+        className="font-bold font-[Montserrat]"
+      >
+        <div className="flex items-center h-9 pl-1">
+          |
+        </div>
+      </Typography>
+      <Typography
+        as="a"
+        href="#"
+        variant="medium"
+        color="black"
+        className="font-bold font-[Montserrat] hover-bg-red-500 pl-1 pr-5"
+      >
+        <ListItem className="flex items-center gap-2 py-2 pr-4">
+          SignUp
+        </ListItem>
+      </Typography>
+      <Typography as="a" href="#">
+        <button class="flex items-center justify-center bg-deep-orange-200 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+            />
+          </svg>
+        </button>
+      </Typography>
+
+      <Typography as="a" href="#" className="pl-2">
+        <button class="flex items-center justify-center bg-deep-orange-900 w-20 h-8 rounded-3xl text-white hover:bg-white hover:text-black duration-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+        </button>
       </Typography>
     </List>
   );
@@ -151,19 +247,19 @@ export function MegaMenuWithHover() {
   React.useEffect(() => {
     window.addEventListener(
       "resize",
-      () => window.innerWidth >= 960 && setOpenNav(false)
+      () => window.innerWidth >= 1280 && setOpenNav(false)
     );
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-xl px-4 py-2">
-      <div className="flex items-center justify-between text-blue-gray-900">
-        <img src=""/>
+    <Navbar className="max-w-screen-3xl px-5 py-4 bg-deep-orange-600">
+      <div className="flex items-center pl-15  text-black ">
+        <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
         <Typography
           as="a"
           href="#"
-          variant="h6"
-          className="mr-4 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
+          variant="h3"
+          className="pl-20 pr-20 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
         >
           PERERA BAKERS
         </Typography>
@@ -172,14 +268,14 @@ export function MegaMenuWithHover() {
         </div>
         <IconButton
           variant="text"
-          color="blue-gray"
+          color="black"
           className="lg:hidden"
           onClick={() => setOpenNav(!openNav)}
         >
           {openNav ? (
-            <XMarkIcon className="h-6 w-6" strokeWidth={2} />
+            <XMarkIcon className="h-6 w-6" color="black" strokeWidth={2} />
           ) : (
-            <Bars3Icon className="h-6 w-6" strokeWidth={2} />
+            <Bars3Icon className="h-6 w-6" color="black" strokeWidth={2} />
           )}
         </IconButton>
       </div>

@@ -4,6 +4,8 @@ import "../../index.css";
 import React from "react";
 export default function Home() {
   return (
-    <MegaMenuWithHover/>
+    <div className="bg-deep-orange-200">  
+     <MegaMenuWithHover/>
+    </div>
   )
 };

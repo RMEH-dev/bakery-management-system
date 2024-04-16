@@ -8,7 +8,9 @@ import Home from "./pages/customer/home.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider>
-      <Home/>
+      <div className="bg-brown-400">
+        <Home />
+      </div>
     </ThemeProvider>
   </React.StrictMode>
 );
