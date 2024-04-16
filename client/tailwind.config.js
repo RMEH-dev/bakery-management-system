@@ -4,24 +4,12 @@ const withMT = require("@material-tailwind/react/utils/withMT");
 module.exports = withMT({
   content: [
     "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./src/pages/customer.{vue,js,jsx,tsx,ts,js}",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    ".src/components/**/*.{jsx,js,tsx}",
   ],
   theme: {
-    extend: {
-      screens: {
-        "3xl": "1600px",
-      },
-    },
-    fontFamily: {
-      poppins: ["Poppins", "sans-serif"],
-      montserrat: ["Montserrat", "sans-serif"],
-    },
+    extend: {},
   },
-  plugins: [
-    {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  ],
+  plugins: [],
 });
+

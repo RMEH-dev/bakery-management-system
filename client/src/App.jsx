@@ -1,13 +1,8 @@
-import { useState } from 'react';
+import {MegaMenuWithHover } from "./components/navbar";
 import "./index.css";
-
-function App() {
-  const [count, setCount] = useState(0)
-
+import React from "react";
+export default function App() {
   return (
-      <div className='background-color: brown'>
-      </div>
+    <MegaMenuWithHover/>
   )
-}
-
-export default App
+};

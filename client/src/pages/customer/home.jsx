@@ -1,13 +1,9 @@
-import React from 'react';
-import { MegaMenuWithHover } from '../../components/navbar';
 
-
-function Home() {
+import { MegaMenuWithHover } from "../../components/navbar";
+import "../../index.css";
+import React from "react";
+export default function Home() {
   return (
-    <div>
-      <MegaMenuWithHover/>
-    </div>
+    <MegaMenuWithHover/>
   )
-}
-
-export default Home;
+};
