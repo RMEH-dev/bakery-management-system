@@ -53,7 +53,7 @@ export function DefaultGallery() {
         <ProductList className="z-40" />
       </div>
 
-      <div className="pt-[50px] pl-[350px] pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-5 sm:grid-cols-1 md:grid-cols-2">
+      <div className="z-40 pl-[350px] pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-5 sm:grid-cols-1 md:grid-cols-2">
         ,
         {data.map(({ imageLink }, index) => (
           <div key={index}>
