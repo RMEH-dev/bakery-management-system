@@ -35,17 +35,14 @@ export function CarouselCustomNavigation() {
               color="white"
               className="mb-4 text-3xl md:text-4xl lg:text-5xl"
             >
-              The Beauty of Nature
+              Baked with Freshness
             </Typography>
             <Typography
               variant="lead"
               color="white"
               className="mb-12 opacity-80"
             >
-              It is not so much for its beauty that the forest makes a claim
-              upon men&apos;s hearts, as for that subtle something, that quality
-              of air that emanation from old trees, that so wonderfully changes
-              and renews a weary spirit.
+              We  make delicious bakery product using fresh, high-quality ingredients. Order the product of your choice and taste the flavors of Asia at our bakery.   
             </Typography>
           </div>
         </div>
@@ -63,17 +60,14 @@ export function CarouselCustomNavigation() {
               color="white"
               className="mb-4 text-3xl md:text-4xl lg:text-5xl"
             >
-              The Beauty of Nature
+              Baked with Love. Made Fresh Daily.
             </Typography>
             <Typography
               variant="lead"
               color="white"
               className="mb-12 opacity-80"
             >
-              It is not so much for its beauty that the forest makes a claim
-              upon men&apos;s hearts, as for that subtle something, that quality
-              of air that emanation from old trees, that so wonderfully changes
-              and renews a weary spirit.
+              Experience the joy of homemade goodness. Baked with love, just for you. Indulge in our delicious creations, where every bite is bursting with love.
             </Typography>
           </div>
         </div>
@@ -91,17 +85,14 @@ export function CarouselCustomNavigation() {
               color="white"
               className="mb-4 text-3xl md:text-4xl lg:text-5xl"
             >
-              The Beauty of Nature
+              Served with Taste
             </Typography>
             <Typography
               variant="lead"
               color="white"
-              className="mb-12 opacity-80"
+              className="mb-12 opacity-80 items-center"
             >
-              It is not so much for its beauty that the forest makes a claim
-              upon men&apos;s hearts, as for that subtle something, that quality
-              of air that emanation from old trees, that so wonderfully changes
-              and renews a weary spirit.
+              Fresh flavors, masterfully prepared.We elevate your dining experience. Fresh ingredients, bursting with flavor.
             </Typography>
           </div>
         </div>
