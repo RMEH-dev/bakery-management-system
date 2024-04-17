@@ -90,7 +90,7 @@ export function CarouselCustomNavigation() {
             <Typography
               variant="lead"
               color="white"
-              className="mb-12 opacity-80 items-center"
+              className="mb-12 opacity-80 "
             >
               Fresh flavors, masterfully prepared.We elevate your dining experience. Fresh ingredients, bursting with flavor.
             </Typography>

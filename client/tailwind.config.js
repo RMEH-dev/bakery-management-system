@@ -8,6 +8,8 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
+
+      
       colors: {
         c1: {
           100: "3E2212",

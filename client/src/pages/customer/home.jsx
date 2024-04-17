@@ -9,7 +9,7 @@ export default function Home() {
       <MegaMenuWithHover className="fixed top-0 left-0 z-2" />{" "}
       {/* Set z-index to 2 */}
       <CarouselCustomNavigation />
-      <FooterWithSocialLinks className="pt-[50px] z-10"/> {/* Implicit z-index of 0 or default */}
+      <FooterWithSocialLinks className="z-10"/> {/* Implicit z-index of 0 or default */}
     </div>
   );
 }

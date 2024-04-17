@@ -128,7 +128,7 @@ function NavListMenu() {
 
 function NavList() {
   return (
-    <List className="max-w-screen-3xl flex text-nowrap mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+    <List className="flex text-nowrap md:px-0 mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
         as="a"
         href="#"
@@ -211,9 +211,9 @@ function NavList() {
         href="#"
         variant="medium"
         color="black"
-        className="font-bold font-[Montserrat] hover-bg-red-500 pl-20"
+        className="font-bold font-[Montserrat] hover-bg-red-500 md:pl-2 "
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Login</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">Login</ListItem>
       </Typography>
       <Typography color="black" className="font-bold font-[Montserrat]">
         <div className="flex items-center h-9 pl-1">|</div>
@@ -225,7 +225,7 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] hover-bg-red-500 pl-1 pr-5"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
+        <ListItem className="flex items-center gap-2 py-2 pr-2">
           SignUp
         </ListItem>
       </Typography>
@@ -282,13 +282,13 @@ export function MegaMenuWithHover() {
 
   return (
     <Navbar className="max-w-screen-3xl px-5 py-4 bg-deep-orange-600 rounded-none">
-      <div className="flex items-center pl-15  text-black ">
+      <div className="flex items-center text-black ">
         <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
         <Typography
           as="a"
           href="#"
           variant="h3"
-          className="px-8 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
+          className="px-8 md:px-3 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
         >
           PERERA BAKERS
         </Typography>
