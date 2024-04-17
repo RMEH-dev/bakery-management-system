@@ -18,6 +18,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 import {
   Bars4Icon,
@@ -59,7 +60,7 @@ function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const renderItems = navListMenuItems.map(({ title }, key) => (
-    <a href="#" key={key}>
+    <Link to="/products" key={key}>
       <MenuItem className="flex items-center gap-3 rounded-lg bg-deep-orange-300">
         <div>
           <Typography
@@ -67,11 +68,11 @@ function NavListMenu() {
             color="black"
             className="flex items-center text-sm  font-bold font-[Montserrat]"
           >
-            {title}
+            {title} 
           </Typography>
         </div>
       </MenuItem>
-    </a>
+    </Link>
   ));
 
   return (
