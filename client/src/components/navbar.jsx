@@ -31,7 +31,6 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
-
 const navListMenuItems = [
   {
     title: "Breads & Buns",
@@ -129,7 +128,7 @@ function NavListMenu() {
 
 function NavList() {
   return (
-    <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
+    <List className="max-w-screen-3xl flex text-nowrap mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
         as="a"
         href="#"
@@ -176,19 +175,48 @@ function NavList() {
         href="#"
         variant="medium"
         color="black"
-        className="font-bold font-[Montserrat] hover-bg-red-500 pl-20"
+        className="font-bold font-[Montserrat] pl-10"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">
-          Login
-        </ListItem>
+        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-deep-orange-200 text-black rounded-2xl">
+          
+          <input
+            class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-black text-black outline-none focus:outline-none "
+            type="search"
+            name="search"
+            placeholder="Search..."
+          />
+          <button
+            type="submit"
+            class="m-1 rounded-3xl bg-deep-orange-900 px-2 py-2 text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+          </button>
+        </div>
       </Typography>
       <Typography
+        as="a"
+        href="#"
+        variant="medium"
         color="black"
-        className="font-bold font-[Montserrat]"
+        className="font-bold font-[Montserrat] hover-bg-red-500 pl-20"
       >
-        <div className="flex items-center h-9 pl-1">
-          |
-        </div>
+        <ListItem className="flex items-center gap-2 py-2 pr-4">Login</ListItem>
+      </Typography>
+      <Typography color="black" className="font-bold font-[Montserrat]">
+        <div className="flex items-center h-9 pl-1">|</div>
       </Typography>
       <Typography
         as="a"
@@ -260,13 +288,14 @@ export function MegaMenuWithHover() {
           as="a"
           href="#"
           variant="h3"
-          className="pl-20 pr-20 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
+          className="px-8 cursor-pointer py-1.5 lg:ml-2 font-[Montserrat]"
         >
           PERERA BAKERS
         </Typography>
         <div className="hidden lg:block">
           <NavList />
         </div>
+        {/* <SearchBar /> */}
         <IconButton
           variant="text"
           color="black"
