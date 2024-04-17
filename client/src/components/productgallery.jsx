@@ -1,5 +1,7 @@
+import "../index.css";
+import { Link } from "react-router-dom";
+import { ProductList } from "./primary/productlist";
 import { Typography } from "@material-tailwind/react";
-
 export function DefaultGallery() {
   const data = [
     {
@@ -8,49 +10,51 @@ export function DefaultGallery() {
     },
     {
       imageLink:
-        "https://images.unsplash.com/photo-1432462770865-65b70566d673?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+        "https://www.seriouseats.com/thmb/02cnc7c4s4tIGXlTWGXvIKDRmuE=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/better-no-knead-bread-recipe-hero-01_1-48d654bfadeb4a5caf9b233b00fc74ca.JPG",
     },
     {
       imageLink:
-        "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80",
+        "https://www.goldmedalbakery.com/content/uploads/2019/12/Sandwich-White.jpg",
     },
     {
       imageLink:
-        "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+        "https://www.occasionallyeggs.com/wp-content/uploads/2020/08/Dark-Rye-Bread-2-1-768x1150.jpg",
     },
     {
       imageLink:
-        "https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80",
+        "https://i0.wp.com/www.joyofeatingtheworld.com/wp-content/uploads/2022/11/26-Sri-Lankan-roast-paan.jpg?w=500&ssl=1",
     },
     {
       imageLink:
-        "https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80",
+        "https://www.dailyfoodrecipes.com/wp-content/uploads/2014/03/malu-pan-fish-bun.jpg",
     },
     {
       imageLink:
-        "https://demos.creative-tim.com/material-kit-pro/assets/img/examples/blog5.jpg",
+        "https://www.islandsmile.org/wp-content/uploads/2022/06/IMG_5163-2-835x1080.jpg",
+    },
+    {
+      imageLink: "https://ceylontoday.lk/wp-content/uploads/2022/06/1-42.jpg",
     },
     {
       imageLink:
-        "https://material-taillwind-pro-ct-tailwind-team.vercel.app/img/content2.jpg",
-    },
-    {
-      imageLink:
-        "https://images.unsplash.com/photo-1620064916958-605375619af8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1493&q=80",
+        "https://savoryspin.com/wp-content/uploads/2018/11/Easy-Delicious-Spiced-Chicken-Stuffed-Buns.jpg.webp",
     },
   ];
 
   return (
-    (
-      <Typography
-      >
-        <div className="flex items-center gap-2 py-2 pr-4 z-30">
-          Contact Us
+    <div className="bg-deep-orange-100">
+      <Typography>
+        <div className="flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
+          <Link to="/products"> All Products&nbsp;/</Link>
+          <Link to="/products/Breads&Buns"> &nbsp;Breads & Buns</Link>
         </div>
       </Typography>
-    ),
-    (
-      <div className="bg-deep-orange-100  pt-[100px] pl-[300px] pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-5 sm:grid-cols-1 md:grid-cols-3">
+      <div className="pt-10 ">
+        <ProductList className="z-40" />
+      </div>
+
+      <div className="pt-[50px] pl-[350px] pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-5 sm:grid-cols-1 md:grid-cols-2">
+        ,
         {data.map(({ imageLink }, index) => (
           <div key={index}>
             <img
@@ -61,6 +65,6 @@ export function DefaultGallery() {
           </div>
         ))}
       </div>
-    )
+    </div>
   );
 }
