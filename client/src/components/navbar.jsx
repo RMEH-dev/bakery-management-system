@@ -31,6 +31,7 @@ import {
   UserGroupIcon,
 } from "@heroicons/react/24/solid";
 
+
 const navListMenuItems = [
   {
     title: "Breads & Buns",
@@ -60,7 +61,7 @@ function NavListMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const renderItems = navListMenuItems.map(({ title }, key) => (
     <a href="#" key={key}>
-      <MenuItem className="flex items-center gap-3 rounded-lg">
+      <MenuItem className="flex items-center gap-3 rounded-lg bg-deep-orange-300">
         <div>
           <Typography
             variant="h4"
@@ -87,7 +88,7 @@ function NavListMenu() {
           <Typography
             as="div"
             variant="medium"
-            className="font-bold font-[Montserrat]"
+            className="font-bold font-[Montserrat] "
           >
             <ListItem
               className="flex items-center gap-1 py-2 pr-4 font-bold font-[Montserrat] text-black"
@@ -113,7 +114,7 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl bg-c1 lg:block">
+        <MenuList className="hidden max-w-screen-xl bg-deep-orange-200 lg:block">
           <ul className="grid grid-cols-1 gap-y-2 outline-none outline-0 text-black">
             {renderItems}
           </ul>
