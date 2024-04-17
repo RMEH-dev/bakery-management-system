@@ -253,7 +253,7 @@ export function MegaMenuWithHover() {
   }, []);
 
   return (
-    <Navbar className="max-w-screen-3xl px-5 py-4 bg-deep-orange-600">
+    <Navbar className="max-w-screen-3xl px-5 py-4 bg-deep-orange-600 rounded-none">
       <div className="flex items-center pl-15  text-black ">
         <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
         <Typography

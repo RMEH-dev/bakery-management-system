@@ -5,7 +5,7 @@ import React from "react";
 export default function Home() {
   return (
     <div>
-      <MegaMenuWithHover style={{ zIndex: 2, position:"fixed" }} /> {/* Set z-index to 2 */}
+      <MegaMenuWithHover className="fixed top-0 left-0 z-2"/> {/* Set z-index to 2 */}
       <CarouselCustomNavigation /> {/* Implicit z-index of 0 or default */}
     </div>
   );
