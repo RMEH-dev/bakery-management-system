@@ -128,6 +128,18 @@ function NavListMenu() {
 }
 
 function NavList() {
+  // const [searchList, setSearchList] = useState({});
+  // const [searchTask, setSearchTask] = useState("");
+
+  // const handleChange = (event) => {
+  //   setNewTask(event.target.value);
+  // };
+
+  // const addTask = (task) => {
+  //   const newSearchList = [...searchList, searchTask]
+  //   setSearchList(newSearchList);
+  // };
+
   return (
     <List className="flex text-nowrap md:px-0 mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
@@ -185,6 +197,7 @@ function NavList() {
             type="search"
             name="search"
             placeholder="Search..."
+            // onChange={handleChange}
           />
           <button
             type="submit"

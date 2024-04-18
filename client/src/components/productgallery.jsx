@@ -45,25 +45,28 @@ export function DefaultGallery() {
     <div className="bg-deep-orange-100">
       <Typography>
         <div className="flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
-          <Link to="/products"> All Products&nbsp;/</Link>
-          <Link to="/products/Breads&Buns"> &nbsp;Breads & Buns</Link>
+          <Link to="/products">All Products&nbsp;/</Link>
+          <Link to="/products/Breads&Buns">&nbsp;Breads & Buns</Link>
         </div>
       </Typography>
-      <div className="pt-10 ">
-        <ProductList className="z-40" />
-      </div>
-
-      <div className="z-40 pl-[350px] pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-5 sm:grid-cols-1 md:grid-cols-2">
-        ,
-        {data.map(({ imageLink }, index) => (
-          <div key={index}>
-            <img
-              className="h-40 w-full max-w-full shadow-md shadow-deep-orange-900 outline-deep-orange-800 outline-offset-8 rounded-lg object-cover object-center"
-              src={imageLink}
-              alt="gallery-photo"
-            />
+  
+      <div className="pt-10">
+        <div className="grid grid-cols-2 gap-20 lg:grid-cols-2 sm:grid-cols-1 md:grid-cols-2">
+          <div className="z-50">
+            <ProductList />
           </div>
-        ))}
+          <div className="pl-10 pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-3">
+            {data.map(({ imageLink }, index) => (
+              <div key={index}>
+                <img
+                  className="h-40 w-[450px] max-w-screen shadow-md shadow-deep-orange-900 outline-deep-orange-800 outline-offset-8 rounded-lg object-cover object-center"
+                  src={imageLink}
+                  alt="gallery-photo"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
