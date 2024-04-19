@@ -8,6 +8,44 @@ import {
 } from "@material-tailwind/react";
 
 export function ProductCard() {
+    const data = [
+        {
+          imageLink:
+            "https://countrywoodsmoke.com/wp-content/uploads/2020/03/IMG_20200130_154847-01-1536x734.jpeg",
+        },
+        {
+          imageLink:
+            "https://www.seriouseats.com/thmb/02cnc7c4s4tIGXlTWGXvIKDRmuE=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/better-no-knead-bread-recipe-hero-01_1-48d654bfadeb4a5caf9b233b00fc74ca.JPG",
+        },
+        {
+          imageLink:
+            "https://www.goldmedalbakery.com/content/uploads/2019/12/Sandwich-White.jpg",
+        },
+        {
+          imageLink:
+            "https://www.occasionallyeggs.com/wp-content/uploads/2020/08/Dark-Rye-Bread-2-1-768x1150.jpg",
+        },
+        {
+          imageLink:
+            "https://i0.wp.com/www.joyofeatingtheworld.com/wp-content/uploads/2022/11/26-Sri-Lankan-roast-paan.jpg?w=500&ssl=1",
+        },
+        {
+          imageLink:
+            "https://www.dailyfoodrecipes.com/wp-content/uploads/2014/03/malu-pan-fish-bun.jpg",
+        },
+        {
+          imageLink:
+            "https://www.islandsmile.org/wp-content/uploads/2022/06/IMG_5163-2-835x1080.jpg",
+        },
+        {
+          imageLink: "https://ceylontoday.lk/wp-content/uploads/2022/06/1-42.jpg",
+        },
+        {
+          imageLink:
+            "https://savoryspin.com/wp-content/uploads/2018/11/Easy-Delicious-Spiced-Chicken-Stuffed-Buns.jpg.webp",
+        },
+      ];
+      
   return (
     <Card className="w-[250px] bg-gray-200 shadow shadow-md shadow-deep-orange-700 h-[300px]">
       <CardHeader shadow={false} floated={false} className="h-[150px]">

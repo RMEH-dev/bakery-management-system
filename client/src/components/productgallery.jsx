@@ -43,7 +43,7 @@ export function DefaultGallery() {
   ];
 
   return (
-    <div className="bg-deep-orange-100">
+    <div className="bg-gray-200">
       <Typography>
         <div className="flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
           <Link to="/products">All Products&nbsp;/</Link>
@@ -56,16 +56,13 @@ export function DefaultGallery() {
           <div className="z-50">
             <ProductList />
           </div>
-          <div className="pl-10 pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-2 lg:grid-rows-1 grid-rows-1"> {/* Changed grid-cols-3 to grid-cols-4 */}
-            {data.map(({ imageLink }, index) => (
-              <div key={index}>
-                <img
+          <div className="pl-10 pr-10 pb-20 grid grid-cols-1 gap-20 lg:grid-cols-2 lg:grid-rows-1 grid-rows-1"> {/* Changed grid-cols-3 to grid-cols-4 */}    
+              <div>
+                <ProductCard
                   className="h-40 w-full max-w-screen shadow-md shadow-deep-orange-900 outline-deep-orange-800 outline-offset-8 rounded-lg object-cover object-center"
-                  src={imageLink}
                   alt="gallery-photo"
                 />
               </div>
-            ))}
           </div>
           <div>
           <ProductCard/>
