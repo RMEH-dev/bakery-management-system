@@ -230,9 +230,11 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] hover-bg-red-500 md:pl-2 "
       >
+        <Link to="/logIn">
         <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">
           Login
         </ListItem>
+        </Link>
       </Typography>
       <Typography color="black" className="font-bold font-[Montserrat]">
         <div className="flex items-center h-9 pl-1">|</div>

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import Home from "./pages/customer/home.jsx";
 import Products from "./pages/customer/products.jsx";
 import SignUp from "./pages/signup.jsx";
+import LogIn from "./pages/login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/signUp",
     element: <SignUp />,
+  },
+  {
+    path: "/logIn",
+    element: <LogIn />,
   },
 ]);
 

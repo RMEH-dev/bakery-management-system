@@ -5,17 +5,21 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
-export function SignUpForm({isVisible, onClose}) {
-    if (!isVisible) return null;
-    
+export function SignUpForm({ isVisible, onClose }) {
+  const handleClose = (event) => {
+    if (event.target.id === "wrapper") onClose(event);
+  };
+
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-deep-orange-100 bg-opacity-10 backdrop-blur-sm z-80"
-    onClick={()=> <Home/>}>
+    <div
+      className="inset-0 flex justify-center items-center bg-gradient-to-br from-deep-orange-800 to-deep-orange-200 backdrop-blur-sm"
+      //   onClick={() => onClose(handleClose)}
+    >
       <div className="p-5 w-[600px] flex flex-col">
-        <button className="text-deep-orange-900 font-bold text-2xl place-self-end" onClick={()=> onClose(<Home/>)}>X</button>
         <Card
-          className="w-[565px] h-[900px] bg-gray-200 rounded-2xl"
+          className="w-[565px] h-[900px] bg-white rounded-2xl z-80"
           shadow={false}
         >
           <Typography className="pl-12 pt-5 text-2xl text-black font-bold font-[Montserrat]">
@@ -37,7 +41,7 @@ export function SignUpForm({isVisible, onClose}) {
                 <Input
                   size="md"
                   placeholder="abc"
-                  className="-mb-3 text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100  rounded-[30px]"
+                  className="-mb-3 text-black font-semibold font-[Montserrat]  border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100  rounded-[30px]"
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
@@ -63,7 +67,7 @@ export function SignUpForm({isVisible, onClose}) {
                 }}
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
-                Your Email
+                Email Address
               </Typography>
               <Input
                 type="email"
@@ -78,7 +82,7 @@ export function SignUpForm({isVisible, onClose}) {
                 Contact No.
               </Typography>
               <Input
-                type="number"
+                type="tel"
                 size="md"
                 placeholder="077xxxxxxx"
                 className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100 rounded-[30px]"
@@ -129,23 +133,25 @@ export function SignUpForm({isVisible, onClose}) {
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
             />
-            <Button
-              className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
-              fullWidth
-            >
-              sign up
-            </Button>
+            <Link to="/">
+              <Button
+                className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
+                fullWidth
+              >
+                sign up
+              </Button>
+            </Link>
             <Typography
               color="gray"
               className=" ml-14 text-gray font-[Montserrat] mt-4 text-center font-normal"
             >
               Already have an account?{" "}
-              <a
-                href="#"
+              <Link
+                to="/logIn"
                 className=" text-gray font-[Montserrat] font-medium text-gray-900"
               >
                 Log In
-              </a>
+              </Link>
             </Typography>
           </form>
         </Card>
