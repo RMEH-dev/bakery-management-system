@@ -9,7 +9,7 @@ export function SearchBar() {
           class=" w-full border-none bg-transparent px-4 py-1 text-gray-400 outline-none focus:outline-none "
           type="search"
           name="search"
-          placeholder="Search..."
+          placeholder="Search...."
         />
         <button
           type="submit"

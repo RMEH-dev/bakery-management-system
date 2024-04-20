@@ -68,7 +68,7 @@ function NavListMenu() {
             color="black"
             className="flex items-center text-sm  font-bold font-[Montserrat]"
           >
-            {title} 
+            {title}
           </Typography>
         </div>
       </MenuItem>
@@ -149,7 +149,11 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat]"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4">Home</ListItem>
+        <Link to="/#">
+          <ListItem className="flex items-center gap-2 py-2 pr-4">
+            Home
+          </ListItem>
+        </Link>
       </Typography>
       <NavListMenu />
       <Typography
@@ -191,7 +195,6 @@ function NavList() {
         className="font-bold font-[Montserrat] pl-10"
       >
         <div class="pl-5 flex items-center min-h-8 w-[280px] bg-deep-orange-200 text-black rounded-2xl">
-          
           <input
             class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-black text-black outline-none focus:outline-none "
             type="search"
@@ -227,7 +230,9 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] hover-bg-red-500 md:pl-2 "
       >
-        <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">Login</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">
+          Login
+        </ListItem>
       </Typography>
       <Typography color="black" className="font-bold font-[Montserrat]">
         <div className="flex items-center h-9 pl-1">|</div>
@@ -239,9 +244,12 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] hover-bg-red-500 pl-1 pr-5"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-2">
-          SignUp
-        </ListItem>
+        {" "}
+        <Link to="/signUp">
+          <ListItem className="flex items-center gap-2 py-2 pr-2">
+            SignUp
+          </ListItem>
+        </Link>
       </Typography>
       <Typography as="a" href="#">
         <button class="flex items-center justify-center bg-deep-orange-200 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
