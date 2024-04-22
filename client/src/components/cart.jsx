@@ -9,14 +9,25 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import QuantityBtn from "./quantitybtn";
 
+const TABLE_HEAD = ["Product", "Price", "Quantity", "SubTotal"];
+ 
+const TABLE_ROWS = [
+  {
+    Product: "",
+    Price: "",
+    Quantity: "",
+    SubTotal:"",
+  },
+];
 
 export function Cart() {
   const products = [1, 2, 3, 4];
   return (
     <div>
       <MegaMenuWithHover />
-      <div className=" bg-gray-300 w-[600px] h-[1000px] lg:w-auto md:w-auto sm:w-auto sm:h-auto sm:text-wrap sm:text-md">
+      <div className=" bg-gray-200 w-[600px] h-[1000px] pb-36 lg:w-auto md:w-auto sm:w-auto sm:h-auto sm:text-wrap sm:text-md">
         <Typography>
           <div className=" items-center justify-center flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
             <Link to="/cart">
@@ -30,14 +41,84 @@ export function Cart() {
             <Link to="/order_complete">&nbsp; 3. Order Complete &nbsp;</Link>
           </div>
         </Typography>
-        <Card className="mt-20 ml-36 justify-left w-[750px] h-[500px] bg-white">
-            <Typography className="pl-12 pt-5 text-2xl text-black font-bold font-[Montserrat]">
+        <Card className="mt-20 ml-20 justify-left w-[750px] h-[500px] z-120 flex bg-white">
+          {/* <Typography className="pl-12 pt-5 text-2xl text-black font-bold font-[Montserrat]">
               Log In
             </Typography>
             <Typography className="text-black mt-0 font-medium font-[Montserrat] pl-12 pt-2">
               To taste the flavors of freshness!
-            </Typography>
-          </Card>
+            </Typography> */}
+          <table className=" bg-deep-orange-100 w-[750px] min-w-max table-auto rounded-xl">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head) => (
+                  <th
+                    key={head}
+                    className="border-b items-center justify-center rounded-tr-xl rounded-tl-xl border-deep-orange-300 bg-deep-orange-300 p-4"
+                  >
+                    <Typography
+                      variant="small"
+                      color="black"
+                      className="text-lg justify-center place-items-center font-bold leading-none opacity-90"
+                    >
+                      {head}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {TABLE_ROWS.map(({ Product, Price, Quantity, SubTotal }, index) => {
+                const isLast = index === TABLE_ROWS.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
+
+                return (
+                  <tr key={Product}>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {Product}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {Price}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal pl-16 justify-center items-center"
+                      >
+                         <QuantityBtn/>
+
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {SubTotal}
+                      </Typography>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
       </div>
       <FooterWithSocialLinks />
     </div>
