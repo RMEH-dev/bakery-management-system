@@ -219,7 +219,7 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] pl-10"
       >
-        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-deep-orange-200 text-black rounded-2xl">
+        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-gray-200 text-black rounded-2xl">
           <input
             class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-black text-black outline-none focus:outline-none "
             type="search"
@@ -279,7 +279,7 @@ function NavList() {
         </Link>
       </Typography>
       <Typography as="a" href="#">
-        <button class="flex items-center justify-center bg-deep-orange-200 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
+        <button class="flex items-center justify-center bg-gray-300 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
           <Link to= '/cart'>
             <svg
               xmlns="http://www.w3.org/2000/svg"

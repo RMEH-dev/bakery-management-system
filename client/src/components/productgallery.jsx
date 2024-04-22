@@ -8,7 +8,7 @@ import { ProductCard } from "./primary/productcard";
 
 export function DefaultGallery() {
 
-  const products = [1, 2, 3, 4]; 
+  const products = [1, 2, 3, 4,5 ,6,7]; 
   // Replace with actual product IDs or fetch from backend 
 
   return (
@@ -34,7 +34,7 @@ export function DefaultGallery() {
               </div> */}
           {/* </div> */}
           <div>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="pl-10 grid grid-cols-4 gap-x-[300px] gap-y-[80px] pb-36">
               {products.map((productId) => (
                 <ProductCard className="gap-5 grid grid-cols-3" key={productId} productId={productId} />
               ))}

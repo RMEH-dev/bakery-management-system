@@ -54,11 +54,11 @@ export function Cart() {
                 {TABLE_HEAD.map((head) => (
                   <th
                     key={head}
-                    className="border-b items-center justify-center rounded-tr-xl rounded-tl-xl border-deep-orange-300 bg-deep-orange-300 p-4"
+                    className="border-b items-center justify-center rounded-tr-xl rounded-tl-xl border-deep-orange-600 bg-deep-orange-600 p-4"
                   >
                     <Typography
                       variant="small"
-                      color="black"
+                      color="white"
                       className="text-lg justify-center place-items-center font-bold leading-none opacity-90"
                     >
                       {head}

@@ -84,17 +84,17 @@ export function ProductCard() {
       <div className="grid grid:cols-2">
         <CardBody>
           <div className="mb-1 flex justify-between">
-            <Typography color="blue-gray" className="font-bold ">
+            <Typography color="blue-gray" className="font-bold font-[Montserrat] ">
               Wood-fired Bread
             </Typography>
-            <Typography color="blue-gray" className="font-bold text-nowrap">
+            <Typography color="blue-gray" className="font-bold font-[Montserrat] text-nowrap">
               Rs. 95.00
             </Typography>
           </div>
           <Typography
             variant="small"
             color="gray"
-            className="font-medium text-wrap grid grid-cols-2 gap-2" // Use grid with gap
+            className="font-medium font-[Montserrat] text-wrap grid grid-cols-2 gap-y-2" // Use grid with gap
           >
             Freshly baked in the wood
             <button class="flex items-center ml-10 justify-center bg-deep-orange-800 w-14 h-8 rounded-3xl text-white hover:bg-deep-orange-400 hover:text-black duration-500">
