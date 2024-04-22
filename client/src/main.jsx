@@ -8,6 +8,8 @@ import Home from "./pages/customer/home.jsx";
 import Products from "./pages/customer/products.jsx";
 import SignUp from "./pages/signup.jsx";
 import LogIn from "./pages/login.jsx";
+import { Cart } from "./components/cart.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
     path: "/logIn",
     element: <LogIn />,
   },
+  {
+    path: '/cart',
+    element: <Cart/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

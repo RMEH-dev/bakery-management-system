@@ -39,7 +39,7 @@ import {
                   type="email"
                   size="md"
                   placeholder="name@mail.com"
-                  className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100 rounded-[30px]"
+                  className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-200 rounded-[30px]"
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}

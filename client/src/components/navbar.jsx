@@ -19,7 +19,6 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-
 import {
   Bars4Icon,
   GlobeAmericasIcon,
@@ -55,6 +54,32 @@ const navListMenuItems = [
     title: "Beverages",
   },
 ];
+
+// const cartItems = [
+//   {
+//     title: "Breads & Buns",
+//     image:
+
+//   },
+//   {
+//     title: "Pastries",
+//   },
+//   {
+//     title: "Cakes",
+//   },
+//   {
+//     title: "Cupcakes",
+//   },
+//   {
+//     title: "Sweets & Desserts",
+//   },
+//   {
+//     title: "Platters",
+//   },
+//   {
+//     title: "Beverages",
+//   },
+// ];
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -231,9 +256,9 @@ function NavList() {
         className="font-bold font-[Montserrat] hover-bg-red-500 md:pl-2 "
       >
         <Link to="/logIn">
-        <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">
-          Login
-        </ListItem>
+          <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">
+            Login
+          </ListItem>
         </Link>
       </Typography>
       <Typography color="black" className="font-bold font-[Montserrat]">
@@ -255,20 +280,23 @@ function NavList() {
       </Typography>
       <Typography as="a" href="#">
         <button class="flex items-center justify-center bg-deep-orange-200 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-            />
-          </svg>
+          <Link to= '/cart'>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+            {/* <CartIcon/> */}
+            </Link>
         </button>
       </Typography>
 
