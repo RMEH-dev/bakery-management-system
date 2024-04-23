@@ -47,7 +47,7 @@ const navListMenuItems = [
 
   export const ProductList = () => {
     return (
-      <ul className="pl-6 pt-5 pb-5 w-[350px] rounded-r-2xl bg-deep-orange-300  flex flex-col space-y-1">
+      <ul className="pl-6 pt-5 pb-5 w-[300px] md:w-[300px] lg:w-[300px] xl:w-[320px] 2xl:w-[330px]  rounded-r-2xl bg-c3 text-c2 hover:text-c1 flex flex-col space-y-1">
         {navListMenuItems.map((item) => (
           <li key={item.title} className="px-4 py-2 hover:text-white">
             <Link to={`/bakery/${item.title.toLowerCase()}`}>

@@ -12,7 +12,7 @@ export function DefaultGallery() {
   // Replace with actual product IDs or fetch from backend 
 
   return (
-    <div className="bg-gray-200">
+    <div className="bg-white bg-opacity-30">
       <Typography>
         <div className="flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
           <Link to="/products">All Products&nbsp;/</Link>
@@ -21,7 +21,7 @@ export function DefaultGallery() {
       </Typography>
 
       <div className="pt-10">
-        <div className="grid lg:grid-cols-3 mr-[50px] grid-rows-1 lg:grid-rows-1 sm:grid-cols-1 md:grid-cols-2">
+        <div className="grid lg:grid-cols-3 mr-[50px] grid-rows-1 lg:grid-rows-1 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           <div className="z-50">
             <ProductList />
           </div>
@@ -34,9 +34,9 @@ export function DefaultGallery() {
               </div> */}
           {/* </div> */}
           <div>
-            <div className="pl-10 grid grid-cols-4 gap-x-[300px] gap-y-[80px] pb-36">
+            <div className="w-[300px] mx-20 2xl:mx-1 2xl:-ml-[130px] pt-10 sm:pt-10 md:pt-0 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4  gap-x-[280px] 2xl:gap-x-[300px] gap-y-[80px] pb-36">
               {products.map((productId) => (
-                <ProductCard className="gap-5 grid grid-cols-3" key={productId} productId={productId} />
+                <ProductCard className="grid grid-cols-3 xl:grid-cols-4" key={productId} productId={productId} />
               ))}
             </div>
           

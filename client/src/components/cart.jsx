@@ -27,7 +27,7 @@ export function Cart() {
   return (
     <div>
       <MegaMenuWithHover />
-      <div className=" bg-gray-200 w-[600px] h-[1000px] pb-36 lg:w-auto md:w-auto sm:w-auto sm:h-auto sm:text-wrap sm:text-md">
+      <div className=" bg-white w-[600px] h-[1000px] pb-36 lg:w-auto md:w-auto sm:w-auto sm:h-auto sm:text-wrap sm:text-md">
         <Typography>
           <div className=" items-center justify-center flex font-bold font-[Montserrat] text-2xl pl-10 pt-10">
             <Link to="/cart">
@@ -41,20 +41,20 @@ export function Cart() {
             <Link to="/order_complete">&nbsp; 3. Order Complete &nbsp;</Link>
           </div>
         </Typography>
-        <Card className="mt-20 ml-20 justify-left w-[750px] h-[500px] z-120 flex bg-white">
+        <Card className="mt-20 ml-20 justify-left w-[750px] h-[500px] z-120 flex bg-c4">
           {/* <Typography className="pl-12 pt-5 text-2xl text-black font-bold font-[Montserrat]">
               Log In
             </Typography>
             <Typography className="text-black mt-0 font-medium font-[Montserrat] pl-12 pt-2">
               To taste the flavors of freshness!
             </Typography> */}
-          <table className=" bg-deep-orange-100 w-[750px] min-w-max table-auto rounded-xl">
+          <table className=" bg-c2 w-[750px] min-w-max table-auto rounded-xl">
             <thead>
               <tr>
                 {TABLE_HEAD.map((head) => (
                   <th
                     key={head}
-                    className="border-b items-center justify-center rounded-tr-xl rounded-tl-xl border-deep-orange-600 bg-deep-orange-600 p-4"
+                    className="border-b items-center justify-center rounded-tr-xl rounded-tl-xl border-c3 bg-c3 p-4"
                   >
                     <Typography
                       variant="small"

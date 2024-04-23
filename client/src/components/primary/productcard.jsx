@@ -73,7 +73,7 @@ export function ProductCard() {
       }, []);
 
   return (
-    <Card className="w-[250px] bg-gray-200 shadow shadow-md shadow-deep-orange-700 h-[300px]">
+    <Card className="w-[250px] bg-c2 shadow shadow-md shadow-c3 h-[300px]">
       <CardHeader shadow={false} floated={false} className="h-[150px]">
         <img
           src="https://countrywoodsmoke.com/wp-content/uploads/2020/03/IMG_20200130_154847-01-1536x734.jpeg"
@@ -84,20 +84,19 @@ export function ProductCard() {
       <div className="grid grid:cols-2">
         <CardBody>
           <div className="mb-1 flex justify-between">
-            <Typography color="blue-gray" className="font-bold font-[Montserrat] ">
+            <Typography  className="text-c1 font-bold font-[Montserrat] ">
               Wood-fired Bread
             </Typography>
-            <Typography color="blue-gray" className="font-bold font-[Montserrat] text-nowrap">
+            <Typography className="font-bold font-[Montserrat] text-c1 text-opacity-100 text-nowrap">
               Rs. 95.00
             </Typography>
           </div>
           <Typography
             variant="small"
-            color="gray"
-            className="font-medium font-[Montserrat] text-wrap grid grid-cols-2 gap-y-2" // Use grid with gap
+            className="text-c3 font-medium font-[Montserrat] text-wrap grid grid-cols-2 gap-y-2" // Use grid with gap
           >
             Freshly baked in the wood
-            <button class="flex items-center ml-10 justify-center bg-deep-orange-800 w-14 h-8 rounded-3xl text-white hover:bg-deep-orange-400 hover:text-black duration-500">
+            <button class="flex items-center ml-10 justify-center bg-c3 w-14 h-8 rounded-3xl text-white hover:bg-c1 hover:text-c2 duration-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

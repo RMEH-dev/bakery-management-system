@@ -14,7 +14,7 @@ import {
   
     return (
       <div
-        className="inset-0 flex justify-center items-center bg-gradient-to-br from-deep-orange-800 to-deep-orange-200 backdrop-blur-sm"
+        className="inset-0 flex justify-center items-center bg-gradient-to-br from-c3 to-c2 backdrop-blur-sm"
         //   onClick={() => onClose(handleClose)}
       >
         <div className="p-5 w-[600px] h-screen ">
@@ -28,7 +28,7 @@ import {
             <Typography className="text-black mt-0 font-medium font-[Montserrat] pl-12 pt-2">
               To taste the flavors of freshness!
             </Typography>
-            <Typography className=" mt-3 w-[475px] h-2 rounded-r-2xl bg-deep-orange-900"></Typography>
+            <Typography className=" mt-3 w-[475px] h-2 rounded-r-2xl bg-c3"></Typography>
             <form className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
               <div className="mb-1 flex flex-col gap-6">
                 
@@ -60,7 +60,7 @@ import {
               </div>
               <Link to="/">
                 <Button
-                  className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
+                  className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]"
                  
                 >
                   log in

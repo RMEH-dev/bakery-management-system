@@ -19,20 +19,20 @@ const currentYear = new Date().getFullYear();
  
 export function FooterWithSocialLinks() {
   return (
-    <footer className="relative w-full pt-[50px] bg-white">
+    <footer className="relative w-full h-full pt-[50px] bg-c2">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="grid grid-cols-2 justify-between gap-5 md:grid-cols-1">
         <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
           <Typography variant="h5" className="mb-2 font-extrabold font-[Montserrat]">
             PERERA BAKERS
           </Typography>
-          <div className="grid grid-cols-3 font-medium justify-between gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 font-medium justify-between gap-4">
             {LINKS.map(({ title, items }) => (
               <ul key={title}>
                 <Typography
                   variant="medium"
                   color="blue-gray"
-                  className="mb-2 font-bold opacity-60 font-[Montserrat]"
+                  className=" font-bold opacity-60 font-[Montserrat]"
                 >
                   {title}
                 </Typography>
@@ -52,15 +52,15 @@ export function FooterWithSocialLinks() {
             ))}
           </div>
         </div>
-        <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
+        <div className="mt-12 flex w-full h-full flex-col items-center justify-center  py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"
-            className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
+            className=" text-center font-normal text-blue-gray-900 md:mb-0"
           >
             &copy; {currentYear} <a href="https://material-tailwind.com/">Perera Bakers</a>. All
             Rights Reserved.
           </Typography>
-          <div className="flex gap-4 text-blue-gray-900 sm:justify-center">
+          <div className="flex gap-x-4 text-blue-gray-900 sm:justify-center">
             <Typography as="a" href="#" className="opacity-80 transition-opacity hover:opacity-100">
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path

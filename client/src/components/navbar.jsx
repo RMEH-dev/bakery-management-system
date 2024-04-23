@@ -86,12 +86,11 @@ function NavListMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const renderItems = navListMenuItems.map(({ title }, key) => (
     <Link to="/products" key={key}>
-      <MenuItem className="flex items-center gap-3 rounded-lg bg-deep-orange-300">
-        <div>
+      <MenuItem className="flex items-center gap-3 rounded-lg hover:text-c1 hover:bg-c4">
+        <div className="">
           <Typography
             variant="h4"
-            color="black"
-            className="flex items-center text-sm  font-bold font-[Montserrat]"
+            className="flex items-center text-sm  font-bold font-[Montserrat] hover:text-c1 text-c1"
           >
             {title}
           </Typography>
@@ -116,22 +115,19 @@ function NavListMenu() {
             className="font-bold font-[Montserrat] "
           >
             <ListItem
-              className="flex items-center gap-1 py-2 pr-4 font-bold font-[Montserrat] text-black"
-              color="black"
+              className="flex items-center gap-1 py-2 pr-4 font-bold font-[Montserrat]  hover:text-c1"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
               All Products
               <ChevronDownIcon
                 strokeWidth={2.5}
-                color={"black"}
                 className={`hidden h-3 w-3 transition-transform lg:block ${
                   isMenuOpen ? "rotate-180" : ""
                 }`}
               />
               <ChevronDownIcon
                 strokeWidth={2.5}
-                color={"black"}
                 className={`block h-3 w-3 transition-transform lg:hidden ${
                   isMobileMenuOpen ? "rotate-180" : ""
                 }`}
@@ -139,13 +135,13 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl bg-deep-orange-200 lg:block">
-          <ul className="grid grid-cols-1 gap-y-2 outline-none outline-0 text-black">
+        <MenuList className="hidden max-w-screen-xl bg-c2 lg:block">
+          <ul className="grid grid-cols-1 gap-y-2 outline-none outline-0  text-c2">
             {renderItems}
           </ul>
         </MenuList>
       </Menu>
-      <div className="block lg:hidden">
+      <div className="block lg:hidden text-c2 ">
         <Collapse open={isMobileMenuOpen}>{renderItems}</Collapse>
       </div>
     </React.Fragment>
@@ -168,11 +164,8 @@ function NavList() {
   return (
     <List className="flex text-nowrap md:px-0 mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
       <Typography
-        as="a"
-        href="#"
         variant="medium"
-        color="black"
-        className="font-bold font-[Montserrat]"
+        className="font-bold font-[Montserrat] text-c2"
       >
         <Link to="/#">
           <ListItem className="flex items-center gap-2 py-2 pr-4">
@@ -185,28 +178,21 @@ function NavList() {
         as="a"
         href="#"
         variant="medium"
-        color="black"
-        className="font-bold font-[Montserrat]"
+        className="font-bold font-[Montserrat] text-c2"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
       </Typography>
       <Typography
-        as="a"
-        href="#"
         variant="medium"
-        color="black"
-        className="font-bold font-[Montserrat]"
+        className="font-bold font-[Montserrat]  text-c2"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           Contact Us
         </ListItem>
       </Typography>
       <Typography
-        as="a"
-        href="#"
         variant="medium"
-        color="black"
-        className="font-bold font-[Montserrat] hover-bg-red-500"
+        className="font-bold font-[Montserrat]  text-c2"
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">
           Outlets
@@ -217,11 +203,11 @@ function NavList() {
         href="#"
         variant="medium"
         color="black"
-        className="font-bold font-[Montserrat] pl-10"
+        className="font-bold font-[Montserrat] pl-10  text-c2"
       >
-        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-gray-200 text-black rounded-2xl">
+        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-c2 text-c1 rounded-2xl">
           <input
-            class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-black text-black outline-none focus:outline-none "
+            class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-c1 text-c1 outline-none focus:outline-none "
             type="search"
             name="search"
             placeholder="Search..."
@@ -229,7 +215,7 @@ function NavList() {
           />
           <button
             type="submit"
-            class="m-1 rounded-3xl bg-deep-orange-900 px-2 py-2 text-white"
+            class="m-1 rounded-3xl bg-c1-100 px-2 py-2 text-c2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -249,11 +235,8 @@ function NavList() {
         </div>
       </Typography>
       <Typography
-        as="a"
-        href="#"
         variant="medium"
-        color="black"
-        className="font-bold font-[Montserrat] hover-bg-red-500 md:pl-2 "
+        className="font-bold font-[Montserrat] text-c2 md:pl-2 "
       >
         <Link to="/logIn">
           <ListItem className="flex items-center gap-2 py-2 lg:pl-4 pr-2">
@@ -262,7 +245,7 @@ function NavList() {
         </Link>
       </Typography>
       <Typography color="black" className="font-bold font-[Montserrat]">
-        <div className="flex items-center h-9 pl-1">|</div>
+        <div className="flex items-center h-9 pl-1 text-c2">|</div>
       </Typography>
       <Typography
         as="a"
@@ -273,13 +256,13 @@ function NavList() {
       >
         {" "}
         <Link to="/signUp">
-          <ListItem className="flex items-center gap-2 py-2 pr-2">
+          <ListItem className="flex items-center gap-2 py-2 pr-2 text-c2">
             SignUp
           </ListItem>
         </Link>
       </Typography>
       <Typography as="a" href="#">
-        <button class="flex items-center justify-center bg-gray-300 w-20 h-8 rounded-3xl text-black hover:bg-white duration-500">
+        <button class="flex items-center justify-center bg-c2 w-20 h-8 rounded-3xl text-c1 hover:bg-white duration-500">
           <Link to= '/cart'>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +284,7 @@ function NavList() {
       </Typography>
 
       <Typography as="a" href="#" className="pl-2">
-        <button class="flex items-center justify-center bg-deep-orange-900 w-20 h-8 rounded-3xl text-white hover:bg-white hover:text-black duration-500">
+        <button class="flex items-center justify-center bg-c1 w-20 h-8 rounded-3xl text-c2 hover:bg-white hover:text-c1 duration-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -333,8 +316,8 @@ export function MegaMenuWithHover() {
   }, []);
 
   return (
-    <Navbar className="max-w-screen-3xl px-5 py-4 bg-deep-orange-600 rounded-none">
-      <div className="flex items-center text-black ">
+    <Navbar className="max-w-screen-3xl px-5 py-4 bg-gradient-to-r from-c1 to-c3 bg-opacity-100 outline outline-none shadow-md shadow-c1  rounded-none">
+      <div className="flex items-center text-c2 ">
         <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
         <Typography
           as="a"
@@ -344,8 +327,8 @@ export function MegaMenuWithHover() {
         >
           PERERA BAKERS
         </Typography>
-        <div className="hidden lg:block">
-          <NavList />
+        <div className="hidden lg:block text-c2">
+          <NavList className="text-c2"/>
         </div>
         {/* <SearchBar /> */}
         <IconButton
@@ -355,9 +338,9 @@ export function MegaMenuWithHover() {
           onClick={() => setOpenNav(!openNav)}
         >
           {openNav ? (
-            <XMarkIcon className="h-6 w-6" color="black" strokeWidth={2} />
+            <XMarkIcon className="h-6 w-6 text-c2" strokeWidth={2} />
           ) : (
-            <Bars3Icon className="h-6 w-6" color="black" strokeWidth={2} />
+            <Bars3Icon className="h-6 w-6 text-c2"  strokeWidth={2} />
           )}
         </IconButton>
       </div>
