@@ -41,14 +41,14 @@ export function Cart() {
             <Link to="/order_complete">&nbsp; 3. Order Complete &nbsp;</Link>
           </div>
         </Typography>
-        <Card className="mt-20 ml-20 justify-left w-[750px] h-[500px] z-120 flex bg-c4">
+        <Card className="mt-20 ml-20 justify-left w-[150px] lg:w-[750px]  h-[500px] z-120 flex bg-c4">
           {/* <Typography className="pl-12 pt-5 text-2xl text-black font-bold font-[Montserrat]">
               Log In
             </Typography>
             <Typography className="text-black mt-0 font-medium font-[Montserrat] pl-12 pt-2">
               To taste the flavors of freshness!
             </Typography> */}
-          <table className=" bg-c2 w-[750px] min-w-max table-auto rounded-xl">
+          <table className=" bg-c2 w-[150px] lg:w-[750px] min-w-max table-auto rounded-xl">
             <thead>
               <tr>
                 {TABLE_HEAD.map((head) => (

@@ -316,7 +316,7 @@ export function MegaMenuWithHover() {
   }, []);
 
   return (
-    <Navbar className="max-w-screen-3xl px-5 py-4 bg-gradient-to-r from-c1 to-c3 bg-opacity-100 outline outline-none shadow-md shadow-c1  rounded-none">
+    <Navbar className="max-w-screen-3xl px-4 py-4 bg-gradient-to-r from-c1 to-c3 bg-opacity-100 outline outline-none shadow-md shadow-c1  rounded-none">
       <div className="flex items-center text-c2 ">
         <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
         <Typography
