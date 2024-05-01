@@ -7,6 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Axios from 'axios';
 
 export function SignUpForm({ isVisible, onClose }) {
   const handleClose = (event) => {
@@ -20,6 +21,20 @@ export function SignUpForm({ isVisible, onClose }) {
   const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const addUser = () =>{
+    Axios.post('http://localhost:5000/create', {
+      firstName: firstName,
+      lastName: lastName,
+      userName: userName,
+      email: email,
+      contact: contact,
+      password: password,
+      confirmPassword: confirmPassword,
+    }).then(() =>{
+      console.log("success");
+    })
+  }
 
   return (
     <div
@@ -54,6 +69,9 @@ export function SignUpForm({ isVisible, onClose }) {
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
+                  onChange={(event) =>{
+                    setUserName(event.target.value);
+                  }}   
                 />
                 <Input
                   size="md"
@@ -62,6 +80,9 @@ export function SignUpForm({ isVisible, onClose }) {
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
+                  onChange={(event) =>{
+                    setUserName(event.target.value);
+                  }}   
                 />
               </div>
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
@@ -74,6 +95,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(event) =>{
+                  setUserName(event.target.value);
+                }}   
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Email Address
@@ -86,6 +110,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(event) =>{
+                  setUserName(event.target.value);
+                }}   
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Contact No.
@@ -98,6 +125,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(event) =>{
+                  setUserName(event.target.value);
+                }}   
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Password
@@ -110,6 +140,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(event) =>{
+                  setUserName(event.target.value);
+                }}   
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Confirm Password
@@ -122,6 +155,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
+                onChange={(event) =>{
+                  setUserName(event.target.value);
+                }}   
               />
             </div>
             <Checkbox
@@ -146,6 +182,7 @@ export function SignUpForm({ isVisible, onClose }) {
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
+                onClick={addUser}
               >
                 sign up
               </Button>

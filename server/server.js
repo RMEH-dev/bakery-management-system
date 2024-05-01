@@ -2,10 +2,16 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const dotenv = require("dotenv");
+const cors = require("cors");
+
+
 
 dotenv.config({ path: "./.env" });
 
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -14,7 +20,7 @@ const db = mysql.createConnection({
   database: process.env.DATABASE,
 });
 
-app.post("/create", (req, res) => {
+app.post("/signup", (req, res) => {
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
   const email = req.body.email;
@@ -24,7 +30,7 @@ app.post("/create", (req, res) => {
   const confirmPassword = req.body.confirmPassword;
 
   db.query(
-    "INSERT INTO DATABASE (firstName, lastName, email, userName, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO user (`firstName`, lastName, email, userName, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [firstName, lastName, email, userName, contact, password, confirmPassword],
     (err, result) => {
       if (err) {
@@ -46,9 +52,9 @@ db.connect((error) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// });
 
 app.listen(5000, () => {
   console.log("listening on port 5000");
