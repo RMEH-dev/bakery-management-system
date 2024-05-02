@@ -7,7 +7,7 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import Axios from 'axios';
+import Axios from "axios";
 
 export function SignUpForm({ isVisible, onClose }) {
   const handleClose = (event) => {
@@ -22,8 +22,8 @@ export function SignUpForm({ isVisible, onClose }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const addUser = () =>{
-    Axios.post('http://localhost:5000/create', {
+  const addUser = () => {
+    Axios.post("http://localhost:5000/signUp", {
       firstName: firstName,
       lastName: lastName,
       userName: userName,
@@ -31,10 +31,15 @@ export function SignUpForm({ isVisible, onClose }) {
       contact: contact,
       password: password,
       confirmPassword: confirmPassword,
-    }).then(() =>{
+    }).then(() => {
       console.log("success");
-    })
-  }
+    });
+  };
+
+
+  const displayInfo = () => {
+  console.log(firstName + " " + lastName + " " + userName + " " + email + " " + contact + " " + password + " " + confirmPassword)
+  };
 
   return (
     <div
@@ -63,46 +68,53 @@ export function SignUpForm({ isVisible, onClose }) {
                   Last Name
                 </Typography>
                 <Input
+                  name="firstName"
+                  type="text"
                   size="md"
                   placeholder="abc"
                   className="-mb-3 text-black font-semibold font-[Montserrat]  border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100  rounded-[30px]"
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
-                  onChange={(event) =>{
-                    setUserName(event.target.value);
-                  }}   
+                  onChange={(event) => {
+                    setFirstName(event.target.value);
+                  }}
                 />
                 <Input
+                  name="lastName"
+                  type="text"
                   size="md"
                   placeholder="xyz"
                   className="-mb-3 ml-16 text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100  rounded-[30px]"
                   labelProps={{
                     className: "before:content-none after:content-none",
                   }}
-                  onChange={(event) =>{
-                    setUserName(event.target.value);
-                  }}   
+                  onChange={(event) => {
+                    setLastName(event.target.value);
+                  }}
                 />
               </div>
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Username
               </Typography>
               <Input
+                name="userName"
+                type="text"
                 size="md"
                 placeholder="firstName12"
                 className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100 rounded-[30px]"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
+                onChange={(event) => {
                   setUserName(event.target.value);
-                }}   
+                }}
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Email Address
               </Typography>
               <Input
+                name="email"
                 type="email"
                 size="md"
                 placeholder="name@mail.com"
@@ -110,14 +122,15 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setUserName(event.target.value);
-                }}   
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Contact No.
               </Typography>
               <Input
+                name="contact"
                 type="tel"
                 size="md"
                 placeholder="077xxxxxxx"
@@ -125,14 +138,15 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setUserName(event.target.value);
-                }}   
+                onChange={(event) => {
+                  setContact(event.target.value);
+                }}
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Password
               </Typography>
               <Input
+                name="password"
                 type="password"
                 size="md"
                 placeholder="********"
@@ -140,14 +154,15 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setUserName(event.target.value);
-                }}   
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Confirm Password
               </Typography>
               <Input
+                name="confirmPassword"
                 type="password"
                 size="md"
                 placeholder="********"
@@ -155,9 +170,9 @@ export function SignUpForm({ isVisible, onClose }) {
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setUserName(event.target.value);
-                }}   
+                onChange={(event) => {
+                  setConfirmPassword(event.target.value);
+                }}
               />
             </div>
             <Checkbox
@@ -178,7 +193,7 @@ export function SignUpForm({ isVisible, onClose }) {
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
             />
-            <Link to="/">
+            {/* <Link to="/"> */}
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
@@ -186,7 +201,7 @@ export function SignUpForm({ isVisible, onClose }) {
               >
                 sign up
               </Button>
-            </Link>
+            {/* </Link> */}
             <Typography
               color="gray"
               className=" ml-14 text-gray font-[Montserrat] mt-4 text-center font-normal"

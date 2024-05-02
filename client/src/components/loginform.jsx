@@ -80,11 +80,11 @@ export function LogInForm({ isVisible, onClose }) {
                 }}
               />
             </div>
-            {/* <Link to="/"> */}
-              <Button onClick= {displayInfo} className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
+            <Link to="/">
+              <Button className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
                 log in
               </Button>
-            {/* </Link> */}
+            </Link>
             <Typography
               color="gray"
               className="ml-20 text-gray font-[Montserrat] mt-8 text-center font-normal"
