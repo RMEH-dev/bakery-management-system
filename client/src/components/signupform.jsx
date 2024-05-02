@@ -9,18 +9,76 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Axios from "axios";
 
+//TODO: Try to change the client side validation behavior of signUp
+
 export function SignUpForm({ isVisible, onClose }) {
   const handleClose = (event) => {
     if (event.target.id === "wrapper") onClose(event);
   };
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contact, setContact] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  async function handleSignUp(formData) {
+    try {
+      const response = await fetch("/signUp", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        // Check for successful status code (201 Created)
+        // Handle successful signUp (e.g., redirect to login page)
+        console.log("User created successfully");
+      } else if (response.status === 400) {
+        // Check for specific error (400 Bad Request)
+        const data = await response.json();
+        alert(data.message); // Display the error message from the backend
+      } else {
+        console.error("Unexpected response:", response); // Handle other errors
+      }
+    } catch (error) {
+      console.error("Error during signUp:", error);
+      alert("An error occurred. Please try again later."); // User-friendly error message
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const signUpForm = document.getElementById("signUp-Form");
+
+    signUpForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      //prevent default form submission
+  
+      //extract form data
+      const formData = new FormData(signUpForm);
+      const firstName = formData.get("firstName");
+      const lastName = formData.get("lastName");
+      const userName = formData.get("userName");
+      const email = formData.get("email");
+      const contact = formData.get("contact");
+      const password = formData.get("password");
+      const confirmPassword = formData.get("confirmPassword");
+  
+      await handleSignUp({
+        firstName,
+        lastName,
+        userName,
+        email,
+        contact,
+        password,
+        confirmPassword,
+      });
+    });
+  })
+
+  
+
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastName] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [contact, setContact] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
 
   const addUser = () => {
     Axios.post("http://localhost:5000/signUp", {
@@ -36,9 +94,22 @@ export function SignUpForm({ isVisible, onClose }) {
     });
   };
 
-
   const displayInfo = () => {
-  console.log(firstName + " " + lastName + " " + userName + " " + email + " " + contact + " " + password + " " + confirmPassword)
+    console.log(
+      firstName +
+        " " +
+        lastName +
+        " " +
+        userName +
+        " " +
+        email +
+        " " +
+        contact +
+        " " +
+        password +
+        " " +
+        confirmPassword
+    );
   };
 
   return (
@@ -58,7 +129,10 @@ export function SignUpForm({ isVisible, onClose }) {
             Register to explore more!
           </Typography>
           <Typography className=" mt-3 w-[450px] h-2 rounded-r-2xl bg-deep-orange-900"></Typography>
-          <form className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
+          <form
+            id="signUp-Form"
+            className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
+          >
             <div className="mb-1 flex flex-col gap-6">
               <div className="grid flex grid-cols-2 gap-5">
                 <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
@@ -193,7 +267,7 @@ export function SignUpForm({ isVisible, onClose }) {
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
             />
-            {/* <Link to="/"> */}
+            <Link to="/">
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
@@ -201,7 +275,7 @@ export function SignUpForm({ isVisible, onClose }) {
               >
                 sign up
               </Button>
-            {/* </Link> */}
+            </Link>
             <Typography
               color="gray"
               className=" ml-14 text-gray font-[Montserrat] mt-4 text-center font-normal"
