@@ -285,6 +285,7 @@ function NavList() {
 
       <Typography as="a" href="#" className="pl-2">
         <button class="flex items-center justify-center bg-c1 w-20 h-8 rounded-3xl text-c2 hover:bg-white hover:text-c1 duration-500">
+          <Link to='/profileCustomer'>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -299,6 +300,7 @@ function NavList() {
               d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
             />
           </svg>
+          </Link>
         </button>
       </Typography>
     </List>
