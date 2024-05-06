@@ -6,7 +6,7 @@ import { ProductCard } from "./primary/productcard";
 
 
 
-export function DefaultGallery() {
+export function ProductGallery() {
 
   const products = [1, 2, 3, 4,5 ,6,7]; 
   // Replace with actual product IDs or fetch from backend 

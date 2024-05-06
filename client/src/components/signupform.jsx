@@ -16,71 +16,104 @@ export function SignUpForm({ isVisible, onClose }) {
     if (event.target.id === "wrapper") onClose(event);
   };
 
-  async function handleSignUp(formData) {
+  // async function handleSignUp(formData) {
+  //   try {
+  //     const response = await fetch("/signUp", {
+  //       method: "POST",
+  //       body: JSON.stringify(formData),
+  //       headers: { "Content-Type": "application/json" },
+  //     });
+
+  //     if (response.ok) {
+  //       // Check for successful status code (201 Created)
+  //       // Handle successful signUp (e.g., redirect to login page)
+  //       console.log("User created successfully");
+  //     } else if (response.status === 400) {
+  //       // Check for specific error (400 Bad Request)
+  //       const data = await response.json();
+  //       alert(data.message); // Display the error message from the backend
+  //     } else {
+  //       console.error("Unexpected response:", response); // Handle other errors
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during signUp:", error);
+  //     alert("An error occurred. Please try again later."); // User-friendly error message
+  //   }
+  // }
+
+  // document.addEventListener("DOMContentLoaded", () => {
+  //   const signUpForm = document.getElementById("signUp-Form");
+
+  //   signUpForm.addEventListener("submit", async (event) => {
+  //     event.preventDefault();
+  //     //prevent default form submission
+
+  //     //extract form data
+  //     const formData = new FormData(signUpForm);
+  //     const firstName = formData.get("firstName");
+  //     const lastName = formData.get("lastName");
+  //     const userName = formData.get("userName");
+  //     const email = formData.get("email");
+  //     const contact = formData.get("contact");
+  //     const password = formData.get("password");
+  //     const confirmPassword = formData.get("confirmPassword");
+
+  //     await handleSignUp({
+  //       firstName,
+  //       lastName,
+  //       userName,
+  //       email,
+  //       contact,
+  //       password,
+  //       confirmPassword,
+  //     });
+  //   });
+  // })
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      const response = await fetch("/signUp", {
-        method: "POST",
-        body: JSON.stringify(formData),
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response.ok) {
-        // Check for successful status code (201 Created)
-        // Handle successful signUp (e.g., redirect to login page)
-        console.log("User created successfully");
-      } else if (response.status === 400) {
-        // Check for specific error (400 Bad Request)
-        const data = await response.json();
-        alert(data.message); // Display the error message from the backend
-      } else {
-        console.error("Unexpected response:", response); // Handle other errors
+      // Check if passwords match
+      if (password !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
       }
+
+      // Check if email or contact already exists in the database
+      const existingUser = await checkExistingUser(email, contact);
+      if (existingUser) {
+        setError("User with this email or contact already exists");
+        return;
+      }
+      // If everything is fine, proceed with signup
+      await addUser();
+      console.log("User created successfully!");
     } catch (error) {
-      console.error("Error during signUp:", error);
-      alert("An error occurred. Please try again later."); // User-friendly error message
+      console.error(error);
+      setError("Error creating user!");
     }
-  }
+  };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const signUpForm = document.getElementById("signUp-Form");
-
-    signUpForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      //prevent default form submission
-  
-      //extract form data
-      const formData = new FormData(signUpForm);
-      const firstName = formData.get("firstName");
-      const lastName = formData.get("lastName");
-      const userName = formData.get("userName");
-      const email = formData.get("email");
-      const contact = formData.get("contact");
-      const password = formData.get("password");
-      const confirmPassword = formData.get("confirmPassword");
-  
-      await handleSignUp({
-        firstName,
-        lastName,
-        userName,
-        email,
-        contact,
-        password,
-        confirmPassword,
-      });
+  const checkExistingUser = async (email, contact) => {
+    // Make a request to the backend to check if the user already exists
+    const response = await Axios.post("http://localhost:5000/checkExistingUser", {
+      email,
+      contact,
     });
-  })
+    return response.data.exists; // Assuming the backend returns whether the user exists
+  };
 
-  
-
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastName] = useState("");
-  // const [userName, setUserName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [contact, setContact] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-
-  const addUser = () => {
+  const addUser = async () => {
     Axios.post("http://localhost:5000/signUp", {
       firstName: firstName,
       lastName: lastName,
@@ -130,6 +163,7 @@ export function SignUpForm({ isVisible, onClose }) {
           </Typography>
           <Typography className=" mt-3 w-[450px] h-2 rounded-r-2xl bg-deep-orange-900"></Typography>
           <form
+            onSubmit={handleSubmit}
             id="signUp-Form"
             className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
           >
@@ -153,7 +187,9 @@ export function SignUpForm({ isVisible, onClose }) {
                   onChange={(event) => {
                     setFirstName(event.target.value);
                   }}
+                  required
                 />
+
                 <Input
                   name="lastName"
                   type="text"
@@ -166,6 +202,7 @@ export function SignUpForm({ isVisible, onClose }) {
                   onChange={(event) => {
                     setLastName(event.target.value);
                   }}
+                  required
                 />
               </div>
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
@@ -183,6 +220,7 @@ export function SignUpForm({ isVisible, onClose }) {
                 onChange={(event) => {
                   setUserName(event.target.value);
                 }}
+                required
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Email Address
@@ -199,6 +237,7 @@ export function SignUpForm({ isVisible, onClose }) {
                 onChange={(event) => {
                   setEmail(event.target.value);
                 }}
+                required
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Contact No.
@@ -215,6 +254,7 @@ export function SignUpForm({ isVisible, onClose }) {
                 onChange={(event) => {
                   setContact(event.target.value);
                 }}
+                required
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Password
@@ -231,6 +271,7 @@ export function SignUpForm({ isVisible, onClose }) {
                 onChange={(event) => {
                   setPassword(event.target.value);
                 }}
+                required
               />
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Confirm Password
@@ -247,6 +288,7 @@ export function SignUpForm({ isVisible, onClose }) {
                 onChange={(event) => {
                   setConfirmPassword(event.target.value);
                 }}
+                required
               />
             </div>
             <Checkbox
@@ -267,7 +309,7 @@ export function SignUpForm({ isVisible, onClose }) {
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
             />
-            <Link to="/">
+            <Link to="/logIn">
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
