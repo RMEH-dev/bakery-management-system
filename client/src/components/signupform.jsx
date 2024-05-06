@@ -6,70 +6,14 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 //TODO: Try to change the client side validation behavior of signUp
 
-export function SignUpForm({ isVisible, onClose }) {
-  const handleClose = (event) => {
-    if (event.target.id === "wrapper") onClose(event);
-  };
-
-  // async function handleSignUp(formData) {
-  //   try {
-  //     const response = await fetch("/signUp", {
-  //       method: "POST",
-  //       body: JSON.stringify(formData),
-  //       headers: { "Content-Type": "application/json" },
-  //     });
-
-  //     if (response.ok) {
-  //       // Check for successful status code (201 Created)
-  //       // Handle successful signUp (e.g., redirect to login page)
-  //       console.log("User created successfully");
-  //     } else if (response.status === 400) {
-  //       // Check for specific error (400 Bad Request)
-  //       const data = await response.json();
-  //       alert(data.message); // Display the error message from the backend
-  //     } else {
-  //       console.error("Unexpected response:", response); // Handle other errors
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during signUp:", error);
-  //     alert("An error occurred. Please try again later."); // User-friendly error message
-  //   }
-  // }
-
-  // document.addEventListener("DOMContentLoaded", () => {
-  //   const signUpForm = document.getElementById("signUp-Form");
-
-  //   signUpForm.addEventListener("submit", async (event) => {
-  //     event.preventDefault();
-  //     //prevent default form submission
-
-  //     //extract form data
-  //     const formData = new FormData(signUpForm);
-  //     const firstName = formData.get("firstName");
-  //     const lastName = formData.get("lastName");
-  //     const userName = formData.get("userName");
-  //     const email = formData.get("email");
-  //     const contact = formData.get("contact");
-  //     const password = formData.get("password");
-  //     const confirmPassword = formData.get("confirmPassword");
-
-  //     await handleSignUp({
-  //       firstName,
-  //       lastName,
-  //       userName,
-  //       email,
-  //       contact,
-  //       password,
-  //       confirmPassword,
-  //     });
-  //   });
-  // })
-
+export function SignUpForm() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -79,37 +23,63 @@ export function SignUpForm({ isVisible, onClose }) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, email, contact, setError, addUser) => {
     event.preventDefault();
 
     try {
       // Check if passwords match
       if (password !== confirmPassword) {
         setError("Passwords do not match");
+        toast.error("Passwords do not match");
         return;
       }
+
+      if (firstName.length <3){
+        setError("First name must be at least 3 characters long");
+        toast.error("First name must be at least 3 characters long");
+        return;
+      }
+
+      if (lastName.length <3){
+        setError("First name must be at least 3 characters long");
+        toast.error("First name must be at least 3 characters long");
+        return;
+      }
+
+      if (userName.length <5){
+        setError("User name must be at least 3 characters long");
+        toast.error("User name must be at least 3 characters long");
+        return;
+      }
+
 
       // Check if email or contact already exists in the database
       const existingUser = await checkExistingUser(email, contact);
       if (existingUser) {
         setError("User with this email or contact already exists");
+        toast.error("User with this email or contact already exists");
         return;
       }
       // If everything is fine, proceed with signup
       await addUser();
       console.log("User created successfully!");
+      toast.success("User created successfully!");
     } catch (error) {
       console.error(error);
       setError("Error creating user!");
+      toast.error("Error creating user!");
     }
   };
 
   const checkExistingUser = async (email, contact) => {
     // Make a request to the backend to check if the user already exists
-    const response = await Axios.post("http://localhost:5000/checkExistingUser", {
-      email,
-      contact,
-    });
+    const response = await Axios.post(
+      "http://localhost:5000/checkExistingUser",
+      {
+        email,
+        contact,
+      }
+    );
     return response.data.exists; // Assuming the backend returns whether the user exists
   };
 
@@ -122,10 +92,11 @@ export function SignUpForm({ isVisible, onClose }) {
       email,
       contact,
       password,
-      confirmPassword
+      confirmPassword,
     });
   };
 
+  //This is to check whether the user inputs are captured 
   const displayInfo = () => {
     console.log(
       firstName +
@@ -142,6 +113,25 @@ export function SignUpForm({ isVisible, onClose }) {
         " " +
         confirmPassword
     );
+  };
+
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isButtonClicked) {
+      timer = setTimeout(() => {
+        // Redirect to /logIn after 5 seconds if the button was clicked
+        window.location.href = "/logIn"; // or use history.push('/logIn') if you are using useHistory hook
+      }, 5000);
+    }
+
+    // Clear the timer when the component unmounts or when button is clicked again
+    return () => clearTimeout(timer);
+  }, [isButtonClicked]); // Run this effect whenever isButtonClicked changes
+
+  const handleButtonClick = () => {
+    setIsButtonClicked(true);
   };
 
   return (
@@ -162,7 +152,7 @@ export function SignUpForm({ isVisible, onClose }) {
           </Typography>
           <Typography className=" mt-3 w-[450px] h-2 rounded-r-2xl bg-deep-orange-900"></Typography>
           <form
-            onSubmit={handleSubmit}
+            onSubmit={(event) => handleSubmit(event, email, contact, setError, addUser)}              
             id="signUp-Form"
             className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
           >
@@ -308,15 +298,15 @@ export function SignUpForm({ isVisible, onClose }) {
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
             />
-            <Link to="/logIn">
+            <Link to="/logIn" onClick={handleButtonClick}>
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
-                onClick={handleSubmit}
-                // onSubmit={handleSubmit}
+                onClick={(event) => handleSubmit(event, email, contact, setError, addUser)}              
               >
                 sign up
               </Button>
+              
             </Link>
             <Typography
               color="gray"
@@ -333,6 +323,7 @@ export function SignUpForm({ isVisible, onClose }) {
           </form>
         </Card>
       </div>
+      <ToastContainer />
     </div>
   );
 }
