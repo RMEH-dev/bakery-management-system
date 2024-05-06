@@ -114,16 +114,15 @@ export function SignUpForm({ isVisible, onClose }) {
   };
 
   const addUser = async () => {
-    Axios.post("http://localhost:5000/signUp", {
-      firstName: firstName,
-      lastName: lastName,
-      userName: userName,
-      email: email,
-      contact: contact,
-      password: password,
-      confirmPassword: confirmPassword,
-    }).then(() => {
-      console.log("success");
+    // Send a request to your backend to save the user data
+    await Axios.post("http://localhost:5000/signUp", {
+      firstName,
+      lastName,
+      userName,
+      email,
+      contact,
+      password,
+      confirmPassword
     });
   };
 
@@ -313,7 +312,8 @@ export function SignUpForm({ isVisible, onClose }) {
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
-                onClick={addUser}
+                onClick={handleSubmit}
+                // onSubmit={handleSubmit}
               >
                 sign up
               </Button>
