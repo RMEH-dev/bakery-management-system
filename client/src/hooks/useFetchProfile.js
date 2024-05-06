@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-export function useFetchProfile(profileId: number, url: string){
+export function useFetchProfile(profileId, url){
     const [profileData, setProfileData] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);

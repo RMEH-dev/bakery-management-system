@@ -3,6 +3,7 @@ const path = require("path");
 const mysql = require("mysql2/promise"); //instance of mysql library created
 const dotenv = require("dotenv");
 const cors = require("cors");
+const multer = require("multer");
 
 
 
@@ -13,7 +14,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Using multer to store images in local filesystem
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images/products");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname));
+  },
+});
 
+const upload = multer({
+  storage: storage,
+});
 
 
 // database configuration and connection
@@ -110,6 +123,11 @@ app.set("view engine");
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
+
+//Post method to do upload images (product images) to the filesystem
+app.post('/productImages', upload.single('productImage'), (req, res) =>{
+  console.log(req.file);
+});
 
 
 //port assign to the backend server for successful connection requests
