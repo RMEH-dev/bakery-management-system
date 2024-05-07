@@ -31,22 +31,21 @@ const upload = multer({
 
 // database configuration and connection
 
+const db = mysql.createConnection({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE,
+});
 
-    const db = mysql.createConnection({
-      host: process.env.DATABASE_HOST,
-      user: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE,
-    })
-
-    db.connect((err) => {
-      if (err) {
-        console.error("error connecting to MySQL database", err);
-        throw err;
-    }else{
-      console.log('connected to MySQL database');
-    }
-  })
+db.connect((err) => {
+  if (err) {
+    console.error("error connecting to MySQL database", err);
+    throw err;
+  } else {
+    console.log("connected to MySQL database");
+  }
+});
 
 //Logic to check whether the user already exists
 app.post("/checkExistingUser", (req, res) => {
@@ -64,16 +63,65 @@ app.post("/checkExistingUser", (req, res) => {
 
 // Register a new user with the specified email
 app.post("/signUp", (req, res) => {
-  const { firstName, lastName, userName, email, contact, password, confirmPassword } = req.body;
+  const {
+    firstName,
+    lastName,
+    userName,
+    email,
+    contact,
+    password,
+    confirmPassword,
+  } = req.body;
   const userID = generateUserID(); // Generate a unique userID
-  const query = "INSERT INTO user (userID, firstName, lastName, userName, email, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  db.query(query, [userID, firstName, lastName, userName, email, contact, password, confirmPassword], (err, results) => {
+  const query =
+    "INSERT INTO user (userID, firstName, lastName, userName, email, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  db.query(
+    query,
+    [
+      userID,
+      firstName,
+      lastName,
+      userName,
+      email,
+      contact,
+      password,
+      confirmPassword,
+    ],
+    (err, results) => {
+      if (err) {
+        console.error("Error creating user:", err);
+        res.status(500).json({ message: "Internal server error" });
+        return;
+      }
+      res.status(201).json({ message: "User created successfully" });
+    }
+  );
+});
+
+// User login functionality
+app.post("/login", (req, res) => {
+  const sentLoginEmail = req.body.email;
+  const sentLoginPassword = req.body.password;
+  const values = [sentLoginEmail, sentLoginPassword];
+  const query = "SELECT * FROM user WHERE email = ? AND password = ?";
+  db.query(query, values, (err, results) => {
     if (err) {
-      console.error("Error creating user:", err);
+      console.error("Error during login:", err);
       res.status(500).json({ message: "Internal server error" });
       return;
     }
-    res.status(201).json({ message: "User created successfully" });
+    if (results.length === 0) {
+      res.status(401).json({ message: "Invalid email or password" });
+      return;
+    }
+    if (result.length > 0) {
+      res.send(results);
+      // User authenticated successfully
+      res.json({ message: "Login successful" });
+    } else {
+      console.log("wrong credentials");
+      res.send({ message: "wrong credentials" });
+    }
   });
 });
 
@@ -82,7 +130,9 @@ function generateUserID() {
   const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let userID = "U";
   for (let i = 0; i < 3; i++) {
-    userID += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    userID += possibleChars.charAt(
+      Math.floor(Math.random() * possibleChars.length)
+    );
   }
   return userID;
 }

@@ -6,26 +6,60 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export function LogInForm({ isVisible, onClose }) {
-  const handleClose = (event) => {
-    if (event.target.id === "wrapper") onClose(event);
+export function LogInForm() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const handleLogin = async (e, email, password) => {
+    e.preventDefault();
+
+    try {
+      const response = await Axios.post("http://localhost:5000/login", {
+        email,
+        password,
+      });
+      // Check if email and password are provided
+      if (!email || !password) {
+        toast.error("Please enter both email/userName and password");
+        return;
+      }
+
+      if (response.status === 200) {
+        setError("Login Successful", error);
+        toast.success("Login Successful"); // Display success message
+      } else {
+        setError("Invalid Credentials", error);
+        toast.error("Invalid Credentials"); // Display error message
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Error during Login", error);
+      toast.error("An error occurred during Login", error);
+    }
   };
 
-  // const {login, handleSubmit} = useForm();
+  useEffect(() => {
+    let timer;
+    if (isButtonClicked) {
+      timer = setTimeout(() => {
+        // Redirect to /logIn after 5 seconds if the button was clicked
+        window.location.href = "/"; // or use history.push('/logIn') if you are using useHistory hook
+      }, 5000);
+    }
 
-  // const onSubmit =(data)=>{
-  //   console.log(data); 
-  // };
+    // Clear the timer when the component unmounts or when button is clicked again
+    return () => clearTimeout(timer);
+  }, [isButtonClicked]); // Run this effect whenever isButtonClicked changes
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
-  // const {displayInfo} =() =>{
-  //   console.log(userName + password);
-  // }
+  const handleButtonClick = () => {
+    setIsButtonClicked(true);
+  };
 
   return (
     <div
@@ -44,23 +78,27 @@ export function LogInForm({ isVisible, onClose }) {
             To taste the flavors of freshness!
           </Typography>
           <Typography className=" mt-3 w-[475px] h-2 rounded-r-2xl bg-c3"></Typography>
-          <form className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
+          <form
+            className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
+            handleLogin={(event) => handleLogin(event)}
+          >
             <div className="mb-1 flex flex-col gap-6">
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
-                Username
+                Email
               </Typography>
               <Input
                 type="email"
                 size="md"
+                value={email}
                 placeholder="name@mail.com"
-                // {...login("Username/Email")}
                 className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-200 rounded-[30px]"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setUserName(event.target.value);
-                }}                
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                required
               />
 
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
@@ -70,17 +108,23 @@ export function LogInForm({ isVisible, onClose }) {
                 type="password"
                 size="md"
                 placeholder="********"
-                // {...login("Password")}
+                value={password}
                 className="-mb-3 w-[470px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-deep-orange-100 rounded-[30px]"
                 labelProps={{
                   className: "before:content-none after:content-none",
                 }}
-                onChange={(event) =>{
-                  setPassword(event.target.value);
+                onChange={(e) => {
+                  setPassword(e.target.value);
                 }}
+                required
               />
             </div>
-            <Link to="/">
+            <Link
+              to="/"
+              onClick={(e) => {
+                handleLogin(e);
+              }}
+            >
               <Button className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
                 log in
               </Button>
@@ -100,6 +144,7 @@ export function LogInForm({ isVisible, onClose }) {
           </form>
         </Card>
       </div>
+      <ToastContainer />
     </div>
   );
 }

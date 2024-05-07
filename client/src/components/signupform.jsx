@@ -22,6 +22,11 @@ export function SignUpForm() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
 
   const handleSubmit = async (event, email, contact, setError, addUser) => {
     event.preventDefault();
@@ -41,8 +46,8 @@ export function SignUpForm() {
       }
 
       if (lastName.length <3){
-        setError("First name must be at least 3 characters long");
-        toast.error("First name must be at least 3 characters long");
+        setError("Last name must be at least 3 characters long");
+        toast.error("Last name must be at least 3 characters long");
         return;
       }
 
@@ -52,22 +57,33 @@ export function SignUpForm() {
         return;
       }
 
+      if (userName.length <5){
+        setError("User name must be at least 3 characters long");
+        toast.error("User name must be at least 3 characters long");
+        return;
+      }
 
+      if (!isChecked) {
+        setError("Agree the terms and conditions");
+        toast.error('Please agree to the Terms & Conditions by checking the checkbox.');
+        return; // Prevent further processing if checkbox is not checked
+      }
+    
       // Check if email or contact already exists in the database
       const existingUser = await checkExistingUser(email, contact);
       if (existingUser) {
-        setError("User with this email or contact already exists");
-        toast.error("User with this email or contact already exists");
+        setError("Account with this email or contact already exists");
+        toast.error("Account with this email or contact already exists");
         return;
       }
       // If everything is fine, proceed with signup
       await addUser();
-      console.log("User created successfully!");
-      toast.success("User created successfully!");
+      console.log("Account created successfully!");
+      toast.success("Account created successfully!");
     } catch (error) {
       console.error(error);
-      setError("Error creating user!");
-      toast.error("Error creating user!");
+      setError("Error creating Account!");
+      toast.error("Error creating Account!");
     }
   };
 
@@ -297,6 +313,8 @@ export function SignUpForm() {
                 </Typography>
               }
               containerProps={{ className: "mt-3 -ml-2.5 " }}
+              checked={isChecked}
+              onChange={handleCheckboxChange}
             />
             <Link to="/logIn" onClick={handleButtonClick}>
               <Button
