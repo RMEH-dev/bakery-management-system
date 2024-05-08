@@ -8,8 +8,14 @@ import Home from "./pages/customer/home.jsx";
 import Products from "./pages/customer/products.jsx";
 import SignUp from "./pages/signup.jsx";
 import LogIn from "./pages/login.jsx";
-import { Cart  } from "./components/cart.jsx";
+import { Cart } from "./components/cart.jsx";
 import CustomerProfile from "./pages/customer/profile.jsx";
+import AccountDetails from "./components/profile/accountdetails.jsx";
+import Address from "./components/profile/address.jsx";
+import MyOrders from "./components/profile/myorders.jsx";
+import LogOut from "./components/profile/logout.jsx";
+import LostPassword from "./components/profile/lostpassword.jsx";
+
 
 
 const router = createBrowserRouter([
@@ -46,17 +52,38 @@ const router = createBrowserRouter([
     element: <LogIn />,
   },
   {
-    path: '/cart',
-    element: <Cart/>,
+    path: "/cart",
+    element: <Cart />,
   },
   {
-    path: '/profileCustomer',
-    element: <CustomerProfile/>,
+    path: "/profileUser",
+    element: <CustomerProfile />
   },
   {
-    path: '*',
+    path: "/profileUser/AccountDetails",
+    element: <AccountDetails />,
+  },
+  {
+    path: "/profileUser/Addresses",
+    element: <Address />,
+  },
+  {
+    path: "/profileUser/MyOrders",
+    element: <MyOrders />,
+  },
+  {
+    path: "/profileUser/LogOut",
+    element: <LogOut />,
+  },
+  {
+    path: "/profileUser/LostPassword",
+    element: <LostPassword/>,
+  },
+
+  {
+    path: "*",
     element: <h3> Error 404: Page Not Available</h3>,
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

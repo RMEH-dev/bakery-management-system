@@ -5,6 +5,12 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const multer = require("multer");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+
+const mySecretKey = crypto.randomBytes(32).toString('hex');
+
+
 
 dotenv.config({ path: "./.env" });
 
@@ -74,72 +80,90 @@ app.post("/signUp", async (req, res) => {
     confirmPassword,
   } = req.body;
 
-  // Hash the password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Hash the confirmPassword (if needed)
-  const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
+    // Hash the confirmPassword (if needed)
+    const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
 
-  const userID = generateUserID(); // Generate a unique userID
-  const query =
-    "INSERT INTO user (userID, firstName, lastName, userName, email, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  db.query(
-    query,
-    [
-      userID,
-      firstName,
-      lastName,
-      userName,
-      email,
-      contact,
-      hashedPassword,
-      hashedConfirmPassword,
-    ],
-    (err, results) => {
-      if (err) {
-        console.error("Error creating user:", err);
-        res.status(500).json({ message: "Internal server error" });
-        return;
+    const userID = generateUserID(); // Generate a unique userID
+    const query =
+      "INSERT INTO user (userID, firstName, lastName, userName, email, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    db.query(
+      query,
+      [
+        userID,
+        firstName,
+        lastName,
+        userName,
+        email,
+        contact,
+        hashedPassword,
+        hashedConfirmPassword,
+      ],
+      (err, results) => {
+        if (err) {
+          console.error("Error creating user:", err);
+          res.status(500).json({ message: "Internal server error" });
+          return;
+        }
+        // Create JWT token
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+          expiresIn: "1h", // Token expires in 1 hour
+        });
+        res.status(201).json({ message: "User created successfully", token });
       }
-      res.status(201).json({ message: "User created successfully" });
-    }
-  );
+    );
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // User login functionality
 app.post("/login", (req, res) => {
-  const {email, password} = req.body;
-
+  const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ error: 'Please provide both email and password' });
+    return res
+      .status(400)
+      .json({ error: "Please provide both email and password" });
   }
 
   try {
     // Check if the user exists in the database
-    db.query('SELECT * FROM user WHERE email = ?', [email], async (error, results) => {
-      if (error) {
-        throw error;
+    db.query(
+      "SELECT * FROM user WHERE email = ?",
+      [email],
+      async (error, results) => {
+        if (error) {
+          throw error;
+        }
+
+        if (results.length === 0) {
+          return res.status(401).json({ error: "Invalid credentials" });
+        }
+
+        // Compare the provided password with the hashed password from the database
+        const user = results[0];
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+          return res.status(401).json({ error: "Invalid credentials" });
+        }
+
+        // Passwords match, generate JWT token
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+          expiresIn: "1h", // Token expires in 1 hour
+        });
+        // Passwords match, login successful
+        return res.status(200).json({ message: "Login successful" });
       }
-
-      if (results.length === 0) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-
-      // Compare the provided password with the hashed password from the database
-      const user = results[0];
-      const passwordMatch = await bcrypt.compare(password, user.password);
-
-      if (!passwordMatch) {
-        return res.status(401).json({ error: 'Invalid credentials' });
-      }
-
-      // Passwords match, login successful
-      return res.status(200).json({ message: 'Login successful' });
-    });
+    );
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'An error occurred during login' });
+    return res.status(500).json({ error: "An error occurred during login" });
   }
 });
 
