@@ -4,6 +4,7 @@ const mysql = require("mysql"); //instance of mysql library created
 const dotenv = require("dotenv");
 const cors = require("cors");
 const multer = require("multer");
+const bcrypt = require("bcrypt");
 
 dotenv.config({ path: "./.env" });
 
@@ -62,7 +63,7 @@ app.post("/checkExistingUser", (req, res) => {
 });
 
 // Register a new user with the specified email
-app.post("/signUp", (req, res) => {
+app.post("/signUp", async (req, res) => {
   const {
     firstName,
     lastName,
@@ -72,6 +73,13 @@ app.post("/signUp", (req, res) => {
     password,
     confirmPassword,
   } = req.body;
+
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Hash the confirmPassword (if needed)
+  const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
+
   const userID = generateUserID(); // Generate a unique userID
   const query =
     "INSERT INTO user (userID, firstName, lastName, userName, email, contact, password, confirmPassword) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -84,8 +92,8 @@ app.post("/signUp", (req, res) => {
       userName,
       email,
       contact,
-      password,
-      confirmPassword,
+      hashedPassword,
+      hashedConfirmPassword,
     ],
     (err, results) => {
       if (err) {
@@ -100,29 +108,39 @@ app.post("/signUp", (req, res) => {
 
 // User login functionality
 app.post("/login", (req, res) => {
-  const sentLoginEmail = req.body.email;
-  const sentLoginPassword = req.body.password;
-  const values = [sentLoginEmail, sentLoginPassword];
-  const query = "SELECT * FROM user WHERE email = ? AND password = ?";
-  db.query(query, values, (err, results) => {
-    if (err) {
-      console.error("Error during login:", err);
-      res.status(500).json({ message: "Internal server error" });
-      return;
-    }
-    if (results.length === 0) {
-      res.status(401).json({ message: "Invalid email or password" });
-      return;
-    }
-    if (result.length > 0) {
-      res.send(results);
-      // User authenticated successfully
-      res.json({ message: "Login successful" });
-    } else {
-      console.log("wrong credentials");
-      res.send({ message: "wrong credentials" });
-    }
-  });
+  const {email, password} = req.body;
+
+
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Please provide both email and password' });
+  }
+
+  try {
+    // Check if the user exists in the database
+    db.query('SELECT * FROM user WHERE email = ?', [email], async (error, results) => {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length === 0) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+
+      // Compare the provided password with the hashed password from the database
+      const user = results[0];
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'Invalid credentials' });
+      }
+
+      // Passwords match, login successful
+      return res.status(200).json({ message: 'Login successful' });
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'An error occurred during login' });
+  }
 });
 
 //Function to create the unique USER ID

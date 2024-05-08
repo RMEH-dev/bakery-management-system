@@ -15,8 +15,9 @@ export function LogInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleLogin = async (e, email, password) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
@@ -26,13 +27,13 @@ export function LogInForm() {
       });
       // Check if email and password are provided
       if (!email || !password) {
-        toast.error("Please enter both email/userName and password");
+        setError("Please enter both email and password", error);
+        toast.error("Please enter both email and password");
         return;
-      }
-
-      if (response.status === 200) {
+      } else if (response.status === 200) {
         setError("Login Successful", error);
         toast.success("Login Successful"); // Display success message
+        setIsButtonClicked(true);
       } else {
         setError("Invalid Credentials", error);
         toast.error("Invalid Credentials"); // Display error message
@@ -48,24 +49,20 @@ export function LogInForm() {
     let timer;
     if (isButtonClicked) {
       timer = setTimeout(() => {
-        // Redirect to /logIn after 5 seconds if the button was clicked
+        // Redirect to home page after 5 seconds if the button was clicked
         window.location.href = "/"; // or use history.push('/logIn') if you are using useHistory hook
-      }, 5000);
+      }, 3000);
     }
-
     // Clear the timer when the component unmounts or when button is clicked again
     return () => clearTimeout(timer);
   }, [isButtonClicked]); // Run this effect whenever isButtonClicked changes
 
-  const handleButtonClick = () => {
-    setIsButtonClicked(true);
-  };
+  // const handleButtonClick = () => {
+  //   setIsButtonClicked(true);
+  // };
 
   return (
-    <div
-      className="inset-0 flex justify-center items-center bg-gradient-to-br from-c3 to-c2 backdrop-blur-sm"
-      //   onClick={() => onClose(handleClose)}
-    >
+    <div className="inset-0 flex justify-center items-center bg-gradient-to-br from-c3 to-c2 backdrop-blur-sm">
       <div className="p-5 w-[600px] h-screen ">
         <Card
           className="flex flex-col w-[565px] h-[500px] sm:w-auto bg-white rounded-2xl z-80"
@@ -78,10 +75,7 @@ export function LogInForm() {
             To taste the flavors of freshness!
           </Typography>
           <Typography className=" mt-3 w-[475px] h-2 rounded-r-2xl bg-c3"></Typography>
-          <form
-            className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
-            handleLogin={(event) => handleLogin(event)}
-          >
+          <form className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Email
@@ -118,20 +112,26 @@ export function LogInForm() {
                 }}
                 required
               />
+              <Typography
+                color="gray"
+                className="text-gray font-[Montserrat] text-left text-sm font-normal"
+              >
+                Forgot password?{" "}
+                <Link
+                  className=" text-gray font-[Montserrat] font-medium text-gray-900"
+                >
+                  Reset Password
+                </Link>
+              </Typography>
             </div>
-            <Link
-              to="/"
-              onClick={(e) => {
-                handleLogin(e);
-              }}
-            >
-              <Button className="w-[300px] ml-20 mt-10 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
+            <Link to="/" onClick={handleLogin}>
+              <Button className="w-[300px] ml-20 mt-5 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
                 log in
               </Button>
             </Link>
             <Typography
               color="gray"
-              className="ml-20 text-gray font-[Montserrat] mt-8 text-center font-normal"
+              className="ml-20 text-gray font-[Montserrat] mt-5 text-center font-normal"
             >
               Don't have an account?{" "}
               <Link
