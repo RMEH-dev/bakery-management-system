@@ -85,8 +85,7 @@ function MyOrders() {
                             variant="small"
                             color="blue-gray"
                             className="font-normal pl-16 justify-center items-center"
-                          >
-                          </Typography>
+                          ></Typography>
                         </td>
                         <td className={classes}>
                           <Typography

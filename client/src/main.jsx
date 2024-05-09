@@ -15,6 +15,8 @@ import Address from "./components/profile/address.jsx";
 import MyOrders from "./components/profile/myorders.jsx";
 import LogOut from "./components/profile/logout.jsx";
 import LostPassword from "./components/profile/lostpassword.jsx";
+import BillingAddress from "./components/profile/billingaddress.jsx";
+import ShippingAddress from "./components/profile/shippingaddress.jsx";
 
 
 
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
   {
     path: "/profileUser/Addresses",
     element: <Address />,
+  },
+  {
+    path: "/profileUser/Addresses/BillingAddress",
+    element: <BillingAddress/>,
+  },
+  {
+    path: "/profileUser/Addresses/ShippingAddress",
+    element: <ShippingAddress/>,
   },
   {
     path: "/profileUser/MyOrders",
