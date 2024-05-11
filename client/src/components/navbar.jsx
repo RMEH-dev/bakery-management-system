@@ -307,20 +307,38 @@ function NavList() {
   );
 }
 
+
+
 export function MegaMenuWithHover() {
   const [openNav, setOpenNav] = React.useState(false);
+  const [logoSrc, setLogoSrc] = React.useState(""); // State to hold logo source
 
   React.useEffect(() => {
+    // Dynamically import the logo image
+    import("./../assets/logos/logo.jpg")
+      .then((module) => {
+        // Set the logo source once it's loaded
+        setLogoSrc(module.default);
+      })
+      .catch((error) => {
+        console.error("Error loading logo image:", error);
+      });
+
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 1280 && setOpenNav(false)
     );
+    return () => {
+      // Cleanup event listener
+      window.removeEventListener("resize", () => {});
+    };
   }, []);
+  
 
   return (
     <Navbar className="max-w-screen-3xl px-4 py-4 bg-gradient-to-r from-c1 to-c3 bg-opacity-100 outline outline-none shadow-md shadow-c1  rounded-none">
       <div className="flex items-center text-c2 ">
-        <img src="./src/assets/logos/logo.jpg" class="w-20 h-20" alt="logo" />
+        <img src={logoSrc} class="w-20 h-20" alt="logo" />
         <Typography
           as="a"
           href="#"

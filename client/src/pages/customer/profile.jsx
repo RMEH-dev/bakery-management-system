@@ -46,8 +46,11 @@ const ProfileToggles = [
 
 export default function CustomerProfile(props) {
   const children = props.children;
+
+  const logoSrc = "./../assets/logos/logo.jpg"
+
   return (
-    <PageLayout>
+    <PageLayout logoSrc={logoSrc}>
       <div className="bg-white bg-opacity-30">
         <Typography>
           <div className="flex font-bold font-[Montserrat] text-2xl pl-10 pt-10 mb-6">

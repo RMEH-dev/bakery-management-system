@@ -5,11 +5,10 @@ import { MegaMenuWithHover } from "./navbar";
 import { FooterWithSocialLinks } from "./footer";
 
 
-export default function PageLayout(props) {
-    const children = props.children;
+export default function PageLayout({ children, logoSrc }) {
   return (
     <div className="PageLayout">
-      <MegaMenuWithHover />
+      <MegaMenuWithHover logoSrc={logoSrc}/>
       {children}
       <FooterWithSocialLinks/>
     </div>

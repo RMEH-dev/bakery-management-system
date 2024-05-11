@@ -18,17 +18,8 @@ import LostPassword from "./components/profile/lostpassword.jsx";
 import BillingAddress from "./components/profile/billingaddress.jsx";
 import ShippingAddress from "./components/profile/shippingaddress.jsx";
 
-
-
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  // {
-  //   path: "/products",
-  //   element: <Products/>,
-  // },
+  { path: "/", element: <Home /> },
   {
     path: "/products",
     element: <Products />,
@@ -45,55 +36,18 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/signUp",
-    element: <SignUp />,
-  },
-  {
-    path: "/logIn",
-    element: <LogIn />,
-  },
-  {
-    path: "/cart",
-    element: <Cart />,
-  },
-  {
-    path: "/profileUser",
-    element: <CustomerProfile />
-  },
-  {
-    path: "/profileUser/AccountDetails",
-    element: <AccountDetails />,
-  },
-  {
-    path: "/profileUser/Addresses",
-    element: <Address />,
-  },
-  {
-    path: "/profileUser/Addresses/BillingAddress",
-    element: <BillingAddress/>,
-  },
-  {
-    path: "/profileUser/Addresses/ShippingAddress",
-    element: <ShippingAddress/>,
-  },
-  {
-    path: "/profileUser/MyOrders",
-    element: <MyOrders />,
-  },
-  {
-    path: "/profileUser/LogOut",
-    element: <LogOut />,
-  },
-  {
-    path: "/profileUser/LostPassword",
-    element: <LostPassword/>,
-  },
-
-  {
-    path: "*",
-    element: <h3> Error 404: Page Not Available</h3>,
-  },
+  { path: "/signUp", element: <SignUp /> },
+  { path: "/logIn", element: <LogIn /> },
+  { path: "/cart", element: <Cart /> },
+  { path: "/profileUser", element: <CustomerProfile /> },
+  { path: "/profileUser/AccountDetails", element: <AccountDetails /> },
+  { path: "/profileUser/Addresses", element: <Address /> },
+  { path: "/profileUser/Addresses/BillingAddress", element: <BillingAddress /> },
+  { path: "/profileUser/Addresses/ShippingAddress", element: <ShippingAddress /> },
+  { path: "/profileUser/MyOrders", element: <MyOrders /> },
+  { path: "/profileUser/LogOut", element: <LogOut /> },
+  { path: "/profileUser/LostPassword", element: <LostPassword /> },
+  { path: "*", element: <h3>Error 404: Page Not Available</h3> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
