@@ -8,7 +8,6 @@ import Home from "./pages/customer/home.jsx";
 import Products from "./pages/customer/products.jsx";
 import SignUp from "./pages/signup.jsx";
 import LogIn from "./pages/login.jsx";
-import { Cart } from "./components/cart.jsx";
 import CustomerProfile from "./pages/customer/profile.jsx";
 import AccountDetails from "./components/profile/accountdetails.jsx";
 import Address from "./components/profile/address.jsx";
@@ -17,6 +16,9 @@ import LogOut from "./components/profile/logout.jsx";
 import LostPassword from "./components/profile/lostpassword.jsx";
 import BillingAddress from "./components/profile/billingaddress.jsx";
 import ShippingAddress from "./components/profile/shippingaddress.jsx";
+import { Cart } from "./components/cart.jsx";
+import { ShoppingCart } from "./components/shoppingcart.jsx";
+import { Checkout } from "./components/checkout.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -39,6 +41,8 @@ const router = createBrowserRouter([
   { path: "/signUp", element: <SignUp /> },
   { path: "/logIn", element: <LogIn /> },
   { path: "/cart", element: <Cart /> },
+  { path: "/shoppingCart", element: <ShoppingCart /> },
+  { path: "/checkout", element: <Checkout /> },
   { path: "/profileUser", element: <CustomerProfile /> },
   { path: "/profileUser/AccountDetails", element: <AccountDetails /> },
   { path: "/profileUser/Addresses", element: <Address /> },

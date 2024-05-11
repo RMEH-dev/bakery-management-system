@@ -9,6 +9,23 @@ module.exports = withMT({
     "./src/components/pages/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
+    margins: {
+      m1: '150px',
+      m2: '250px',
+      m3: '350px',
+      m4: '450px',
+      m5: '550px',
+      m6: '650px',
+      m7: '750px',
+    },
+    widths: {
+      w1: '150px',
+      w2: '250px',
+      w3: '350px',
+      w4: '450px',
+      w5: '550px',
+      w6: '650px',
+    },
     colors: {
       c1: "#3E2212",
       c2: "#FFEFE6",

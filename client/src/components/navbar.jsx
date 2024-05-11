@@ -190,6 +190,7 @@ function NavList() {
           Contact Us
         </ListItem>
       </Typography>
+      <Link to="/cart">
       <Typography
         variant="medium"
         className="font-bold font-[Montserrat]  text-c2"
@@ -198,6 +199,7 @@ function NavList() {
           Outlets
         </ListItem>
       </Typography>
+      </Link>
       <Typography
         as="a"
         href="#"
@@ -263,7 +265,7 @@ function NavList() {
       </Typography>
       <Typography as="a" href="#">
         <button class="flex items-center justify-center bg-c2 w-20 h-8 rounded-3xl text-c1 hover:bg-white duration-500">
-          <Link to= '/cart'>
+          <Link to= '/shoppingCart'>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
