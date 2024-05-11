@@ -21,6 +21,10 @@ export function CarouselCustomNavigation() {
           ))}
         </div>
       )}
+      autoplay={true}
+      autoplayInterval={2000} // 2 seconds interval
+      autoplayReverse={true} // Reverse direction when reaching the end
+      infinite={true} // Infinite loop
     >
       <div className="relative h-full w-full">
         <img

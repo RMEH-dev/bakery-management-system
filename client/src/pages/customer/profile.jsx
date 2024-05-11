@@ -54,9 +54,9 @@ export default function CustomerProfile(props) {
             <Link to="/products">My Profile / </Link>
           </div>
         </Typography>
-        <ul className="pl-6 pt-5 pb-5 w-[300px] md:w-[300px] lg:w-[300px] xl:w-[320px] 2xl:w-[330px] my-5 mb-6 rounded-r-2xl bg-gradient-to-r from-c2 to-c4 text-c3 hover:text-c1 flex flex-col space-y-1">
+        <ul className="pl-6 pt-5 pb-5 w-[300px] md:w-[300px] lg:w-[300px] xl:w-[320px] 2xl:w-[330px] my-5 mb-6 rounded-r-2xl bg-gradient-to-r from-c2 to-c4 text-c3 flex flex-col space-y-1">
           {ProfileToggles.map((item) => (
-            <li key={item.title} className="px-4 py-2 hover:text-black">
+            <li key={item.title} className="px-4 py-2 hover:text-white">
               <Link to={item.path}>
                 <span className="text-lg font-bold font-[Montserrat]">
                   {item.title}

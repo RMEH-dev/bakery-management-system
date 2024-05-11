@@ -90,7 +90,7 @@ export function SignUpForm() {
   const checkExistingUser = async (email, contact) => {
     // Make a request to the backend to check if the user already exists
     const response = await Axios.post(
-      "http://localhost:5000/checkExistingUser",
+      "http://localhost:5000/api/routes/checkExistingUser",
       {
         email,
         contact,
@@ -101,7 +101,7 @@ export function SignUpForm() {
 
   const addUser = async () => {
     // Send a request to your backend to save the user data
-    await Axios.post("http://localhost:5000/signUp", {
+    await Axios.post("http://localhost:5000/api/routes/signUp", {
       firstName,
       lastName,
       userName,

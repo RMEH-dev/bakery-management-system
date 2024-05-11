@@ -120,6 +120,49 @@ export function Cart() {
           </table>
         </Card>
       </div>
+      <div className="z-100 -mt-[650px] ml-[850px] h-[750px] w-[300px] md:w-[400px] lg:w-[300px] xl:w-[650px] 2xl:w-[800px] mb-6 rounded-2xl bg-c4 text-c3 hover:text-c1 flex flex-col space-y-1">
+        <Card
+          className="flex flex-col h-[750px] sm:w-auto bg-gradient-to-bl from-white to-c4 rounded-2xl z-80"
+          shadow={false}
+        >
+          <form className="ml-[50px] mt-5 mb-2 w-[300px] 2xl:w-[800px] h-150 max-w-screen-lg sm:w-96">
+            <div className="mb-1 flex flex-col gap-6">
+              <Typography className="-mb-3 text-xl text-black font-bold font-[Montserrat]">
+                Cart Details
+              </Typography>
+              <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
+                Sub Total
+              </Typography>
+              <Input
+                type="text"
+                size="md"
+                placeholder="lastName"
+                className="-mb-3 w-[320px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c1 rounded-[30px]"
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+              />
+              </div>
+              <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
+                User Name
+              </Typography>
+              <Input
+                type="text"
+                size="md"
+                placeholder="userName"
+                className="-mb-3 w-[320px] text-black font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+              />
+              <Button
+                className="mt-4 w-[500px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]"
+              >
+                Save Changes
+              </Button>
+          </form>
+        </Card>
+      </div>
       <FooterWithSocialLinks />
     </div>
   );

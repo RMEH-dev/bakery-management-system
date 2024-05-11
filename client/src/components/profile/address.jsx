@@ -30,12 +30,12 @@ function Address() {
                   Shipping Address
                 </Typography>
                 <Link to="/profileUser/Addresses/BillingAddress">
-                  <Button className="pb-5 w-[100px] items-center justify-between h-[30px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                  <Button className="mt-2 w-[100px] items-center justify-between hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
                     Add
                   </Button>
                 </Link>
                 <Link to="/profileUser/Addresses/ShippingAddress">
-                <Button className=" pb-5 w-[100px] h-[30px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                <Button className="mt-2 w-[100px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
                   Add
                 </Button>
                 </Link>

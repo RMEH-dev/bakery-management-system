@@ -1,5 +1,8 @@
 import * as Constants from "./src/helpers/validEmail";
 
+import connectToDatabase from "./src/api/models/databaseConnection";
+
+
 const formValidation = (
     firstName,
     lastName,
@@ -8,9 +11,6 @@ const formValidation = (
     contact,
     password,
     confirmPassword,
-    address,
-    zip_code,
-    city
   ) => {
     let isValid = true;
     let error = [];
