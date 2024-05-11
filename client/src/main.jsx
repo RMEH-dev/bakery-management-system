@@ -19,6 +19,7 @@ import ShippingAddress from "./components/profile/shippingaddress.jsx";
 import { Cart } from "./components/cart.jsx";
 import { ShoppingCart } from "./components/shoppingcart.jsx";
 import { Checkout } from "./components/checkout.jsx";
+import OrderSuccess from "./components/ordersuccess.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
   { path: "/cart", element: <Cart /> },
   { path: "/shoppingCart", element: <ShoppingCart /> },
   { path: "/checkout", element: <Checkout /> },
+  { path: "/orderSuccess", element: <OrderSuccess /> },
   { path: "/profileUser", element: <CustomerProfile /> },
   { path: "/profileUser/AccountDetails", element: <AccountDetails /> },
   { path: "/profileUser/Addresses", element: <Address /> },

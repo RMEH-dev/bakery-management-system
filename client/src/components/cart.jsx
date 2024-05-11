@@ -18,7 +18,7 @@ export function Cart({children}) {
               &nbsp; 2. Checkout&nbsp; {">"}
               {">"}{" "}
             </Link>
-            <Link to="/order_complete">&nbsp; 3. Order Complete &nbsp;</Link>
+            <Link to="/orderSuccess">&nbsp; 3. Order Complete &nbsp;</Link>
           </div>
         </Typography>
         {children}

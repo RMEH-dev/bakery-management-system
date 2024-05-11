@@ -234,9 +234,11 @@ export function ShoppingCart() {
                 </Typography>
               </div>
             </div>
+            <Link to="/checkout">
             <Button className="mt-4 w-[520px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
               Proceed to Checkout
             </Button>
+            </Link>
           </form>
         </Card>
       </div>

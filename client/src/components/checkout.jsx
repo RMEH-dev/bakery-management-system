@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 export function Checkout() {
   const [isChecked, setIsChecked] = useState(false);
@@ -302,9 +303,11 @@ export function Checkout() {
                 </Typography>
               </div>
             </div>
+            <Link to="/orderSuccess">
             <Button className="mt-4 w-[520px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
               Pay Total
             </Button>
+            </Link>
           </form>
         </Card>
       </div>
