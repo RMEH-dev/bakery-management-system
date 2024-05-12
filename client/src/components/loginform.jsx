@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -16,32 +17,51 @@ export function LogInForm() {
   const [password, setPassword] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await Axios.post("http://localhost:5000/api/routes/login", {
-        email,
-        password,
-      });
       // Check if email and password are provided
       if (!email || !password) {
-        setError("Please enter both email and password", error);
+        setError("Please enter both email and password");
         toast.error("Please enter both email and password");
         return;
-      } else if (response.status === 200) {
-        setError("Login Successful", error);
+      }
+
+      const response = await Axios.post(
+        "http://localhost:5000/api/routes/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        const { userType } = response.data; // Extract userType from response.data
+        setError("Login Successful");
         toast.success("Login Successful"); // Display success message
-        setIsButtonClicked(true);
+        
+        // Use history.push to navigate to different routes based on userType
+        if (userType === "Admin") {
+          console.log("Admin logged in successfully");
+          toast.success("Admin Login Successful");
+          navigate("/adminDashboard"); // Redirect to adminDashboard
+        } else if (userType === "Customer") {
+          console.log("Customer logged in successfully");
+          toast.success("Login Successful");
+          navigate("/"); // Redirect to homepage
+        }
       } else {
-        setError("Invalid Credentials", error);
+        setError("Invalid Credentials");
         toast.error("Invalid Credentials"); // Display error message
       }
     } catch (error) {
       console.error(error);
-      setError("Error during Login", error);
-      toast.error("An error occurred during Login", error);
+      setError("Error during Login");
+      console.log("Error during Login");
+      toast.error("An error occurred during Login");
     }
   };
 
@@ -50,16 +70,16 @@ export function LogInForm() {
     if (isButtonClicked) {
       timer = setTimeout(() => {
         // Redirect to home page after 5 seconds if the button was clicked
-        window.location.href = "/"; // or use history.push('/logIn') if you are using useHistory hook
+        navigate("/"); // Redirect to homepage
       }, 3000);
     }
     // Clear the timer when the component unmounts or when button is clicked again
     return () => clearTimeout(timer);
-  }, [isButtonClicked]); // Run this effect whenever isButtonClicked changes
+  }, [isButtonClicked, email, password, navigate]); // Include history in dependencies array
 
-  // const handleButtonClick = () => {
-  //   setIsButtonClicked(true);
-  // };
+  const handleButtonClick = () => {
+    setIsButtonClicked(true);
+  };
 
   return (
     <div className="inset-0 flex justify-center items-center bg-gradient-to-br from-c3 to-c2 backdrop-blur-sm">
@@ -117,18 +137,17 @@ export function LogInForm() {
                 className="text-gray font-[Montserrat] text-left text-sm font-normal"
               >
                 Forgot password?{" "}
-                <Link
-                  className=" text-gray font-[Montserrat] font-medium text-gray-900"
-                >
+                <Link className=" text-gray font-[Montserrat] font-medium text-gray-900">
                   Reset Password
                 </Link>
               </Typography>
             </div>
-            <Link to="/" onClick={handleLogin}>
-              <Button className="w-[300px] ml-20 mt-5 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]">
-                log in
-              </Button>
-            </Link>
+            <Button
+              onClick={handleLogin}
+              className="w-[300px] ml-20 mt-5 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]"
+            >
+              log in
+            </Button>
             <Typography
               color="gray"
               className="ml-20 text-gray font-[Montserrat] mt-5 text-center font-normal"

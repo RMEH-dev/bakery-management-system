@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.use("/api/routes", authRoutes)
 
-const PORT = process.env.PORT || 5000
+const PORT =5000
 
 //port assign to the backend server for successful connection requests
 app.listen(PORT, () => {

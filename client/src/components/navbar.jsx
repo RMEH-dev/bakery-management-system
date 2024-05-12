@@ -182,6 +182,7 @@ function NavList() {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
       </Typography>
+      <Link to="/adminDashboard">
       <Typography
         variant="medium"
         className="font-bold font-[Montserrat]  text-c2"
@@ -190,6 +191,7 @@ function NavList() {
           Contact Us
         </ListItem>
       </Typography>
+      </Link>
       <Link to="/cart">
       <Typography
         variant="medium"

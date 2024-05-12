@@ -20,6 +20,7 @@ import { Cart } from "./components/cart.jsx";
 import { ShoppingCart } from "./components/shoppingcart.jsx";
 import { Checkout } from "./components/checkout.jsx";
 import OrderSuccess from "./components/ordersuccess.jsx";
+import AdminDashboard from "./pages/admin/admindashboard.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "/adminDashboard", element: <AdminDashboard />},
   { path: "/signUp", element: <SignUp /> },
   { path: "/logIn", element: <LogIn /> },
   { path: "/cart", element: <Cart /> },
