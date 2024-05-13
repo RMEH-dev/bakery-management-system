@@ -5,7 +5,7 @@ import PageLayout from "../../components/pagelayout";
 import { Typography, Button } from "@material-tailwind/react";
 import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
-function AdminDashboard({children}) {
+function AdminDashboard({ children }) {
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
 
@@ -73,37 +73,41 @@ function AdminDashboard({children}) {
           </Typography>
         </div>
       </div>
-      <div className="flex bg-c2 h-[750px] 2xl:h-[200px] ">
-        <div className="pt-5 grid grid-cols-2">
-          <h2 className="ml-10 font-bold text-c3 text-3xl font-[Montserrat]">
-            Navigate to
-          </h2>
-          <div className="mt-4  bg-c3 w-[300px] h-2 rounded-2xl"></div>
+      <div>
+        <div className="flex bg-c2 pb-5 h-[100px] 2xl:h-[125px] ">
+          <div className="pt-5 grid grid-cols-2">
+            <h2 className="ml-10 font-bold text-c3 text-3xl font-[Montserrat]">
+              Navigate to
+            </h2>
+            <div className="mt-4  bg-c3 w-[300px] h-2 rounded-2xl"></div>
+          </div>
+          <div className="pt-5 mr-4 grid grid-cols-4 gap-20">
+            <Link to="/profileUser/AccountDetails">
+              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                Track Order
+              </Button>
+            </Link>
+            <Link to="/profileUser/MyOrders">
+              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                Raw Inventory
+              </Button>
+            </Link>
+            <Link to="/profileUser/Addresses">
+              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                Produced Inventory
+              </Button>
+            </Link>
+            <Link to="/profileUser/Addresses">
+              <Button className="w-[200px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+                Staff
+              </Button>
+            </Link>
+          </div>
+          
         </div>
-        <div className="pt-5 mr-4 grid grid-cols-4 gap-20">
-          <Link to="/profileUser/AccountDetails">
-            <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-              Track Order
-            </Button>
-          </Link>
-          <Link to="/profileUser/MyOrders">
-            <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-              Raw Inventory
-            </Button>
-          </Link>
-          <Link to="/profileUser/Addresses">
-            <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-              Produced Inventory
-            </Button>
-          </Link>
-          <Link to="/profileUser/Addresses">
-            <Button className="w-[200px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-             Staff
-            </Button>
-          </Link>
-        </div>
+        {children}
       </div>
-      {children}
+      
     </PageLayout>
   );
 }
