@@ -16,19 +16,21 @@ function AdminDashboard({ children }) {
 
   return (
     <PageLayout className="">
-      <div className="flex justify-between items-center bg-gradient-to-b from-c1 to-c3 text-c2 w-[800px] h-[100px] z-100">
+      <div className="flex justify-between items-center bg-gradient-to-b from-c1 to-c3 text-c2 w-[800px] h-[100px]">
+        <Link to="/adminDashboard">
         <h1 className="ml-10 pt-5 pb-5 text-4xl font-bold font-[Montserrat]">
           Hi Mr. Perera
         </h1>
+        </Link>
         <div className="mr-4">
           <Typography
-            className="cursor-pointer justify-center text-center w-[200px] bg-c5 rounded-2xl text-black font-semibold text-lg font-[Montserrat] z-120"
+            className="cursor-pointer justify-center text-center w-[200px] bg-c5 rounded-2xl text-black font-semibold text-lg font-[Montserrat]"
             onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
           >
             Outlet
             <ChevronDownIcon className="ml-36 -mt-6 w-5 h-5" />
             {isDropdownOpen2 && (
-              <ul className="mt-2 absolute cursor-pointer rounded-2xl text-c3 w-[200px] text-lg font-bold font-[Montserrat] bg-c2">
+              <ul className="mt-2 fixed z-250 cursor-pointer rounded-2xl text-c3 w-[200px] text-lg font-bold font-[Montserrat] bg-c2">
                 <li
                   onClick={() => handleSelect2("Ganemulla")}
                   className={
@@ -83,11 +85,11 @@ function AdminDashboard({ children }) {
           </div>
           <div className="pt-5 mr-4 grid grid-cols-4 gap-20">
             <Link to="/profileUser/AccountDetails">
-              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
                 Track Order
               </Button>
             </Link>
-            <Link to="/profileUser/MyOrders">
+            <Link to="/rawInventory">
               <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
                 Raw Inventory
               </Button>
@@ -107,7 +109,6 @@ function AdminDashboard({ children }) {
         </div>
         {children}
       </div>
-      
     </PageLayout>
   );
 }

@@ -22,6 +22,7 @@ import { Checkout } from "./components/checkout.jsx";
 import OrderSuccess from "./components/ordersuccess.jsx";
 import AdminDashboard from "./pages/admin/admindashboard.jsx";
 import AdminReports from "./pages/admin/adminreports.jsx";
+import RawInventory from "./pages/admin/rawInventory.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/adminDashboard", element: <AdminReports />},
+  { path: "/rawInventory", element: <RawInventory />},
   { path: "/signUp", element: <SignUp /> },
   { path: "/logIn", element: <LogIn /> },
   { path: "/cart", element: <Cart /> },
