@@ -208,12 +208,12 @@ function AddRawInventory() {
                   </div>
                 </form>
                 <div className="flex justify-end w-[800px] 2xl:w-[1150px]">
-                      <Link to="/addRawInventory">
-                        <Button className="mt-6 items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
-                          Add Raw Stock
-                        </Button>
-                      </Link>
-                    </div>
+                  <Link to="/addRawInventory">
+                    <Button className="mt-6 items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
+                      Add Raw Stock
+                    </Button>
+                  </Link>
+                </div>
               </Card>
             </div>
           </Card>
