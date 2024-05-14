@@ -1,5 +1,7 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import axios from "axios"; // Import Axios
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -70,7 +72,12 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "rawStockName", numeric: false, disablePadding: false, label: "Raw Stock Name" },
+  {
+    id: "rawStockName",
+    numeric: false,
+    disablePadding: false,
+    label: "Raw Stock Name",
+  },
   { id: "stockID", numeric: false, disablePadding: false, label: "StockID" },
   { id: "manuDate", numeric: false, disablePadding: false, label: "Manu Date" },
   { id: "expDate", numeric: false, disablePadding: false, label: "Exp Date" },
@@ -79,7 +86,14 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -184,12 +198,25 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] = useState([]); // State to hold fetched data
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    // Fetch data from the backend when the component mounts
+    axios
+      .get("http://localhost:5000/api/routes/rawStock") // Assuming your backend endpoint is /api/stocks
+      .then((response) => {
+        setRows(response.data); // Update the state with fetched data
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []); // Run only once after component is mounted
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -311,8 +338,7 @@ export default function EnhancedTable() {
                       <Button
                         variant="contained"
                         style={{
-                          backgroundColor:
-                            row.quantity > 5 ? "green" : "red",
+                          backgroundColor: row.quantity > 5 ? "green" : "red",
                           color: "white",
                         }}
                       >
