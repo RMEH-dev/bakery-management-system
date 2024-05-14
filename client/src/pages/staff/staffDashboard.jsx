@@ -5,7 +5,7 @@ import PageLayout from "../../components/pagelayout";
 import { Typography, Button } from "@material-tailwind/react";
 import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 
-function AdminDashboard({ children }) {
+function StaffDashboard({ children }) {
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
 
@@ -17,9 +17,9 @@ function AdminDashboard({ children }) {
   return (
     <PageLayout className="">
       <div className="flex justify-between items-center bg-gradient-to-b from-c1 to-c3 text-c2 w-[800px] h-[100px]">
-        <Link to="/adminDashboard">
+        <Link to="/staffDashboard">
         <h1 className="ml-10 pt-5 pb-5 text-4xl font-bold font-[Montserrat]">
-          Hi Mr. Perera
+          Welcome Staff Member
         </h1>
         </Link>
         <div className="mr-4">
@@ -81,31 +81,20 @@ function AdminDashboard({ children }) {
             <h2 className="ml-10 mt-1 font-bold text-c3 text-3xl font-[Montserrat]">
               Navigate to
             </h2>
-            <div className="mt-5 ml-10 mr-5 justify-start bg-c3 w-[150px] h-2 rounded-2xl"></div>
+            <div className="mt-5 ml-10 mr-5 justify-start bg-c3 w-[600px] h-2 rounded-2xl"></div>
           </div>
-          <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-5">
+          <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-20">
             <Link to="/profileUser/AccountDetails">
               <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
                 Track Order
               </Button>
             </Link>
-            <Link to="/rawInventory">
-              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-                Raw Inventory
-              </Button>
-            </Link>
-            <Link to="/proInventory">
+            <Link to="/proInventoryStaff">
               <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
                 Produced Inventory
               </Button>
             </Link>
-            <Link to="/profileUser/Addresses">
-              <Button className="w-[200px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
-                Staff
-              </Button>
-            </Link>
           </div>
-          
         </div>
         {children}
       </div>
@@ -113,4 +102,4 @@ function AdminDashboard({ children }) {
   );
 }
 
-export default AdminDashboard;
+export default StaffDashboard;

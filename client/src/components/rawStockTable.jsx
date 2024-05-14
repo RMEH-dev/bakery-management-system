@@ -197,7 +197,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
+export default function RawStockTable() {
   const [rows, setRows] = useState([]); // State to hold fetched data
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");

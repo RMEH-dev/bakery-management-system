@@ -174,6 +174,7 @@ function NavList() {
         </Link>
       </Typography>
       <NavListMenu />
+      <Link to="/staffDashboard">
       <Typography
         as="a"
         href="#"
@@ -182,6 +183,7 @@ function NavList() {
       >
         <ListItem className="flex items-center gap-2 py-2 pr-4">About</ListItem>
       </Typography>
+      </Link>
       <Link to="/adminDashboard">
       <Typography
         variant="medium"

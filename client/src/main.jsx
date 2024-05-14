@@ -24,6 +24,12 @@ import AdminDashboard from "./pages/admin/admindashboard.jsx";
 import AdminReports from "./pages/admin/adminreports.jsx";
 import RawInventory from "./pages/admin/rawInventory.jsx";
 import AddRawInventory from "./pages/admin/addRawInventory.jsx";
+import ProInventory from "./pages/proinventory.jsx";
+import AddProInventory from "./pages/addproinventory.jsx";
+import StaffReports from "./pages/staff/staffreports.jsx";
+import ProInventoryStaff from "./pages/staff/staffproinventory.jsx";
+import AddProInventoryStaff from "./pages/staff/addproinventorystaff.jsx";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -44,8 +50,13 @@ const router = createBrowserRouter([
     ],
   },
   { path: "/adminDashboard", element: <AdminReports />},
+  { path: "/staffDashboard", element: <StaffReports />},
   { path: "/rawInventory", element: <RawInventory />},
   { path: "/addRawInventory", element: <AddRawInventory />},
+  { path: "/proInventory", element: <ProInventory/>},
+  { path: "/proInventoryStaff", element: <ProInventoryStaff/>},
+  { path: "/addProInventory", element: <AddProInventory />},
+  { path: "/addProInventoryStaff", element: <AddProInventoryStaff />},
   { path: "/signUp", element: <SignUp /> },
   { path: "/logIn", element: <LogIn /> },
   { path: "/cart", element: <Cart /> },
