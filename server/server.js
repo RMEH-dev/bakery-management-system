@@ -1,6 +1,6 @@
 const express = require("express"); //instance of express library created
 const cors = require("cors");
-const db = require('./src/api/models/databaseConnection')
+const db = require("./src/config/databaseConnection");
 const authRoutes = require("./src/api/routes/authRoutes");
 const rawStockRoutes = require("./src/api/routes/rawStockRoutes");
 

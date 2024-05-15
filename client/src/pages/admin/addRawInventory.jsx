@@ -13,23 +13,65 @@ import {
   CheckIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import EnhancedTable from "../../components/rawStockTable";
+import axios from "axios"; // Import Axios
+
 
 function AddRawInventory() {
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
 
+  const [formData, setFormData] = useState({
+    rawStockName: "",
+    manufactureDate: "",
+    expirationDate: "",
+    quantity: "",
+    supplier: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSelect2 = (option) => {
     setSelectedOption2(option);
     setIsDropdownOpen2(false);
   };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Include the selected category in the formData
+    const dataToSend = { ...formData, category: selectedOption2 };
+
+    axios
+      .post("http://localhost:5000/api/routes/addRawStock", dataToSend)
+      .then((response) => {
+        console.log("Data successfully sent to the backend:", response.data);
+        // Reset form fields if needed
+        setFormData({
+          rawStockName: "",
+          manufactureDate: "",
+          expirationDate: "",
+          quantity: "",
+          supplier: "",
+        });
+        setSelectedOption2(null);
+      })
+      .catch((error) => {
+        console.error("Error sending data to the backend:", error);
+      });
+  };
+
   return (
     <AdminDashboard>
       <div className="bg-c5 pb-5">
         <div className="z-150 ml-5 mb-5 mr-5 bg-c5 pt-10 h-[50px] rounded-2xl text-c3 hover:text-c1">
           <Card
             className="flex flex-col mb-6 justify-items-center h-[50px] sm:w-auto bg-c2 rounded-2xl z-80"
-            shadow={false}
+            shadow={true}
           >
             <div className="mb-2 gap-5 flex flex-col">
               <div className="gap-80 right-0 mr-10 w-[800px] flex-cols grid-cols-2 grid">
@@ -57,6 +99,9 @@ function AddRawInventory() {
                         type="text"
                         size="md"
                         placeholder="Raw Stock Name"
+                        name="rawStockName"
+                        value={formData.rawStockName}
+                        onChange={handleChange}
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c1 rounded-[30px]"
                         labelProps={{
                           className: "before:content-none after:content-none",
@@ -66,6 +111,9 @@ function AddRawInventory() {
                       <Input
                         type="date"
                         size="md"
+                        name="manufactureDate"
+                        value={formData.manufactureDate}
+                        onChange={handleChange}
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
                           className: "before:content-none after:content-none",
@@ -75,6 +123,9 @@ function AddRawInventory() {
                       <Input
                         type="date"
                         size="md"
+                        name="expirationDate"
+                        value={formData.expirationDate}
+                        onChange={handleChange}
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
                           className: "before:content-none after:content-none",
@@ -93,97 +144,45 @@ function AddRawInventory() {
                         Supplier
                       </Typography>
                       <Typography
-                        className="cursor-pointer pl-2 mt-1 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                       >
-                        Select Category
+                        {selectedOption2 || "Select Category"}
                         <ChevronDownIcon className="ml-40 -mt-6 w-5 h-5" />
                         {isDropdownOpen2 && (
                           <ul className="mt-5 -ml-2 absolute z-250 cursor-pointer rounded-2xl text-c4 w-[200px] text-lg font-bold font-[Montserrat] bg-c1">
-                            <li
-                              onClick={() => handleSelect2("Flour")}
-                              className={
-                                selectedOption2 === "Flour"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Flour
-                              {selectedOption2 === "Flour" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                            <li
-                              onClick={() => handleSelect2("Oils")}
-                              className={
-                                selectedOption2 === "Oils"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Oils
-                              {selectedOption2 === "Oils" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                            <li
-                              onClick={() => handleSelect2("Frozen Stock")}
-                              className={
-                                selectedOption2 === "Frozen Stock"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Frozen Stock
-                              {selectedOption2 === "Frozen Stock" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                            <li
-                              onClick={() => handleSelect2("Spices & Flavors")}
-                              className={
-                                selectedOption2 === "Spices & Flavors"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Spices & Flavors
-                              {selectedOption2 === "Spices & Flavors" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                            <li
-                              onClick={() => handleSelect2("Additives")}
-                              className={
-                                selectedOption2 === "Additives"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Additives
-                              {selectedOption2 === "Additives" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                            <li
-                              onClick={() => handleSelect2("Other")}
-                              className={
-                                selectedOption2 === "Other"
-                                  ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              Other
-                              {selectedOption2 === "Other" && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
+                            {[
+                              "Flour",
+                              "Oils",
+                              "Frozen Stock",
+                              "Spices & Flavors",
+                              "Additives",
+                              "Other",
+                            ].map((category) => (
+                              <li
+                                key={category}
+                                onClick={() => handleSelect2(category)}
+                                className={
+                                  selectedOption2 === category
+                                    ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {category}
+                                {selectedOption2 === category && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
                           </ul>
                         )}
                       </Typography>
                       <Input
                         type="number"
                         size="md"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleChange}
                         placeholder="Quantity"
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
@@ -194,6 +193,9 @@ function AddRawInventory() {
                       <Input
                         type="text"
                         size="md"
+                        name="supplier"
+                        value={formData.supplier}
+                        onChange={handleChange}
                         placeholder="Expiration Date"
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
@@ -205,8 +207,8 @@ function AddRawInventory() {
                   </div>
                 </form>
                 <div className="flex justify-end w-[800px] 2xl:w-[1150px]">
-                  <Link to="/addRawInventory">
-                    <Button className="mt-6 items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
+                  <Link to="/addRawInventory" >
+                    <Button onClick={handleSubmit} className="mt-6 items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
                       Save Changes
                     </Button>
                   </Link>

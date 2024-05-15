@@ -97,11 +97,10 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
-      <TableRow>
+    <TableHead className="bg-c2">
+      <TableRow >
         <TableCell padding="checkbox">
           <Checkbox
-            color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -110,6 +109,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
+        
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -121,8 +121,9 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-            >
+            ><Typography variant="h6" fontWeight="bold" >
               {headCell.label}
+            </Typography>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -149,7 +150,7 @@ function EnhancedTableToolbar(props) {
   const { numSelected } = props;
 
   return (
-    <Toolbar
+    <Toolbar className="bg-deep-orange-100 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -163,13 +164,15 @@ function EnhancedTableToolbar(props) {
       }}
     >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 100%" }} variant="subtitle1">
+        <Typography sx={{ flex: "1 1 100%" }} variant="subtitle1" fontWeight="bold">
           {numSelected} selected
         </Typography>
       ) : (
         <Typography
           sx={{ flex: "1 1 100%" }}
           id="tableTitle"
+          variant="h6"
+          fontWeight="bold"
           className="font-black text-c1 font-[Montserrat] text-xl"
         ></Typography>
       )}
@@ -278,16 +281,17 @@ export default function RawStockTable() {
   );
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
+    <Box sx={{ width: "100%" }} className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5">
+      <div sx={{ width: "100%", mb: 2 }} className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5" >
+        <EnhancedTableToolbar className="text-c1 font-bold font-[Montserrat]" numSelected={selected.length} />
+        <TableContainer className="rounded-t-2xl text-c1 font-bold font-[Montserrat]" >
+          <Table className="text-c1 rounded-2xl font-bold font-[Montserrat]"
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
+            
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -295,13 +299,13 @@ export default function RawStockTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
-            <TableBody>
+            <TableBody className="bg-white text-c1 text-xl font-semibold font-[Montserrat]">
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.rawStockName);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
+                  <TableRow 
                     hover
                     onClick={(event) => handleClick(event, row.rawStockName)}
                     role="checkbox"
@@ -311,7 +315,7 @@ export default function RawStockTable() {
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell padding="checkbox">
+                    <TableCell  padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -326,12 +330,22 @@ export default function RawStockTable() {
                       scope="row"
                       padding="none"
                     >
-                      {row.rawStockName}
+                       <Typography variant="body1" fontWeight="bold">
+                        {row.rawStockName}
+                      </Typography>
                     </TableCell>
-                    <TableCell align="right">{row.rawStockID}</TableCell>
-                    <TableCell align="right">{row.rawManuDate}</TableCell>
-                    <TableCell align="right">{row.rawExpDate}</TableCell>
-                    <TableCell align="right">{row.rawStockQuantity}</TableCell>
+                    <TableCell align="right"><Typography variant="body2" fontWeight="bold">
+                        {row.rawStockID}
+                      </Typography></TableCell>
+                    <TableCell align="right"> <Typography variant="body2" fontWeight="bold">
+                        {row.rawManuDate}
+                      </Typography></TableCell>
+                    <TableCell align="right"> <Typography variant="body2" fontWeight="bold">
+                        {row.rawExpDate}
+                      </Typography></TableCell>
+                    <TableCell align="right"><Typography variant="body2" fontWeight="bold">
+                        {row.rawStockQuantity}
+                      </Typography></TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
@@ -340,7 +354,9 @@ export default function RawStockTable() {
                           color: "white",
                         }}
                       >
-                        {row.rawStockQuantity > 5 ? "Available" : "Low Stock"}
+                        <Typography variant="body2" fontWeight="bold">
+                          {row.rawStockQuantity > 5 ? "Available" : "Low Stock"}
+                        </Typography>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -359,6 +375,7 @@ export default function RawStockTable() {
           </Table>
         </TableContainer>
         <TablePagination
+        className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -367,7 +384,7 @@ export default function RawStockTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"

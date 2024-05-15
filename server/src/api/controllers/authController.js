@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { generateUserID } = require("../helpers/generateUserID");
-const db = require("../models/databaseConnection");
+const db = require("../../config/databaseConnection");
 
 const app = express();
 
