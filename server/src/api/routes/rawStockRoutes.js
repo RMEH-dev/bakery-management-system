@@ -1,4 +1,4 @@
-// routes/stocksRoutes.js
+//Routing to the Controller methods
 const express = require('express');
 const router = express.Router();
 const rawStockController = require('../controllers/rawStockController');

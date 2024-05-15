@@ -25,23 +25,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
 
-// function createData(rawStockName, stockID, manuDate, expDate, quantity) {
-//   return {
-//     rawStockName,
-//     stockID,
-//     manuDate,
-//     expDate,
-//     quantity,
-//   };
-// }
-
-// const rows = [
-//   createData("ABC", "RS001", "11/06/2024", "11/06/2025", 10),
-//   createData("XYZ", "RS002", "12/07/2024", "12/07/2025", 15),
-//   createData("PQR", "RS003", "13/08/2024", "13/08/2025", 20),
-//   createData("LMN", "RS004", "14/09/2024", "14/09/2025", 25),
-//   createData("DEF", "RS005", "15/10/2024", "15/10/2025", 3),
-// ];
 
 
 

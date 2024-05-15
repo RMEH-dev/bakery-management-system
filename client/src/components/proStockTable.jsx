@@ -25,24 +25,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
 
-function createData(rawStockName, stockID, manuDate, expDate, quantity) {
-  return {
-    rawStockName,
-    stockID,
-    manuDate,
-    expDate,
-    quantity,
-  };
-}
-
-const rows = [
-  createData("ABC", "RS001", "11/06/2024", "11/06/2025", 10),
-  createData("XYZ", "RS002", "12/07/2024", "12/07/2025", 15),
-  createData("PQR", "RS003", "13/08/2024", "13/08/2025", 20),
-  createData("LMN", "RS004", "14/09/2024", "14/09/2025", 25),
-  createData("DEF", "RS005", "15/10/2024", "15/10/2025", 3),
-];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -73,17 +55,49 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "rawStockName",
+    id: "proStockName",
     numeric: false,
     disablePadding: false,
     label: "Pro Stock Name",
   },
-  { id: "stockID", numeric: false, disablePadding: false, label: "Category" },
-  { id: "stockID", numeric: false, disablePadding: false, label: "Sub Category" },
-  { id: "stockID", numeric: false, disablePadding: false, label: "StockID" },
-  { id: "manuDate", numeric: false, disablePadding: false, label: "Manu Date" },
-  { id: "expDate", numeric: false, disablePadding: false, label: "Exp Date" },
-  { id: "quantity", numeric: true, disablePadding: false, label: "Quantity" },
+  { id: "proBatchNo", numeric: false, disablePadding: false, label: "Batch No." },
+  { id: "category", numeric: false, disablePadding: false, label: "Category" },
+  {
+    id: "subCategory",
+    numeric: false,
+    disablePadding: false,
+    label: "Sub Category",
+  },
+  {
+    id: "pricePerItem",
+    numeric: false,
+    disablePadding: false,
+    label: "PP Item",
+  },
+  {
+    id: "proManuDate",
+    numeric: false,
+    disablePadding: false,
+    label: "Manu Date",
+  },
+  {
+    id: "proExpDate",
+    numeric: false,
+    disablePadding: false,
+    label: "Exp Date",
+  },
+  {
+    id: "expAlerts",
+    numeric: false,
+    disablePadding: false,
+    label: "Exp Alerts",
+  },
+  {
+    id: "proStockQuantity",
+    numeric: true,
+    disablePadding: false,
+    label: "Quantity",
+  },
   { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
 ];
 
@@ -101,11 +115,10 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead className="bg-c2">
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
-            color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
@@ -125,8 +138,9 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-            >
+            ><Typography variant="h6" fontWeight="bold" >
               {headCell.label}
+              </Typography>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -154,6 +168,7 @@ function EnhancedTableToolbar(props) {
 
   return (
     <Toolbar
+      className="bg-deep-orange-100 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -167,13 +182,19 @@ function EnhancedTableToolbar(props) {
       }}
     >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 100%" }} variant="subtitle1">
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="subtitle1"
+          fontWeight="bold"
+        >
           {numSelected} selected
         </Typography>
       ) : (
         <Typography
           sx={{ flex: "1 1 100%" }}
           id="tableTitle"
+          variant="h6"
+          fontWeight="bold"
           className="font-black text-c1 font-[Montserrat] text-xl"
         ></Typography>
       )}
@@ -211,7 +232,7 @@ export default function ProStockTable() {
   useEffect(() => {
     // Fetch data from the backend when the component mounts
     axios
-      .get("http://localhost:5000/api/routes/rawStock") // Assuming your backend endpoint is /api/stocks
+      .get("http://localhost:5000/api/routes/proStock") // Assuming your backend endpoint is /api/stocks
       .then((response) => {
         setRows(response.data); // Update the state with fetched data
       })
@@ -282,11 +303,21 @@ export default function ProStockTable() {
   );
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
+    <Box
+      sx={{ width: "100%" }}
+      className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
+    >
+      <div
+        sx={{ width: "100%", mb: 2 }}
+        className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
+      >
+        <EnhancedTableToolbar
+          className="text-c1 font-bold font-[Montserrat]"
+          numSelected={selected.length}
+        />
+        <TableContainer className="rounded-t-2xl text-c1 font-bold font-[Montserrat]">
           <Table
+            className="text-c1 rounded-2xl font-bold font-[Montserrat]"
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
@@ -299,19 +330,19 @@ export default function ProStockTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
-            <TableBody>
+            <TableBody className="bg-white text-c1 text-xl font-semibold font-[Montserrat]">
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.rawStockName);
+                const isItemSelected = isSelected(row.proStockName);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.rawStockName)}
+                    onClick={(event) => handleClick(event, row.proStockName)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.rawStockName}
+                    key={row.proStockName}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
@@ -330,21 +361,71 @@ export default function ProStockTable() {
                       scope="row"
                       padding="none"
                     >
-                      {row.rawStockName}
+                      <Typography variant="body1" fontWeight="bold">
+                        {row.proStockName}
+                      </Typography>
                     </TableCell>
-                    <TableCell align="right">{row.stockID}</TableCell>
-                    <TableCell align="right">{row.manuDate}</TableCell>
-                    <TableCell align="right">{row.expDate}</TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.proBatchNo}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.category}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.subCategory}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.pricePerItem}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.proManuDate}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.proExpDate}
+                      </Typography>
+                    </TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
                         style={{
-                          backgroundColor: row.quantity > 5 ? "green" : "red",
+                          backgroundColor:
+                            row.proExpDate > row.proManuDate ? "red" : "green",
                           color: "white",
                         }}
                       >
-                        {row.quantity > 5 ? "Available" : "Low Stock"}
+                        <Typography variant="body2" fontWeight="bold">
+                          {row.proExpDate > row.proManuDate ? "Expired" : "Consumable"}
+                        </Typography>
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.proStockQuantity}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor:
+                            row.proStockQuantity > 5 ? "green" : "red",
+                          color: "white",
+                        }}
+                      >
+                        <Typography variant="body2" fontWeight="bold">
+                          {row.proStockQuantity > 5 ? "Available" : "Low Stock"}
+                        </Typography>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -363,6 +444,7 @@ export default function ProStockTable() {
           </Table>
         </TableContainer>
         <TablePagination
+        className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -371,7 +453,7 @@ export default function ProStockTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"

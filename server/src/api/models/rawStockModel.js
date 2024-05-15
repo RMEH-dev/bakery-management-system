@@ -6,3 +6,10 @@ const insertRawStock = (values, callback) => {
   };
   
 module.exports = { insertRawStock };
+
+const rawStock = (values, callback) => {
+  const sqlGetRawStockDetails = `SELECT rawStockName, rawStockID, DATE_FORMAT(rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(rawExpDate, '%Y-%m-%d') AS rawExpDate, rawStockQuantity FROM rawStock`;
+  db.query(sqlGetRawStockDetails, values, callback);
+};
+
+module.exports = { rawStock };
