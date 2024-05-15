@@ -25,23 +25,25 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
 
-function createData(rawStockName, stockID, manuDate, expDate, quantity) {
-  return {
-    rawStockName,
-    stockID,
-    manuDate,
-    expDate,
-    quantity,
-  };
-}
+// function createData(rawStockName, stockID, manuDate, expDate, quantity) {
+//   return {
+//     rawStockName,
+//     stockID,
+//     manuDate,
+//     expDate,
+//     quantity,
+//   };
+// }
 
-const rows = [
-  createData("ABC", "RS001", "11/06/2024", "11/06/2025", 10),
-  createData("XYZ", "RS002", "12/07/2024", "12/07/2025", 15),
-  createData("PQR", "RS003", "13/08/2024", "13/08/2025", 20),
-  createData("LMN", "RS004", "14/09/2024", "14/09/2025", 25),
-  createData("DEF", "RS005", "15/10/2024", "15/10/2025", 3),
-];
+// const rows = [
+//   createData("ABC", "RS001", "11/06/2024", "11/06/2025", 10),
+//   createData("XYZ", "RS002", "12/07/2024", "12/07/2025", 15),
+//   createData("PQR", "RS003", "13/08/2024", "13/08/2025", 20),
+//   createData("LMN", "RS004", "14/09/2024", "14/09/2025", 25),
+//   createData("DEF", "RS005", "15/10/2024", "15/10/2025", 3),
+// ];
+
+
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,16 +74,11 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  {
-    id: "rawStockName",
-    numeric: false,
-    disablePadding: false,
-    label: "Raw Stock Name",
-  },
-  { id: "stockID", numeric: false, disablePadding: false, label: "StockID" },
-  { id: "manuDate", numeric: false, disablePadding: false, label: "Manu Date" },
-  { id: "expDate", numeric: false, disablePadding: false, label: "Exp Date" },
-  { id: "quantity", numeric: true, disablePadding: false, label: "Quantity" },
+  { id: "rawStockName", numeric: false, disablePadding: false, label: "Raw Stock Name" },
+  { id: "rawStockID", numeric: false, disablePadding: false, label: "Stock ID" },
+  { id: "rawManuDate", numeric: false, disablePadding: false, label: "Manufacture Date" },
+  { id: "rawExpDate", numeric: false, disablePadding: false, label: "Expiration Date" },
+  { id: "rawStockQuantity", numeric: true, disablePadding: false, label: "Quantity" },
   { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
 ];
 
@@ -94,6 +91,7 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
   } = props;
+
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -330,19 +328,19 @@ export default function RawStockTable() {
                     >
                       {row.rawStockName}
                     </TableCell>
-                    <TableCell align="right">{row.stockID}</TableCell>
-                    <TableCell align="right">{row.manuDate}</TableCell>
-                    <TableCell align="right">{row.expDate}</TableCell>
-                    <TableCell align="right">{row.quantity}</TableCell>
+                    <TableCell align="right">{row.rawStockID}</TableCell>
+                    <TableCell align="right">{row.rawManuDate}</TableCell>
+                    <TableCell align="right">{row.rawExpDate}</TableCell>
+                    <TableCell align="right">{row.rawStockQuantity}</TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
                         style={{
-                          backgroundColor: row.quantity > 5 ? "green" : "red",
+                          backgroundColor: row.rawStockQuantity > 5 ? "green" : "red",
                           color: "white",
                         }}
                       >
-                        {row.quantity > 5 ? "Available" : "Low Stock"}
+                        {row.rawStockQuantity > 5 ? "Available" : "Low Stock"}
                       </Button>
                     </TableCell>
                   </TableRow>
