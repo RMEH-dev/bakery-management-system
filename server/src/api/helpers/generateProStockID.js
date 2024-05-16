@@ -12,7 +12,7 @@ const generateProStockID = (callback) => {
       return callback(null, 'PS001');
     } else {
       const highestID = result[0].proStockID;
-      const numericPart = parseInt(highestID.substring(2)) + 1;
+      const numericPart = parseInt(highestID.substring(2), 10) + 1;
       const newID = 'PS' + String(numericPart).padStart(3, '0');
       return callback(null, newID);
     }

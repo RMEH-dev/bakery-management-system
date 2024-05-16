@@ -72,7 +72,7 @@ const headCells = [
     id: "pricePerItem",
     numeric: false,
     disablePadding: false,
-    label: "PP Item",
+    label: "PP Item (Rs.)",
   },
   {
     id: "proManuDate",
@@ -100,6 +100,7 @@ const headCells = [
   },
   { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
 ];
+
 
 function EnhancedTableHead(props) {
   const {
@@ -400,12 +401,12 @@ export default function ProStockTable() {
                         variant="contained"
                         style={{
                           backgroundColor:
-                            row.proExpDate > row.proManuDate ? "red" : "green",
-                          color: "white",
+                            new Date(row.proExpDate) < new Date() ? "red" : "green",
+                          color: "white"
                         }}
                       >
                         <Typography variant="body2" fontWeight="bold">
-                          {row.proExpDate > row.proManuDate ? "Expired" : "Consumable"}
+                          {new Date(row.proExpDate) < new Date() ? "Expired" : "Consumable"}
                         </Typography>
                       </Button>
                     </TableCell>

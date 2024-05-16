@@ -52,8 +52,8 @@ function AddProInventory() {
     // Include the selected category in the formData
     const dataToSend = {
       ...formData,
-      category: selectedOption2,
-      subCategory: selectedOption1,
+      category: selectedOption1,
+      subCategory: selectedOption2,
     };
 
     axios
