@@ -10,4 +10,9 @@ const getProStockDetails = (values, callback) => {
     db.query(sqlGetProItemDetails, values, callback);
 };
 
+// const checkExistingProStock = (proStockName, proStockID, callback) => {
+//   const checkExistingProStock = "SELECT * FROM producedstock WHERE proStockName = ? OR proStockID = ?";
+//   db.query(checkExistingProStock, [proStockName, proStockID], callback);
+// };
+
 module.exports = { getProStockDetails,  insertProStock};

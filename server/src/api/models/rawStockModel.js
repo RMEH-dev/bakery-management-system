@@ -8,8 +8,13 @@ const insertRawStock = (values, callback) => {
 
 
 const rawStock = (values, callback) => {
-  const sqlGetRawStockDetails = `SELECT rawStockName, rawStockID, DATE_FORMAT(rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(rawExpDate, '%Y-%m-%d') AS rawExpDate, rawStockQuantity FROM rawStock`;
+  const sqlGetRawStockDetails = `SELECT r.rawStockName, r.rawStockID, DATE_FORMAT(r.rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(r.rawExpDate, '%Y-%m-%d') AS rawExpDate, r.rawStockQuantity, i.supplier, i.category, i.packageAmount FROM rawStock r JOIN rawitemdetails i ON r.rawStockID = i.rawStockID`;
   db.query(sqlGetRawStockDetails, values, callback);
 };
 
-module.exports = { rawStock, insertRawStock};
+const getEditRawStock = (id, callback) => {
+  const sqlGetRawStockDetails = `SELECT r.rawStockName, r.rawStockID, DATE_FORMAT(r.rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(r.rawExpDate, '%Y-%m-%d') AS rawExpDate, r.rawStockQuantity, i.supplier, i.category, i.packageAmount FROM rawStock r JOIN rawitemdetails i ON r.rawStockID = i.rawStockID WHERE r.rawStockID = ?`;
+  db.query(sqlGetRawStockDetails, [id], callback);
+};
+
+module.exports = { rawStock, insertRawStock, getEditRawStock};

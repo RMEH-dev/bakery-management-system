@@ -1,6 +1,6 @@
-const db = require("../../config/databaseConnection");
+
 const generateRawStockID = require('../helpers/generateRawStockID');
-const { insertRawStock } = require('../models/rawStockModel');
+const { insertRawStock, getEditRawStock } = require('../models/rawStockModel');
 const {rawStock} = require('../models/rawStockModel');
 const { insertRawItemDetails } = require('../models/rawItemDetailsModel');
 
@@ -18,7 +18,7 @@ exports.rawStock = (req, res) => {
 
 
 exports.addRawStock = (req, res) => {
-  const { rawStockName, manufactureDate, expirationDate, category, quantity, supplier } = req.body;
+  const { rawStockName, manufactureDate, expirationDate, category, packageAmount, quantity, supplier } = req.body;
 
   generateRawStockID((err, newRawStockID) => {
     if (err) {
@@ -34,7 +34,7 @@ exports.addRawStock = (req, res) => {
         return res.status(500).json({ error: 'Database error' });
       }
 
-      const valuesRawItemDetails = [newRawStockID, category, supplier];
+      const valuesRawItemDetails = [newRawStockID, category, packageAmount, supplier];
 
       insertRawItemDetails(valuesRawItemDetails, (err, result) => {
         if (err) {
@@ -48,4 +48,24 @@ exports.addRawStock = (req, res) => {
   });
 };
 
+//fetching the raw stock using rawStockID
+exports.getRawStock = (req, res) => {
+  const id = req.params.rawStockID;
+  getEditRawStock(id, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    if (results.length === 0){
+      return res.status(404).json({error: "Raw Stock Not Found"});
+    }
+    res.json(results[0]);
+  });
+  // res.json(rawStock);
+}
 
+//Updating the raw stock using rawStockID
+exports.updateRawStock = (req, res) => {
+  const id = req.params.rawStockID;
+  const updatedData = req.body;
+  // res.json(updatedRawStock);
+}

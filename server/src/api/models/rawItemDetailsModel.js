@@ -1,7 +1,7 @@
 const db = require("../../config/databaseConnection");
 
 const insertRawItemDetails = (values, callback) => {
-  const sqlInsertRawItemDetails = 'INSERT INTO rawitemdetails (rawStockID, category, supplier) VALUES (?, ?, ?)';
+  const sqlInsertRawItemDetails = 'INSERT INTO rawitemdetails (rawStockID, category, packageAmount, supplier) VALUES (?, ?, ?, ?)';
   db.query(sqlInsertRawItemDetails, values, callback);
 };
 

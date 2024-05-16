@@ -20,13 +20,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
-
-
-
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -57,11 +56,50 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: "rawStockName", numeric: false, disablePadding: false, label: "Raw Stock Name" },
-  { id: "rawStockID", numeric: false, disablePadding: false, label: "Stock ID" },
-  { id: "rawManuDate", numeric: false, disablePadding: false, label: "Manufacture Date" },
-  { id: "rawExpDate", numeric: false, disablePadding: false, label: "Expiration Date" },
-  { id: "rawStockQuantity", numeric: true, disablePadding: false, label: "Quantity" },
+  {
+    id: "rawStockName",
+    numeric: false,
+    disablePadding: false,
+    label: "Raw Stock Name",
+  },
+  {
+    id: "rawStockID",
+    numeric: false,
+    disablePadding: false,
+    label: "Stock ID",
+  },
+  { id: "category", numeric: false, disablePadding: false, label: "Category" },
+  {
+    id: "packageAmount",
+    numeric: false,
+    disablePadding: false,
+    label: "Package Size",
+  },
+  { id: "supplier", numeric: false, disablePadding: false, label: "Supplier" },
+  {
+    id: "rawManuDate",
+    numeric: false,
+    disablePadding: false,
+    label: "Manufacture Date",
+  },
+  {
+    id: "rawExpDate",
+    numeric: false,
+    disablePadding: false,
+    label: "Expiration Date",
+  },
+  {
+    id: "expAlert",
+    numeric: false,
+    disablePadding: false,
+    label: "Exp Alert",
+  },
+  {
+    id: "rawStockQuantity",
+    numeric: true,
+    disablePadding: false,
+    label: "Quantity",
+  },
   { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
 ];
 
@@ -81,7 +119,7 @@ function EnhancedTableHead(props) {
 
   return (
     <TableHead className="bg-c2">
-      <TableRow >
+      <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -92,7 +130,7 @@ function EnhancedTableHead(props) {
             }}
           />
         </TableCell>
-        
+
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -104,9 +142,10 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-            ><Typography variant="h6" fontWeight="bold" >
-              {headCell.label}
-            </Typography>
+            >
+              <Typography variant="h6" fontWeight="bold">
+                {headCell.label}
+              </Typography>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -130,10 +169,11 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, handleDelete, handleEdit } = props;
 
   return (
-    <Toolbar className="bg-deep-orange-100 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
+    <Toolbar
+      className="bg-deep-orange-100 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -147,7 +187,11 @@ function EnhancedTableToolbar(props) {
       }}
     >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 100%" }} variant="subtitle1" fontWeight="bold">
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="subtitle1"
+          fontWeight="bold"
+        >
           {numSelected} selected
         </Typography>
       ) : (
@@ -161,11 +205,18 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
+        <div className="flex grid-cols gap-5">
+        <Tooltip title="Edit">
+          <IconButton onClick={handleEdit}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={handleDelete}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
+      </div>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -179,6 +230,8 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default function RawStockTable() {
@@ -189,6 +242,7 @@ export default function RawStockTable() {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
@@ -249,6 +303,19 @@ export default function RawStockTable() {
     setDense(event.target.checked);
   };
 
+  const handleDelete = () => {
+    const newRows = rows.filter(row => !selected.includes(row.rawStockName));
+    setRows(newRows);
+    setSelected([]);
+  };
+
+  const handleEdit = () => {
+    const selectedRow = rows.find(row => selected.includes(row.rawStockName));
+    if (selectedRow) {
+      navigate(`/editRawInventory/${selectedRow.rawStockID}`);
+    }
+  };
+
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
@@ -264,17 +331,28 @@ export default function RawStockTable() {
   );
 
   return (
-    <Box sx={{ width: "100%" }} className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5">
-      <div sx={{ width: "100%", mb: 2 }} className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5" >
-        <EnhancedTableToolbar className="text-c1 font-bold font-[Montserrat]" numSelected={selected.length} />
-        <TableContainer className="rounded-t-2xl text-c1 font-bold font-[Montserrat]" >
-          <Table className="text-c1 rounded-2xl font-bold font-[Montserrat]"
+    <Box
+      sx={{ width: "100%" }}
+      className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
+    >
+      <div
+        sx={{ width: "100%", mb: 2 }}
+        className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
+      >
+        <EnhancedTableToolbar
+          className="text-c1 font-bold font-[Montserrat]"
+          numSelected={selected.length}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
+        <TableContainer className="rounded-t-2xl text-c1 font-bold font-[Montserrat]">
+          <Table
+            className="text-c1 rounded-2xl font-bold font-[Montserrat]"
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
           >
             <EnhancedTableHead
-            
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -288,7 +366,7 @@ export default function RawStockTable() {
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow 
+                  <TableRow
                     hover
                     onClick={(event) => handleClick(event, row.rawStockName)}
                     role="checkbox"
@@ -298,7 +376,7 @@ export default function RawStockTable() {
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >
-                    <TableCell  padding="checkbox">
+                    <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
@@ -313,27 +391,67 @@ export default function RawStockTable() {
                       scope="row"
                       padding="none"
                     >
-                       <Typography variant="body1" fontWeight="bold">
+                      <Typography variant="body1" fontWeight="bold">
                         {row.rawStockName}
                       </Typography>
                     </TableCell>
-                    <TableCell align="right"><Typography variant="body2" fontWeight="bold">
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
                         {row.rawStockID}
-                      </Typography></TableCell>
-                    <TableCell align="right"> <Typography variant="body2" fontWeight="bold">
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.category}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.packageAmount}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.supplier}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      {" "}
+                      <Typography variant="body2" fontWeight="bold">
                         {row.rawManuDate}
-                      </Typography></TableCell>
-                    <TableCell align="right"> <Typography variant="body2" fontWeight="bold">
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      {" "}
+                      <Typography variant="body2" fontWeight="bold">
                         {row.rawExpDate}
-                      </Typography></TableCell>
-                    <TableCell align="right"><Typography variant="body2" fontWeight="bold">
-                        {row.rawStockQuantity}
-                      </Typography></TableCell>
+                      </Typography>
+                    </TableCell>
                     <TableCell align="right">
                       <Button
                         variant="contained"
                         style={{
-                          backgroundColor: row.rawStockQuantity > 5 ? "green" : "red",
+                          backgroundColor:
+                           new Date(row.rawExpDate) < new Date() ? "red" : "green",
+                          color: "white",
+                        }}
+                      >
+                        <Typography variant="body2" fontWeight="bold">
+                          {new Date(row.rawExpDate) < new Date() ? "Expired" : "Consumable"}
+                        </Typography>
+                      </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.rawStockQuantity}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Button
+                        variant="contained"
+                        style={{
+                          backgroundColor:
+                            row.rawStockQuantity > 5 ? "green" : "red",
                           color: "white",
                         }}
                       >
@@ -358,7 +476,7 @@ export default function RawStockTable() {
           </Table>
         </TableContainer>
         <TablePagination
-        className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
+          className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}

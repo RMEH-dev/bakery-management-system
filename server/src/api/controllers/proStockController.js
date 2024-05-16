@@ -1,7 +1,20 @@
-const { getProStockDetails, insertProStock } = require("../models/proStockModel");
+const { getProStockDetails, insertProStock, checkExistingProStock } = require("../models/proStockModel");
 const generateProStockID = require("../helpers/generateProStockID");
 const generateProBatchNo = require("../helpers/generateProBatchNo");
 const { insertProItemDetails} = require("../models/proItemDetailsModel");
+
+
+// exports.postCheckExistingProStock = (req, res) => {
+//   checkExistingProStock((error, results) => {
+//     if (error) {
+//       console.error("Error checking existing proStock:", error);
+//       res.status(500).json({ message: "Internal server error" });
+//       return;
+//     }
+//     res.json({ exists: results.length > 0 });
+//   });
+// };
+
 
 exports.getProStockInfo = (req, res) => {
   getProStockDetails([], (error, results) => {

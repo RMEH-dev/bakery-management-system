@@ -13,8 +13,19 @@ import {
   CheckIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CurrencyInput from "react-currency-input-field";
 import axios from "axios"; // Import Axios
+
+const categoryMap = {
+  "Breads & Buns": ["Bread", "Bun"],
+  Pastries: ["Puff Pastry", "Croissant"],
+  "Cakes & Cupcakes": ["Cake", "Gateau", "Cupcake"],
+  "Sweets & Desserts": ["Sweet", "Dessert"],
+  Platters: ["Savory Platter", "Sweet Platter"],
+  Beverages: ["Cold Beverage", "Hot Beverage"],
+};
 
 function AddProInventory() {
   const [selectedOption1, setSelectedOption1] = useState(null);
@@ -49,6 +60,15 @@ function AddProInventory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData || !selectedOption1 || !selectedOption2) {
+      toast.error("Please fill out all the fields.");
+      return;
+    } else {
+      toast.success("Product added successfully");
+    }
+
+
     // Include the selected category in the formData
     const dataToSend = {
       ...formData,
@@ -156,71 +176,52 @@ function AddProInventory() {
                         className="cursor-pointer pl-2 mt-1 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
                       >
-                        Select Category
-                        <ChevronDownIcon className="ml-40 -mt-6 w-5 h-5" />
+                        {selectedOption1 ? selectedOption1: "Select Category"}
                         {isDropdownOpen1 && (
-                          <ul className="mt-5 -ml-2 absolute z-250 cursor-pointer rounded-2xl text-c4 w-[200px] text-lg font-bold font-[Montserrat] bg-c1">
-                            {[
-                              "Breads & Buns",
-                              "Pastries",
-                              "Cakes & Cupcakes",
-                              "Sweets & Desserts",
-                              "Platters",
-                              "Beverages",
-                            ].map((category) => (
-                              <li
-                                key={category}
-                                onClick={() => handleSelect1(category)}
-                                className={
-                                  selectedOption1 === category
-                                    ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                    : "flex justify-between items-center p-4"
-                                }
-                              >
-                                {category}
-                                {selectedOption1 === category && (
-                                  <CheckIcon className="w-5 h-5 text-green-500" />
-                                )}
-                              </li>
-                            ))}
-                          </ul>
+                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                          {Object.keys(categoryMap).map((category) => (
+                            <li
+                              key={category}
+                              onClick={() => handleSelect1(category)}
+                              className={
+                                selectedOption1 === category
+                                  ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                  : "flex justify-between items-center p-4"
+                              }
+                            >
+                              {category}
+                              {selectedOption1 === category && (
+                                <CheckIcon className="w-5 h-5 text-green-500" />
+                              )}
+                            </li>
+                          ))}
+                        </ul>
                         )}
                       </Typography>
                       <Typography
                         className="cursor-pointer pl-6 pt- mt-1 justify-center w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                       >
-                        Select Sub Category
+                        {selectedOption2 ? selectedOption2: "Select Sub Category"}
                         {isDropdownOpen2 && (
-                          <ul className="mt-5 -ml-2 absolute z-250 cursor-pointer rounded-2xl text-c4 w-[200px] text-lg font-bold font-[Montserrat] bg-c1">
-                            {[
-                              "Breads",
-                              "Buns",
-                              "Cakes",
-                              "Cupcakes",
-                              "Sweets",
-                              "Desserts",
-                              "Savory Platters",
-                              "Sweet Platters",
-                              "Cold Beverages",
-                              "Hot Beverages",
-                            ].map((subCategory) => (
-                              <li
-                                key={subCategory}
-                                onClick={() => handleSelect2(subCategory)}
-                                className={
-                                  selectedOption2 === subCategory
-                                    ? "bg-c2 text-c1 flex rounded-2xl justify-between items-center p-4"
-                                    : "flex justify-between items-center p-4"
-                                }
-                              >
-                                {subCategory}
-                                {selectedOption2 === subCategory && (
-                                  <CheckIcon className="w-5 h-5 text-green-500" />
-                                )}
-                              </li>
-                            ))}
-                          </ul>
+                           <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                           {categoryMap[selectedOption1].map((subCategory) => (
+                             <li
+                               key={subCategory}
+                               onClick={() => handleSelect2(subCategory)}
+                               className={
+                                 selectedOption2 === subCategory
+                                   ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                   : "flex justify-between items-center p-4"
+                               }
+                             >
+                               {subCategory}
+                               {selectedOption2 === subCategory && (
+                                 <CheckIcon className="w-5 h-5 text-green-500" />
+                               )}
+                             </li>
+                           ))}
+                         </ul>
                         )}
                       </Typography>
                       <Input
@@ -268,6 +269,7 @@ function AddProInventory() {
           </Card>
         </div>
       </div>
+      <ToastContainer/>
     </AdminDashboard>
   );
 }
