@@ -17,23 +17,27 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"; // Import Axios
+import Dropdown from "../../components/dropdown";
 
 const categoryMap = {
-  Flour: ["50kg", "25kg", "10kg"],
-  Oils: ["5L", "2L", "1L", "500mL"],
-  "Frozen Stock": ["5kg", "2kg", "1kg"],
-  "Spices & Flavors": ["2kg", "1kg", "500g"],
-  Additives: ["5L", "2L", "1L", "500mL", "250mL"],
-  Other: ["5L", "2L", "1L", "500mL", "250mL", "100mL", "50mL", "5kg", "2kg", "1kg", "500mg", "250mg", "100mg", "50mg"],
+  Flour: ["kg", "g", "mg", "L", "ml", "No Units"],
+  Oils: ["kg", "g", "mg", "L", "ml", "No Units"],
+  "Frozen Stock": ["kg", "g", "mg", "L", "ml", "No Units"],
+  "Spices & Flavors": ["kg", "g", "mg", "L", "ml", "No Units"],
+  Additives: ["kg", "g", "mg", "L", "ml", "No Units"],
+  Other: ["kg", "g", "mg", "L", "ml", "No Units"],
 };
 
 function AddRawInventory() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [selectedOption2, setSelectedOption2] = useState(null);
-  const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-  const [selectedOption1, setSelectedOption1] = useState(null);
-  const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
+  const [selectedProStock, setSelectedProStock] = useState('');
+  const [proStockID, setProStockID] = useState('');
+  const [selectedProStockID, setSelectedProStockID] = useState('');
+  const [selectedOption2, setSelectedOption2] = useState('');
+  const [isDropdownOpen2, setIsDropdownOpen2] = useState('');
+  const [selectedOption1, setSelectedOption1] = useState('');
+  const [isDropdownOpen1, setIsDropdownOpen1] = useState('');
 
   const [formData, setFormData] = useState({
     rawStockName: "",
@@ -51,19 +55,33 @@ function AddRawInventory() {
 
           setFormData({
             rawStockName: data.rawStockName,
-            manufactureDate: data.manufactureDate,
-            expirationDate: data.expirationDate,
+            manufactureDate: data.ManuDate,
+            expirationDate: data.ExpDate,
             quantity: data.quantity,
             supplier: data.supplier,
           });
           setSelectedOption1(data.category);
           setSelectedOption2(data.packageAmount);
+          setSelectedProStock(data.proStockName);
+          setSelectedProStockID(data.proStockID);
         })
         .catch((error) => {
           console.error("Error fetching raw stock data:", error);
         });
     }
   }, [id]);
+
+  useEffect(() => {
+    if (selectedProStock) {
+      axios.get(`http://localhost:5000/api/routes/getProStockIDs?proStockName=${selectedProStock}`)
+        .then((response) => {
+          setProStockIDs(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching produced stock IDs:", error);
+        });
+    }
+  }, [selectedProStock]);
 
   const handleChange = (e) => {
     setFormData({
@@ -85,7 +103,7 @@ function AddRawInventory() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData|| !selectedOption1 || !selectedOption2) {
+    if (!formData|| !selectedOption1 || !selectedOption2 || !selectedProStock || !selectedProStockID) {
       toast.error("Please fill out all the fields.");
       return;
     }
@@ -95,6 +113,8 @@ function AddRawInventory() {
       ...formData,
       category: selectedOption1,
       packageAmount: selectedOption2,
+      proStockName: selectedProStock,
+      proStockID: proStockID
     };
 
     const request = id
@@ -114,6 +134,8 @@ function AddRawInventory() {
         });
         setSelectedOption1(null);
         setSelectedOption2(null);
+        setSelectedProStock(null);
+        setSelectedProStockID(null);
       })
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
@@ -123,9 +145,9 @@ function AddRawInventory() {
   return (
     <AdminDashboard>
       <div className="bg-c5 pb-5">
-        <div className="z-150 ml-5 mb-5 mr-5 bg-c5 pt-10 h-[50px] rounded-2xl text-c3 hover:text-c1">
+        <div className="z-150 ml-5 mb-5 mr-5 bg-c5 pt-10 h-[100px] rounded-2xl text-c3 hover:text-c1">
           <Card
-            className="flex flex-col mb-6 justify-items-center h-[50px] sm:w-auto bg-c2 rounded-2xl z-80"
+            className="flex flex-col mb-6 justify-items-center h-[100px] sm:w-auto bg-c2 rounded-2xl z-80"
             shadow={true}
           >
             <div className="mb-2 gap-5 flex flex-col">
@@ -135,12 +157,38 @@ function AddRawInventory() {
                 </Typography>
               </div>
               <Card
-                className="flex flex-col mb-10 ml-10 h-[500px] mr-[50px] bg-white  rounded-2xl z-80"
+                className="flex flex-col mb-10 ml-10 h-[900px] mr-[50px] bg-white  rounded-2xl z-80"
                 shadow={false}
               >
                 <form className="ml-20 mt-12 mb-2 w-[800px] 2xl:w-[1150px] sm:w-96">
                   <div className="mb-1 flex flex-col gap-y-8">
-                    <div className="grid grid-cols-3 gap-10 mb-6">
+                  <Typography className="text-c1 text-xl font-bold font-[Montserrat] mb-2">
+                      Select Product Name
+                      </Typography>
+                      <Dropdown
+                        endpoint="getProStockNames"
+                        selectedOption={selectedProStock}
+                        setSelectedOption={setSelectedProStock}
+                        label="Pro Name"
+                      />
+                      <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
+                      Selected Product Name is: {selectedProStock}
+                      </Typography>
+                      <Typography className="text-c1 mt-5 font-semibold font-[Montserrat] mb-2">
+                      Select Product StockID
+                      </Typography>
+                      <Dropdown
+                        endpoint="getProStockIDs"
+                        selectedOption={selectedProStockID}
+                        setSelectedOption={setSelectedProStockID}
+                        label="Pro ID"
+                      />
+                      <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
+                      Selected Product ID is: {selectedProStockID}
+                      </Typography>
+                      
+                    <div className="mt-5 grid grid-cols-3 gap-10 mb-6">
+                      
                       <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
                         Raw Stock Name
                       </Typography>
@@ -257,6 +305,7 @@ function AddRawInventory() {
                 <Typography className="text-c1 ml-20 mt-5 mb-2 right-0 justify-end font-semibold font-[Montserrat]">
                   Package Amount
                 </Typography>
+            
                 <Typography
                   className="cursor-pointer  ml-20 right-0 justify-end pl-2 pb-2 mt-2 w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                   onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}

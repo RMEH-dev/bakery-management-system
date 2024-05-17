@@ -29,6 +29,8 @@ import AddProInventory from "./pages/addproinventory.jsx";
 import StaffReports from "./pages/staff/staffreports.jsx";
 import ProInventoryStaff from "./pages/staff/staffproinventory.jsx";
 import AddProInventoryStaff from "./pages/staff/addproinventorystaff.jsx";
+import RawStockUsage from "./pages/rawStockUsage.jsx";
+import AddRawStockUsage from "./pages/addRawStockUsage.jsx";
 
 
 const router = createBrowserRouter([
@@ -54,6 +56,8 @@ const router = createBrowserRouter([
   { path: "/rawInventory", element: <RawInventory />},
   { path: "/addRawInventory", element: <AddRawInventory />},
   { path: "/editRawInventory/:id", element: <AddRawInventory />},
+  { path: "/rawStockUsage", element: <RawStockUsage />},
+  { path: "/addRawStockUsage", element: <AddRawStockUsage />},
   { path: "/proInventory", element: <ProInventory/>},
   { path: "/addProInventory", element: <AddProInventory />},
   { path: "/proInventoryStaff", element: <ProInventoryStaff/>},

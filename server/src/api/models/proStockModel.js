@@ -15,4 +15,26 @@ const getProStockDetails = (values, callback) => {
 //   db.query(checkExistingProStock, [proStockName, proStockID], callback);
 // };
 
-module.exports = { getProStockDetails,  insertProStock};
+const getProStockNames = (callback) => {
+  const sqlGetProducedStockNames = 'SELECT proStockName FROM producedstock';
+  db.query(sqlGetProducedStockNames, (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    callback(null, results);
+  });
+};
+
+// Fetch produced stock IDs based on a given produced stock name
+const getProStockIDs = (proStockName, callback) => {
+  const sqlGetProducedStockIDs = 'SELECT proStockID FROM producedstock WHERE proStockName = ?';
+  db.query(sqlGetProducedStockIDs, [proStockName], (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    callback(null, results);
+  });
+};
+
+
+module.exports = { getProStockDetails,  insertProStock, getProStockNames, getProStockIDs};

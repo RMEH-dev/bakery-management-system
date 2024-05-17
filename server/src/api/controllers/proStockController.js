@@ -1,4 +1,4 @@
-const { getProStockDetails, insertProStock, checkExistingProStock } = require("../models/proStockModel");
+const { getProStockDetails, insertProStock, checkExistingProStock, getProStockNames, getProStockIDs } = require("../models/proStockModel");
 const generateProStockID = require("../helpers/generateProStockID");
 const generateProBatchNo = require("../helpers/generateProBatchNo");
 const { insertProItemDetails} = require("../models/proItemDetailsModel");
@@ -86,5 +86,26 @@ exports.addProStock = (req, res) => {
         });
       });
     });
+  });
+};
+
+//to get the product related names
+exports.getProStockNames = (req, res) => {
+  getProStockNames((error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json(results);
+  });
+}
+
+// Controller to fetch produced stock IDs based on the produced stock name
+exports.getProStockIDs = (req, res) => {
+  const proStockName = req.query.proStockName;
+  getProStockIDs(proStockName, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database query error' });
+    }
+    res.json(results);
   });
 };
