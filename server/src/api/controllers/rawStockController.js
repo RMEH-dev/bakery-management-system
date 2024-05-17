@@ -1,8 +1,9 @@
 
 const generateRawStockID = require('../helpers/generateRawStockID');
-const { insertRawStock, getEditRawStock } = require('../models/rawStockModel');
+const { insertRawStock, getEditRawStock, updateRawStock } = require('../models/rawStockModel');
 const {rawStock} = require('../models/rawStockModel');
 const { insertRawItemDetails } = require('../models/rawItemDetailsModel');
+const db = require("../../config/databaseConnection");
 
 // Define a route to fetch raw stock data
 exports.rawStock = (req, res) => {
@@ -50,7 +51,8 @@ exports.addRawStock = (req, res) => {
 
 //fetching the raw stock using rawStockID
 exports.getRawStock = (req, res) => {
-  const id = req.params.rawStockID;
+  const id = req.params.id;
+  
   getEditRawStock(id, (error, results) => {
     if (error) {
       return res.status(500).json({ error: 'Database query error' });
@@ -65,7 +67,47 @@ exports.getRawStock = (req, res) => {
 
 //Updating the raw stock using rawStockID
 exports.updateRawStock = (req, res) => {
-  const id = req.params.rawStockID;
+  const id = req.params.id;
   const updatedData = req.body;
-  // res.json(updatedRawStock);
-}
+
+  const {
+    rawStockName,
+    manufactureDate,
+    expirationDate,
+    quantity,
+    supplier,
+    category,
+    packageAmount
+  } = updatedData;
+  
+
+  const sqlUpdateRawStock = `
+    UPDATE rawStock r
+    JOIN rawitemdetails i ON r.rawStockID = i.rawStockID
+    SET 
+      r.rawStockName = ?, 
+      r.rawManuDate = ?, 
+      r.rawExpDate = ?, 
+      r.rawStockQuantity = ?, 
+      i.supplier = ?, 
+      i.category = ?, 
+      i.packageAmount = ?
+    WHERE r.rawStockID = ?;
+  `;
+
+  db.query(sqlUpdateRawStock, [
+    rawStockName, 
+    manufactureDate, 
+    expirationDate, 
+    quantity, 
+    supplier, 
+    category, 
+    packageAmount, 
+    id
+  ], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: "An error occurred while updating the raw stock data." });
+    }
+    res.json({ message: "Raw stock data updated successfully." });
+  });
+};

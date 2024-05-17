@@ -45,9 +45,10 @@ function AddRawInventory() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/routes/rawStock/${id}`)
+      axios.get(`http://localhost:5000/api/routes/getEditRawStock/${id}`)
         .then((response) => {
           const data = response.data;
+
           setFormData({
             rawStockName: data.rawStockName,
             manufactureDate: data.manufactureDate,
@@ -97,7 +98,7 @@ function AddRawInventory() {
     };
 
     const request = id
-      ? axios.put(`http://localhost:5000/api/routes/rawStock/${id}`, dataToSend)
+      ? axios.put(`http://localhost:5000/api/routes/updateRawStock/${id}`, dataToSend)
       : axios.post("http://localhost:5000/api/routes/addRawStock", dataToSend);
 
       request
@@ -113,7 +114,6 @@ function AddRawInventory() {
         });
         setSelectedOption1(null);
         setSelectedOption2(null);
-        navigate("/rawInventory");
       })
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
@@ -264,7 +264,7 @@ function AddRawInventory() {
                   {selectedOption2 ? selectedOption2 : "Select package amount"}
                   {isDropdownOpen2 && (
                     <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
-                      {categoryMap[selectedOption1].map((packageAmount) => (
+                       {categoryMap[selectedOption1].map((packageAmount) => (
                         <li
                           key={packageAmount}
                           onClick={() => handleSelect2(packageAmount)}
