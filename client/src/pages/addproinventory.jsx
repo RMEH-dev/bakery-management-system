@@ -31,16 +31,10 @@ const categoryMap = {
 
 function AddProInventory() {
   const { id } = useParams();
-  const 
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [isDropdownOpen2, setIsDropdownOpen2] = useState(false);
-
-  const handleSelect2 = (option) => {
-    setSelectedOption2(option);
-    setIsDropdownOpen2(false);
-  };
 
   const [formData, setFormData] = useState({
     proStockName: "",
@@ -51,6 +45,32 @@ function AddProInventory() {
     availableFrom: "",
     availableTill: "",
   });
+
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`http://localhost:5000/api/routes/getProStock/${id}`)
+        .then((response) => {
+          const data = response.data;
+          setFormData({
+            proStockName: data.proStockName,
+            manufactureDate: data.proManuDate,
+            expirationDate: data.proExpDate,
+            category: data.category,
+            subCategory: data.subCategory,
+            availableFrom: data.availableFrom,
+            availableTill: data.availableTill,
+            pricePerItem: data.pricePerItem,
+            quantity: data.proStockQuantity,
+          });
+          setSelectedOption1(data.category);
+          setSelectedOption2(data.subCategory);
+        })
+        .catch((error) => {
+          console.error("Error fetching pro stock data:", error);
+        });
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setFormData({
@@ -64,14 +84,17 @@ function AddProInventory() {
     setIsDropdownOpen1(false);
   };
 
+  const handleSelect2 = (option) => {
+    setSelectedOption2(option);
+    setIsDropdownOpen2(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!formData || !selectedOption1 || !selectedOption2) {
       toast.error("Please fill out all the fields.");
       return;
-    } else {
-      console.log("Data successfully sent to the backend:");
     }
 
     // Include the selected category in the formData
@@ -81,13 +104,27 @@ function AddProInventory() {
       subCategory: selectedOption2,
     };
 
-    axios
-      .post("http://localhost:5000/api/routes/addProStock", dataToSend)
-      .then((response) => {
-        console.log("Data successfully sent to the backend:", response.data);
-        // Reset form fields if needed
-        toast.success("Product Added Successfully");
+    const request = id
+      ? axios.put(
+          `http://localhost:5000/api/routes/updateProStock/${id}`,
+          dataToSend
+        )
+      : axios.post("http://localhost:5000/api/routes/addProStock", dataToSend);
 
+    request
+      .then((response) => {
+        console.log(
+          id
+            ? "Produced stock updated Successfully"
+            : "Produced Stock added successfully",
+          response.data
+        );
+        // Reset form fields if needed
+        toast.success(
+          id
+            ? "Produced stock updated Successfully"
+            : "Produced Stock added successfully"
+        );
         setFormData({
           proStockName: "",
           manufactureDate: "",
@@ -105,6 +142,7 @@ function AddProInventory() {
         toast.error("All the fields are required", error);
       });
   };
+
   return (
     <AdminDashboard>
       <div className="bg-c1 pb-20 h-[50px] 2xl:h-[150px]">
@@ -116,7 +154,7 @@ function AddProInventory() {
             <div className="mb-2 gap-5 flex flex-col">
               <div className="gap-80 right-0 mr-10 w-[800px] flex-cols grid-cols-2 grid">
                 <Typography className="text-2xl mt-5 ml-10 text-c1 font-bold font-[Montserrat]">
-                  Produced Inventory
+                  {id ? "Edit Produced Inventory" : "Add Produced Inventory"}
                 </Typography>
               </div>
               <Card
@@ -294,6 +332,8 @@ function AddProInventory() {
                       placeholder="Specify Quantity"
                       name="quantity"
                       value={formData.quantity}
+                      min="1"
+                      step="1"
                       onChange={handleChange}
                       className="w-[300px] 2xl:w-[300px]  text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c1 rounded-[30px]"
                       labelProps={{
@@ -310,7 +350,7 @@ function AddProInventory() {
                       onClick={handleSubmit}
                       className=" hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]"
                     >
-                      Save Changes
+                      {id ? "Update" : "Save Changes"}
                     </Button>
                   </Link>
                 </div>

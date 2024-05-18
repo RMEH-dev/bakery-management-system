@@ -1,4 +1,4 @@
-const { getProStockDetails, insertProStock, checkExistingProStock, getProStockNames, getProStockIDs } = require("../models/proStockModel");
+const { getProStockDetails, insertProStock, checkExistingProStock, getProStockNames, getProStockIDs, getProStock, updateProStock } = require("../models/proStockModel");
 const generateProStockID = require("../helpers/generateProStockID");
 const generateProBatchNo = require("../helpers/generateProBatchNo");
 const { insertProItemDetails} = require("../models/proItemDetailsModel");
@@ -113,3 +113,33 @@ exports.getProStockIDs = (req, res) => {
     res.json(results);
   });
 };
+
+exports.getProStock = (req, res) => {
+  const { id } = req.params;
+  getProStock(id, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: "Database query error" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Produced Stock Not Found" });
+    }
+    res.json(results[0]);
+  });
+  // res.json(rawStock);
+};
+
+
+exports.updateProStock = (req, res) => {
+  const id =req.body;
+
+  updateProStock(id, (error,results) => {
+    if (error) {
+      return res.status(500).json({ error: "Database query error" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Produced stock not found" });
+    }
+    res.json(results[0]);
+  }
+)
+}

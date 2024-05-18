@@ -58,9 +58,9 @@ function AddRawInventory() {
 
           setFormData({
             rawStockName: data.rawStockName,
-            manufactureDate: data.ManuDate,
-            expirationDate: data.ExpDate,
-            quantity: data.quantity,
+            manufactureDate: data.rawManuDate,
+            expirationDate: data.rawExpDate,
+            quantity: data.rawStockQuantity,
             supplier: data.supplier,
           });
           setSelectedOption1(data.category);
@@ -318,6 +318,8 @@ function AddRawInventory() {
                         size="md"
                         name="quantity"
                         value={formData.quantity}
+                        min="1"
+                        step="1"
                         onChange={handleChange}
                         placeholder="Quantity"
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"

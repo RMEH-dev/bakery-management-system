@@ -332,7 +332,7 @@ export default function ProStockTable() {
   const handleEdit = () => {
     const selectedRow = rows.find((row) => selected.includes(row.proStockName));
     if (selectedRow) {
-      navigate(`/editRawInventory/${selectedRow.proBatchNo}`);
+      navigate(`/editProInventory/${selectedRow.proBatchNo}`);
     }
   };
 
