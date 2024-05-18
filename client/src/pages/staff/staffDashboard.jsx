@@ -84,9 +84,9 @@ function StaffDashboard({ children }) {
             <div className="mt-5 ml-10 mr-5 justify-start bg-c3 w-[600px] h-2 rounded-2xl"></div>
           </div>
           <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-20">
-            <Link to="/profileUser/AccountDetails">
+            <Link to="/rawStockUsageStaff">
               <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
-                Track Order
+               Inventory Usage
               </Button>
             </Link>
             <Link to="/proInventoryStaff">

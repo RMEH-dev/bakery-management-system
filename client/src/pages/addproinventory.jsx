@@ -31,6 +31,8 @@ const categoryMap = {
 
 function AddProInventory() {
   const { id } = useParams();
+  const [selectedProStock, setSelectedProStock] = useState("");
+  const [selectedProStockID, setSelectedProStockID] = useState("");
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -91,40 +93,26 @@ function AddProInventory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!formData || !selectedOption1 || !selectedOption2) {
       toast.error("Please fill out all the fields.");
       return;
     }
-
-    // Include the selected category in the formData
+  
     const dataToSend = {
       ...formData,
       category: selectedOption1,
       subCategory: selectedOption2,
     };
-
+  
     const request = id
-      ? axios.put(
-          `http://localhost:5000/api/routes/updateProStock/${id}`,
-          dataToSend
-        )
+      ? axios.put(`http://localhost:5000/api/routes/updateProStock/${id}`, dataToSend)
       : axios.post("http://localhost:5000/api/routes/addProStock", dataToSend);
-
+  
     request
       .then((response) => {
-        console.log(
-          id
-            ? "Produced stock updated Successfully"
-            : "Produced Stock added successfully",
-          response.data
-        );
-        // Reset form fields if needed
-        toast.success(
-          id
-            ? "Produced stock updated Successfully"
-            : "Produced Stock added successfully"
-        );
+        console.log(id ? "Produced stock updated successfully" : "Produced Stock added successfully", response.data);
+        toast.success(id ? "Produced stock updated successfully" : "Produced Stock added successfully");
         setFormData({
           proStockName: "",
           manufactureDate: "",
@@ -139,10 +127,9 @@ function AddProInventory() {
       })
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
-        toast.error("All the fields are required", error);
+        toast.error("Error sending data to the backend");
       });
   };
-
   return (
     <AdminDashboard>
       <div className="bg-c1 pb-20 h-[50px] 2xl:h-[150px]">

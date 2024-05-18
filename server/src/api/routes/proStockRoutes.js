@@ -8,7 +8,7 @@ router.get('/proStock', proStockController.getProStockInfo);
 router.post('/addProStock', proStockInput.proStockInputValidate, proStockController.addProStock);
 router.get('/getProStockNames', proStockController.getProStockNames);
 router.get('/getProStockIDs', proStockController.getProStockIDs);
-router.put('updateProStock/:id', proStockController.updateProStock);
 router.get('/getProStock/:id', proStockController.getProStock);
+router.put('/updateProStock/:id', proStockController.updateProStock);
 
 module.exports = router;

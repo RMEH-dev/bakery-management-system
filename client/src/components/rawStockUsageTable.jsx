@@ -66,41 +66,23 @@ const headCells = [
     id: "rawStockID",
     numeric: false,
     disablePadding: false,
-    label: "Stock ID",
+    label: "Raw StockID",
   },
-  { id: "category", numeric: false, disablePadding: false, label: "Category" },
+  { id: "usageID", numeric: false, disablePadding: false, label: "Raw Stock Usage ID" },
   {
-    id: "packageAmount",
+    id: "proStockName",
     numeric: false,
     disablePadding: false,
-    label: "Supplier",
+    label: "Pro Stock Name",
   },
-  { id: "supplier", numeric: false, disablePadding: false, label: "Manufacture Date" },
+  { id: "proStockID", numeric: false, disablePadding: false, label: "Pro StockID" },
   {
-    id: "rawManuDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Expiration Date",
-  },
-  {
-    id: "rawExpDate",
-    numeric: false,
-    disablePadding: false,
-    label: "Exp Alert",
-  },
-  {
-    id: "expAlert",
-    numeric: false,
-    disablePadding: false,
-    label: "Quantity",
-  },
-  {
-    id: "rawStockQuantity",
+    id: "thresholdQuantity",
     numeric: true,
     disablePadding: false,
-    label: "Unit",
+    label: "threshold Quantity",
   },
-  { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
+
 ];
 
 function EnhancedTableHead(props) {
@@ -118,7 +100,7 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead className="bg-c2">
+    <TableHead className="bg-white">
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -173,7 +155,7 @@ function EnhancedTableToolbar(props) {
 
   return (
     <Toolbar
-      className="bg-deep-orange-100 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
+      className="bg-c5 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -247,7 +229,7 @@ export default function RawStockUsageTable() {
   useEffect(() => {
     // Fetch data from the backend when the component mounts
     axios
-      .get("http://localhost:5000/api/routes/rawStock") // Assuming your backend endpoint is /api/stocks
+      .get("http://localhost:5000/api/routes/getRawStockUsage") // Assuming your backend endpoint is /api/stocks
       .then((response) => {
         setRows(response.data); // Update the state with fetched data
       })
@@ -312,7 +294,7 @@ export default function RawStockUsageTable() {
   const handleEdit = () => {
     const selectedRow = rows.find(row => selected.includes(row.rawStockName));
     if (selectedRow) {
-      navigate(`/editRawInventory/${selectedRow.rawStockID}`);
+      navigate(`/editRawStockUsage/${selectedRow.usageID}`);
     }
   };
 
@@ -333,11 +315,11 @@ export default function RawStockUsageTable() {
   return (
     <Box
       sx={{ width: "100%" }}
-      className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
+      className="bg-white text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
     >
       <div
         sx={{ width: "100%", mb: 2 }}
-        className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
+        className="bg-c5 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
       >
         <EnhancedTableToolbar
           className="text-c1 font-bold font-[Montserrat]"
@@ -402,65 +384,24 @@ export default function RawStockUsageTable() {
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="body2" fontWeight="bold">
-                        {row.category}
-                      </Typography>
-                    </TableCell>
-                    
-                    <TableCell align="right">
-                      <Typography variant="body2" fontWeight="bold">
-                        {row.supplier}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right">
-                      {" "}
-                      <Typography variant="body2" fontWeight="bold">
-                        {row.rawManuDate}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right">
-                      {" "}
-                      <Typography variant="body2" fontWeight="bold">
-                        {row.rawExpDate}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor:
-                           new Date(row.rawExpDate) < new Date() ? "red" : "green",
-                          color: "white",
-                        }}
-                      >
-                        <Typography variant="body2" fontWeight="bold">
-                          {new Date(row.rawExpDate) < new Date() ? "Expired" : "Consumable"}
-                        </Typography>
-                      </Button>
-                    </TableCell>
-                    <TableCell align="right">
-                      <Typography variant="body2" fontWeight="bold">
-                        {row.rawStockQuantity}
+                        {row.usageID}
                       </Typography>
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="body2" fontWeight="bold">
-                        {row.packageAmount}
+                        {row.proStockName}
                       </Typography>
                     </TableCell>
                     <TableCell align="right">
-                      <Button
-                        variant="contained"
-                        style={{
-                          backgroundColor:
-                            row.rawStockQuantity > 5 ? "green" : "red",
-                          color: "white",
-                        }}
-                      >
-                        <Typography variant="body2" fontWeight="bold">
-                          {row.rawStockQuantity > 5 ? "Available" : "Low Stock"}
-                        </Typography>
-                      </Button>
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.proStockID}
+                      </Typography>
                     </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.thresholdQuantity}
+                      </Typography>
+                    </TableCell>                                           
                   </TableRow>
                 );
               })}
@@ -477,7 +418,7 @@ export default function RawStockUsageTable() {
           </Table>
         </TableContainer>
         <TablePagination
-          className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
+          className="bg-white text-c1 rounded-b-2xl font-bold font-[Montserrat]"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}

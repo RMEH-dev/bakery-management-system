@@ -1,8 +1,14 @@
-const { getProStockDetails, insertProStock, checkExistingProStock, getProStockNames, getProStockIDs, getProStock, updateProStock } = require("../models/proStockModel");
+const {
+  getProStockDetails,
+  insertProStock,
+  getProStockNames,
+  getProStockIDs,
+  getProStock,
+} = require("../models/proStockModel");
 const generateProStockID = require("../helpers/generateProStockID");
 const generateProBatchNo = require("../helpers/generateProBatchNo");
-const { insertProItemDetails} = require("../models/proItemDetailsModel");
-
+const { insertProItemDetails } = require("../models/proItemDetailsModel");
+const db = require("../../config/databaseConnection");
 
 // exports.postCheckExistingProStock = (req, res) => {
 //   checkExistingProStock((error, results) => {
@@ -15,17 +21,18 @@ const { insertProItemDetails} = require("../models/proItemDetailsModel");
 //   });
 // };
 
-
 exports.getProStockInfo = (req, res) => {
   getProStockDetails([], (error, results) => {
     if (error) {
-      console.error("Error fetching ProStock details from the database:", error);
+      console.error(
+        "Error fetching ProStock details from the database:",
+        error
+      );
       return res.status(500).json({ error: "Database query error" });
     }
     res.json(results);
   });
 };
-
 
 exports.addProStock = (req, res) => {
   const {
@@ -37,7 +44,7 @@ exports.addProStock = (req, res) => {
     category,
     subCategory,
     availableFrom,
-    availableTill
+    availableTill,
   } = req.body;
 
   generateProStockID((err, newProStockID) => {
@@ -52,8 +59,8 @@ exports.addProStock = (req, res) => {
       quantity,
       manufactureDate,
       expirationDate,
-      availableFrom, 
-      availableTill
+      availableFrom,
+      availableTill,
     ];
 
     insertProStock(valuesProStock, (err) => {
@@ -78,7 +85,10 @@ exports.addProStock = (req, res) => {
 
         insertProItemDetails(valuesProItemDetails, (err) => {
           if (err) {
-            console.error("Error inserting data into MySQL (proitemdetails):", err);
+            console.error(
+              "Error inserting data into MySQL (proitemdetails):",
+              err
+            );
             return res.status(500).json({ error: "Database error" });
           }
 
@@ -97,18 +107,18 @@ exports.addProStock = (req, res) => {
 exports.getProStockNames = (req, res) => {
   getProStockNames((error, results) => {
     if (error) {
-      return res.status(500).json({ error: 'Database query error' });
+      return res.status(500).json({ error: "Database query error" });
     }
     res.json(results);
   });
-}
+};
 
 // Controller to fetch produced stock IDs based on the produced stock name
 exports.getProStockIDs = (req, res) => {
   const proStockName = req.query.proStockName;
   getProStockIDs(proStockName, (error, results) => {
     if (error) {
-      return res.status(500).json({ error: 'Database query error' });
+      return res.status(500).json({ error: "Database query error" });
     }
     res.json(results);
   });
@@ -128,18 +138,59 @@ exports.getProStock = (req, res) => {
   // res.json(rawStock);
 };
 
-
 exports.updateProStock = (req, res) => {
-  const id =req.body;
+  const id = req.params.id;
+  const updatedData = req.body;
 
-  updateProStock(id, (error,results) => {
-    if (error) {
-      return res.status(500).json({ error: "Database query error" });
+  const {
+    proStockName,
+    manufactureDate,
+    expirationDate,
+    quantity,
+    pricePerItem,
+    category,
+    subCategory,
+    availableFrom,
+    availableTill,
+  } = updatedData;
+
+  const sqlUpdateProStock = `UPDATE producedstock p 
+  JOIN proitemdetails i ON p.proStockID = i.proStockID
+  SET 
+    p.proStockQuantity = ?, 
+    p.proStockName = ?,  
+    p.proManuDate = ?, 
+    p.proExpDate = ?, 
+    p.availableFrom = ?, 
+    p.availableTill = ?, 
+    i.category = ?, 
+    i.subCategory = ?, 
+    i.pricePerItem = ?
+  WHERE p.proStockID = ?`;
+
+  db.query(
+    sqlUpdateProStock,
+    [
+      proStockName,
+      manufactureDate,
+      expirationDate,
+      quantity,
+      pricePerItem,
+      category,
+      subCategory,
+      availableFrom,
+      availableTill,
+      id,
+    ],
+    (error, results) => {
+      if (error) {
+        return res
+          .status(500)
+          .json({
+            error: "An error occurred while updating the pro stock data.",
+          });
+      }
+      res.json({ message: "Pro stock data updated successfully." });
     }
-    if (results.length === 0) {
-      return res.status(404).json({ error: "Produced stock not found" });
-    }
-    res.json(results[0]);
-  }
-)
-}
+  );
+};

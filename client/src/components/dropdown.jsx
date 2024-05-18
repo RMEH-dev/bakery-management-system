@@ -33,7 +33,7 @@ function Dropdown({ endpoint, selectedOption, setSelectedOption, label }) {
         className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
-        {selectedOption || `Select ${label}`}
+        {selectedOption || `${label}`}
         <ChevronDownIcon className="ml-40 -mt-6 w-5 h-5" />
       </div>
       {isDropdownOpen && (

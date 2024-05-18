@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Dropdown from "../components/dropdown";
 import AdminDashboard from "./admin/admindashboard";
 import {
@@ -9,24 +10,74 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import {
-  ChevronDownIcon,
-  CheckIcon,
-  PlusIcon,
-} from "@heroicons/react/24/outline";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"; // Import Axios
 
-function AddRawStockUsage({ id, name }) {
-  const [selectedOption1, setSelectedOption1] = useState(null);
-  const [selectedOption2, setSelectedOption2] = useState(null);
-  const [selectedOption3, setSelectedOption3] = useState(null);
-  const [selectedOption4, setSelectedOption4] = useState(null);
+function AddRawStockUsage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [selectedRawStockName, setSelectedRawStockName] = useState("");
+  const [selectedRawStockID, setSelectedRawStockID] = useState("");
+  const [selectedRawStockIDs, setSelectedRawStockIDs] = useState([]);
+  const [selectedProStockName, setSelectedProStockName] = useState("");
+  const [selectedProStockID, setSelectedProStockID] = useState("");
+  const [selectedProStockIDs, setSelectedProStockIDs] = useState([]);
+  const [isDropdownOpen1, setIsDropdownOpen1] = useState("");
+  const [isDropdownOpen2, setIsDropdownOpen2] = useState("");
 
   const [formData, setFormData] = useState({
     thresholdQuantity: "",
   });
+
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`http://localhost:5000/api/routes/editRawStockUsage/${id}`)
+        .then((response) => {
+          const data = response.data;
+
+          setFormData({
+            thresholdQuantity: data.thresholdQuantity,
+          });
+          setSelectedRawStockIDs(data.rawStockID);
+          setSelectedProStockIDs(data.proStockID);
+        })
+        .catch((error) => {
+          console.error("Error fetching raw stock usage data:", error);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (selectedRawStockName) {
+      axios
+        .get(`http://localhost:5000/api/routes/getRawStockIDUsage`, {
+          params: { rawStockName: selectedRawStockName },
+        })
+        .then((response) => {
+          setSelectedRawStockIDs(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching raw stock IDs:", error);
+        });
+    }
+  }, [selectedRawStockName]);
+
+  useEffect(() => {
+    if (selectedProStockName) {
+      axios
+        .get(`http://localhost:5000/api/routes/getProStockIDUsage`, {
+          params: { proStockName: selectedProStockName },
+        })
+        .then((response) => {
+          setSelectedProStockIDs(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching produced stock IDs:", error);
+        });
+    }
+  }, [selectedProStockName]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,10 +87,10 @@ function AddRawStockUsage({ id, name }) {
     e.preventDefault();
 
     if (
-      !selectedOption1 ||
-      !selectedOption2 ||
-      !selectedOption3 ||
-      !selectedOption4 ||
+      !selectedRawStockName ||
+      !selectedRawStockIDs ||
+      !selectedProStockName ||
+      !selectedProStockIDs ||
       !formData
     ) {
       toast.error("Please fill out all the fields.");
@@ -48,10 +99,10 @@ function AddRawStockUsage({ id, name }) {
 
     const dataToSend = {
       ...formData,
-      category1: selectedOption1,
-      category2: selectedOption2,
-      category3: selectedOption3,
-      category4: selectedOption4,
+      rawStockName: selectedRawStockName,
+      rawStockID: selectedRawStockID,
+      proStockName: selectedProStockName,
+      proStockID: selectedProStockID,
     };
 
     const request = id
@@ -60,7 +111,7 @@ function AddRawStockUsage({ id, name }) {
           dataToSend
         )
       : axios.post(
-          "http://localhost:5000/api/routes/getRawStockUsage",
+          "http://localhost:5000/api/routes/addRawStockUsage",
           dataToSend
         );
 
@@ -74,10 +125,10 @@ function AddRawStockUsage({ id, name }) {
         setFormData({
           thresholdQuantity: "",
         });
-        setSelectedOption1(null);
-        setSelectedOption2(null);
-        setSelectedOption3(null);
-        setSelectedOption4(null);
+        setSelectedRawStockName(null);
+        setSelectedRawStockID(null);
+        setSelectedProStockName(null);
+        setSelectedProStockID(null);
       })
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
@@ -99,85 +150,131 @@ function AddRawStockUsage({ id, name }) {
                 </Typography>
               </div>
               <Card
-                className="flex flex-col mb-10 ml-10 h-[500px] mr-[50px] bg-white  rounded-2xl z-80"
+                className="flex flex-col mb-10 ml-10 h-[450px] mr-[50px] bg-white  rounded-2xl z-80"
                 shadow={false}
               >
                 <form className="ml-20 mt-12 mb-2 w-[800px] 2xl:w-[1150px] sm:w-96">
                   <div className="mb-1 flex flex-col gap-y-8">
-                  <div className="grid grid-cols-3 gap-10 mb-6">
-                      <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
+                    <div className="grid grid-cols-3 gap-10 mb-6">
+                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Raw Stock Name
                       </Typography>
-                      <Dropdown
-                        endpoint="getRawStockUsage"
-                        selectedOption={selectedOption4}
-                        setSelectedOption={setSelectedOption4}
-                        label="Category 4"
-                      />
-                      </div>
-                      <div className="grid grid-cols-3 gap-10 mb-6">
-                      <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
+                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Raw Stock ID
                       </Typography>
-                      <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
+                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Produced Stock Name
                       </Typography>
                       <Dropdown
-                        endpoint="getRawStockUsage"
-                        selectedOption={selectedOption1}
-                        setSelectedOption={setSelectedOption1}
-                        label="Category 1"
+                        endpoint="getRawStockNameUsage"
+                        selectedOption={selectedRawStockName}
+                        setSelectedOption={setSelectedRawStockName}
+                        label="Raw Stock Name"
                       />
+                      <div>
+                        <div
+                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                          onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
+                        >
+                          {selectedRawStockID || "Raw Stock ID"}
+                        </div>
+                        {isDropdownOpen1 && (
+                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                            {selectedRawStockIDs.map((option) => (
+                              <li
+                                key={option.rawStockID}
+                                onClick={() => {
+                                  setSelectedRawStockID(option.rawStockID);
+                                  setIsDropdownOpen1(false);
+                                }}
+                                className={
+                                  selectedRawStockID === option.rawStockID
+                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {option.rawStockID}
+                                {selectedRawStockID === option.rawStockID && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                       <Dropdown
-                        endpoint="getRawStockUsage"
-                        selectedOption={selectedOption2}
-                        setSelectedOption={setSelectedOption2}
-                        label="Category 2"
-                      />
-                      <Dropdown
-                        endpoint="getRawStockUsage"
-                        selectedOption={selectedOption3}
-                        setSelectedOption={setSelectedOption3}
-                        label="Category 3"
+                        endpoint="getProStockNameUsage"
+                        selectedOption={selectedProStockName}
+                        setSelectedOption={setSelectedProStockName}
+                        label="Pro Stock Name"
                       />
                     </div>
-                    <div className="grid grid-cols-3 gap-10">
-                      <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
+                    <div className="grid grid-cols-2 w-[600px] gap-10 mb-6">
+                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Produced Stock ID
                       </Typography>
-                      <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
+                      <Typography className="text-c1 ml-20 pl-2 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Threshold Quantity
                       </Typography>
-                    </div>
-                    <div className="grid grid-cols-3 gap-10">
-                      
+                      <div>
+                        <div
+                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                          onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
+                        >
+                          {selectedProStockID || "Pro Stock ID"}
+                        </div>
+                        {isDropdownOpen2 && (
+                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                            {selectedProStockIDs.map((option) => (
+                              <li
+                                key={option.proStockID}
+                                onClick={() => {
+                                  setSelectedProStockID(option.proStockID);
+                                  setIsDropdownOpen2(false);
+                                }}
+                                className={
+                                  selectedProStockID === option.proStockID
+                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {option.proStockID}
+                                {selectedProStockID === option.proStockID && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
                       <Input
                         type="number"
                         size="md"
                         name="thresholdQuantity"
                         value={formData.thresholdQuantity}
                         onChange={handleChange}
+                        min={1}
                         placeholder="thresholdQuantity"
-                        className="w-[350px] mt-1 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
+                        className=" text-c1 ml-20 pl-5 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}
                         required
                       />
                     </div>
+                    <div className="w-[700px] flex justify-end">
+                      <Link to="/addRawStockUsage">
+                        <Button
+                          onClick={handleSubmit}
+                          className="items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]"
+                        >
+                          {id ? "Update" : "Save Changes"}
+                        </Button>
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-3 gap-10"></div>
                   </div>
                 </form>
-
-                <div className="flex justify-end w-[800px] 2xl:w-[1150px]">
-                  <Link to="/addRawStockUsage">
-                    <Button
-                      onClick={handleSubmit}
-                      className="mt-6 items-center hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]"
-                    >
-                      {id ? "Update" : "Save Changes"}
-                    </Button>
-                  </Link>
-                </div>
               </Card>
             </div>
           </Card>
