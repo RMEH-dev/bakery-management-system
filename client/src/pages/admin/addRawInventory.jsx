@@ -31,13 +31,15 @@ const categoryMap = {
 function AddRawInventory() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [selectedProStock, setSelectedProStock] = useState('');
-  const [proStockID, setProStockID] = useState('');
-  const [selectedProStockID, setSelectedProStockID] = useState('');
-  const [selectedOption2, setSelectedOption2] = useState('');
-  const [isDropdownOpen2, setIsDropdownOpen2] = useState('');
-  const [selectedOption1, setSelectedOption1] = useState('');
-  const [isDropdownOpen1, setIsDropdownOpen1] = useState('');
+  const [selectedProStock, setSelectedProStock] = useState("");
+  const [selectedProStockID, setSelectedProStockID] = useState("");
+  const [selectedOption2, setSelectedOption2] = useState("");
+  const [isDropdownOpen2, setIsDropdownOpen2] = useState("");
+  const [selectedOption1, setSelectedOption1] = useState("");
+  const [isDropdownOpen1, setIsDropdownOpen1] = useState("");
+  const [isDropdownOpen3, setIsDropdownOpen3] = useState("");
+
+  const [proStockIDs, setProStockIDs] = useState([]);
 
   const [formData, setFormData] = useState({
     rawStockName: "",
@@ -49,7 +51,8 @@ function AddRawInventory() {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/routes/getEditRawStock/${id}`)
+      axios
+        .get(`http://localhost:5000/api/routes/getEditRawStock/${id}`)
         .then((response) => {
           const data = response.data;
 
@@ -73,7 +76,10 @@ function AddRawInventory() {
 
   useEffect(() => {
     if (selectedProStock) {
-      axios.get(`http://localhost:5000/api/routes/getProStockIDs?proStockName=${selectedProStock}`)
+      axios
+        .get(`http://localhost:5000/api/routes/getProStockIDs`, {
+          params: { proStockName: selectedProStock },
+        })
         .then((response) => {
           setProStockIDs(response.data);
         })
@@ -103,7 +109,13 @@ function AddRawInventory() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData|| !selectedOption1 || !selectedOption2 || !selectedProStock || !selectedProStockID) {
+    if (
+      !formData ||
+      !selectedOption1 ||
+      !selectedOption2 ||
+      !selectedProStock ||
+      !selectedProStockID
+    ) {
       toast.error("Please fill out all the fields.");
       return;
     }
@@ -114,16 +126,21 @@ function AddRawInventory() {
       category: selectedOption1,
       packageAmount: selectedOption2,
       proStockName: selectedProStock,
-      proStockID: proStockID
+      proStockID: selectedProStockID,
     };
 
     const request = id
-      ? axios.put(`http://localhost:5000/api/routes/updateRawStock/${id}`, dataToSend)
+      ? axios.put(
+          `http://localhost:5000/api/routes/updateRawStock/${id}`,
+          dataToSend
+        )
       : axios.post("http://localhost:5000/api/routes/addRawStock", dataToSend);
 
-      request
+    request
       .then((response) => {
-        toast.success(id ? "Raw Stock updated successfully" : "Raw Stock added successfully");
+        toast.success(
+          id ? "Raw Stock updated successfully" : "Raw Stock added successfully"
+        );
         // Reset form fields if needed
         setFormData({
           rawStockName: "",
@@ -153,7 +170,7 @@ function AddRawInventory() {
             <div className="mb-2 gap-5 flex flex-col">
               <div className="gap-80 right-0 mr-10 w-[800px] flex-cols grid-cols-2 grid">
                 <Typography className="text-2xl mt-5 ml-10 text-black font-bold font-[Montserrat]">
-                  {id ? "Edit Raw Inventory" : "Add Raw Inventory" }
+                  {id ? "Edit Raw Inventory" : "Add Raw Inventory"}
                 </Typography>
               </div>
               <Card
@@ -162,33 +179,58 @@ function AddRawInventory() {
               >
                 <form className="ml-20 mt-12 mb-2 w-[800px] 2xl:w-[1150px] sm:w-96">
                   <div className="mb-1 flex flex-col gap-y-8">
-                  <Typography className="text-c1 text-xl font-bold font-[Montserrat] mb-2">
+                    <Typography className="text-c1 text-xl font-bold font-[Montserrat] mb-2">
                       Select Product Name
-                      </Typography>
-                      <Dropdown
-                        endpoint="getProStockNames"
-                        selectedOption={selectedProStock}
-                        setSelectedOption={setSelectedProStock}
-                        label="Pro Name"
-                      />
-                      <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
+                    </Typography>
+                    <Dropdown
+                      endpoint="getProStockNames"
+                      selectedOption={selectedProStock}
+                      setSelectedOption={setSelectedProStock}
+                      label="Pro Name"
+                    />
+                    <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
                       Selected Product Name is: {selectedProStock}
-                      </Typography>
-                      <Typography className="text-c1 mt-5 font-semibold font-[Montserrat] mb-2">
+                    </Typography>
+                    <Typography className="text-c1 mt-5 font-semibold font-[Montserrat] mb-2">
                       Select Product StockID
-                      </Typography>
-                      <Dropdown
-                        endpoint="getProStockIDs"
-                        selectedOption={selectedProStockID}
-                        setSelectedOption={setSelectedProStockID}
-                        label="Pro ID"
-                      />
-                      <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
+                    </Typography>
+                    <div>
+                      <div
+                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        onClick={() => setIsDropdownOpen3(!isDropdownOpen3)}
+                      >
+                        {selectedProStockID || "Select Pro ID"}
+                        <ChevronDownIcon className="ml-40 -mt-6 w-5 h-5" />
+                      </div>
+                      {isDropdownOpen3 && (
+                        <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                          {proStockIDs.map((option) => (
+                            <li
+                              key={option.proStockID}
+                              onClick={() => {
+                                setSelectedProStockID(option.proStockID);
+                                setIsDropdownOpen3(false);
+                              }}
+                              className={
+                                selectedProStockID === option.proStockID
+                                  ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                  : "flex justify-between items-center p-4"
+                              }
+                            >
+                              {option.proStockID}
+                              {selectedProStockID === option.proStockID && (
+                                <CheckIcon className="w-5 h-5 text-green-500" />
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                    <Typography className="text-c1 mt-5 rounded-2xl bg-c2 font-semibold font-[Montserrat] pl-2 mb-2">
                       Selected Product ID is: {selectedProStockID}
-                      </Typography>
-                      
+                    </Typography>
+
                     <div className="mt-5 grid grid-cols-3 gap-10 mb-6">
-                      
                       <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
                         Raw Stock Name
                       </Typography>
@@ -305,7 +347,7 @@ function AddRawInventory() {
                 <Typography className="text-c1 ml-20 mt-5 mb-2 right-0 justify-end font-semibold font-[Montserrat]">
                   Package Amount
                 </Typography>
-            
+
                 <Typography
                   className="cursor-pointer  ml-20 right-0 justify-end pl-2 pb-2 mt-2 w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                   onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
@@ -313,7 +355,7 @@ function AddRawInventory() {
                   {selectedOption2 ? selectedOption2 : "Select package amount"}
                   {isDropdownOpen2 && (
                     <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
-                       {categoryMap[selectedOption1].map((packageAmount) => (
+                      {categoryMap[selectedOption1].map((packageAmount) => (
                         <li
                           key={packageAmount}
                           onClick={() => handleSelect2(packageAmount)}
@@ -347,7 +389,7 @@ function AddRawInventory() {
           </Card>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </AdminDashboard>
   );
 }

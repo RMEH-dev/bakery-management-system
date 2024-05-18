@@ -28,6 +28,8 @@ exports.addRawStock = (req, res) => {
     expirationDate,
     category,
     packageAmount,
+    proStockName,
+    proStockID,
     quantity,
     supplier,
   } = req.body;
@@ -42,6 +44,7 @@ exports.addRawStock = (req, res) => {
       newRawStockID,
       rawStockName,
       quantity,
+      proStockID,
       manufactureDate,
       expirationDate,
     ];
@@ -51,15 +54,6 @@ exports.addRawStock = (req, res) => {
         console.error("Error inserting data into MySQL (rawstock):", err);
         return res.status(500).json({ error: "Database error" });
       }
-
-      // const insertedRawStockID = result.rawStockID;
-
-      insertRawStockUsageTable([newRawStockID], (err, result) => {
-        if (err) {
-          console.error("Error inserting data into MySQL rawstockusage:", err);
-          return res.status(500).json({ error: "Database error" });
-        }
-      });
 
       const valuesRawItemDetails = [
         newRawStockID,
