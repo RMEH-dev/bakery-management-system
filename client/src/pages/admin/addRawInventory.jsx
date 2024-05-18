@@ -65,7 +65,6 @@ function AddRawInventory() {
           });
           setSelectedOption1(data.category);
           setSelectedOption2(data.packageAmount);
-          setSelectedProStock(data.proStockName);
           setSelectedProStockID(data.proStockID);
         })
         .catch((error) => {
@@ -113,7 +112,6 @@ function AddRawInventory() {
       !formData ||
       !selectedOption1 ||
       !selectedOption2 ||
-      !selectedProStock ||
       !selectedProStockID
     ) {
       toast.error("Please fill out all the fields.");
