@@ -9,17 +9,32 @@ const {
 } = require("../models/rawStockUsageModel");
 const db = require("../../config/databaseConnection");
 
+exports.getRawStockUsage = (req,res) =>{
+  getRawStockUsage([], (error, results) => {
+    if (error) {
+      console.error(
+        "Error fetching ProStock details from the database:",
+        error
+      );
+      return res.status(500).json({ error: "Database query error" });
+    }
+    res.json(results);
+  });
+};
+
+
 exports.editRawStockUsage = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   editRawStockUsage(id, (error, results) => {
     if (error) {
       return res.status(500).json({ error: "Database query error" });
     }
     if (results.length === 0) {
-      return res.status(404).json({ error: "Raw Stock Usage Not Found" });
+      return res.status(404).json({ error: "Produced Stock Not Found" });
     }
     res.json(results[0]);
   });
+  // res.json(rawStock);
 };
 
 exports.getRawStockNameUsage = (req, res) => {

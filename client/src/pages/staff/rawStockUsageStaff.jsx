@@ -29,7 +29,7 @@ function RawStockUsageStaff() {
                 <Typography className="text-2xl mt-5 ml-10 text-black font-bold font-[Montserrat]">
                   Raw Inventory
                 </Typography>
-                <Link to="/addRawStockUsage">
+                <Link to="/addRawStockUsageStaff">
                   <div className="flex pr-5 pt-2  justify-end">
                     
                     <Button className=" mt-3 w-[280px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">

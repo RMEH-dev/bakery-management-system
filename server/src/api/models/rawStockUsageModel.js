@@ -4,8 +4,7 @@ const getRawStockUsage = (values, callback) => {
   const sqlGetRawStockDetails = `SELECT r.rawStockName, ru.rawStockID, ru.usageID, p.proStockName, ru.proStockID, ru.thresholdQuantity
   FROM rawstockusage ru
   JOIN producedstock p ON ru.proStockID = p.proStockID
-  JOIN rawstock r ON ru.rawStockID = r.rawStockID
-  WHERE ru.usageID = ?`;
+  JOIN rawstock r ON ru.rawStockID = r.rawStockID`;
   db.query(sqlGetRawStockDetails, values, callback);
 };
 

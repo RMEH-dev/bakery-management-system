@@ -68,7 +68,7 @@ const headCells = [
     disablePadding: false,
     label: "Raw StockID",
   },
-  { id: "usageID", numeric: false, disablePadding: false, label: "Raw Stock Usage ID" },
+  { id: "usageID", numeric: false, disablePadding: false, label: "Usage ID" },
   {
     id: "proStockName",
     numeric: false,
@@ -80,7 +80,7 @@ const headCells = [
     id: "thresholdQuantity",
     numeric: true,
     disablePadding: false,
-    label: "threshold Quantity",
+    label: "Threshold Quantity",
   },
 
 ];
@@ -342,7 +342,7 @@ export default function RawStockUsageTable() {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
             />
-            <TableBody className="bg-white text-c1 text-xl font-semibold font-[Montserrat]">
+            <TableBody className="bg-c2 text-c1 text-xl font-semibold font-[Montserrat]">
               {visibleRows.map((row, index) => {
                 const isItemSelected = isSelected(row.rawStockName);
                 const labelId = `enhanced-table-checkbox-${index}`;
