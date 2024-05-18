@@ -66,9 +66,11 @@ const headCells = [
     id: "rawStockID",
     numeric: false,
     disablePadding: false,
-    label: "Stock ID",
+    label: "StockID",
   },
   { id: "category", numeric: false, disablePadding: false, label: "Category" },
+  { id: "proStockID", numeric: false, disablePadding: false, label: "ProStockID"},
+  { id: "proStockName", numeric: false, disablePadding: false, label: "Pro Stock Name"},
   {
     id: "packageAmount",
     numeric: false,
@@ -405,7 +407,16 @@ export default function RawStockTable() {
                         {row.category}
                       </Typography>
                     </TableCell>
-                    
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.proStockID}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="bold">
+                        {row.proStockName}
+                      </Typography>
+                    </TableCell>
                     <TableCell align="right">
                       <Typography variant="body2" fontWeight="bold">
                         {row.supplier}

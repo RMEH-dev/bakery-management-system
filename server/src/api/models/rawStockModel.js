@@ -11,9 +11,24 @@ const insertRawStockUsageTable = (values, callback) => {
 };  
 
 const rawStock = (values, callback) => {
-  const sqlGetRawStockDetails = `SELECT r.rawStockName, r.rawStockID, DATE_FORMAT(r.rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(r.rawExpDate, '%Y-%m-%d') AS rawExpDate, r.rawStockQuantity, i.supplier, i.category, i.packageAmount FROM rawstock r JOIN rawitemdetails i ON r.rawStockID = i.rawStockID`;
+  const sqlGetRawStockDetails = ` SELECT r.rawStockName, 
+  r.rawStockID, 
+  r.proStockID, 
+  DATE_FORMAT(r.rawManuDate, '%Y-%m-%d') AS rawManuDate, 
+  DATE_FORMAT(r.rawExpDate, '%Y-%m-%d') AS rawExpDate, 
+  r.rawStockQuantity, 
+  i.supplier, 
+  i.category, 
+  i.packageAmount, 
+  p.proStockName 
+FROM 
+  rawstock r 
+JOIN 
+  rawitemdetails i ON r.rawStockID = i.rawStockID 
+JOIN 
+  producedstock p ON p.proStockID = r.proStockID;`;
   db.query(sqlGetRawStockDetails, values, callback);
-};[[]]
+};
 
 const getEditRawStock = (id, callback) => {
   const sqlGetRawStockDetails = `SELECT r.rawStockName, r.rawStockID, DATE_FORMAT(r.rawManuDate, '%Y-%m-%d') AS rawManuDate , DATE_FORMAT(r.rawExpDate, '%Y-%m-%d') AS rawExpDate, r.rawStockQuantity, r.proStockID, i.supplier, i.category, i.packageAmount FROM rawstock r JOIN rawitemdetails i ON r.rawStockID = i.rawStockID WHERE r.rawStockID = ?`;

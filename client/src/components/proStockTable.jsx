@@ -20,10 +20,12 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -60,7 +62,12 @@ const headCells = [
     disablePadding: false,
     label: "Pro Stock Name",
   },
-  { id: "proBatchNo", numeric: false, disablePadding: false, label: "Batch No." },
+  {
+    id: "proBatchNo",
+    numeric: false,
+    disablePadding: false,
+    label: "Batch No.",
+  },
   { id: "category", numeric: false, disablePadding: false, label: "Category" },
   {
     id: "subCategory",
@@ -93,14 +100,30 @@ const headCells = [
     label: "Exp Alerts",
   },
   {
+    id: "availableFrom",
+    numeric: false,
+    disablePadding: false,
+    label: "Available From",
+  },
+  {
+    id: "availableTill",
+    numeric: false,
+    disablePadding: false,
+    label: "Available Till",
+  },
+  {
     id: "proStockQuantity",
     numeric: true,
     disablePadding: false,
     label: "Quantity",
   },
-  { id: "alerts", numeric: false, disablePadding: false, label: "Alerts" },
+  {
+    id: "alerts",
+    numeric: false,
+    disablePadding: false,
+    label: "Quantity Alerts",
+  },
 ];
-
 
 function EnhancedTableHead(props) {
   const {
@@ -139,8 +162,9 @@ function EnhancedTableHead(props) {
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-            ><Typography variant="h6" fontWeight="bold" >
-              {headCell.label}
+            >
+              <Typography variant="h6" fontWeight="bold">
+                {headCell.label}
               </Typography>
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
@@ -165,7 +189,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, handleDelete, handleEdit } = props;
 
   return (
     <Toolbar
@@ -201,11 +225,18 @@ function EnhancedTableToolbar(props) {
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <div className="flex grid-cols gap-5">
+          <Tooltip title="Edit">
+            <IconButton onClick={handleEdit}>
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete">
+            <IconButton onClick={handleDelete}>
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
@@ -219,6 +250,8 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  handleDelete: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 export default function ProStockTable() {
@@ -229,6 +262,7 @@ export default function ProStockTable() {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     // Fetch data from the backend when the component mounts
@@ -289,6 +323,19 @@ export default function ProStockTable() {
     setDense(event.target.checked);
   };
 
+  const handleDelete = () => {
+    const newRows = rows.filter((row) => !selected.includes(row.proStockName));
+    setRows(newRows);
+    setSelected([]);
+  };
+
+  const handleEdit = () => {
+    const selectedRow = rows.find((row) => selected.includes(row.proStockName));
+    if (selectedRow) {
+      navigate(`/editRawInventory/${selectedRow.proBatchNo}`);
+    }
+  };
+
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
@@ -315,6 +362,8 @@ export default function ProStockTable() {
         <EnhancedTableToolbar
           className="text-c1 font-bold font-[Montserrat]"
           numSelected={selected.length}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
         <TableContainer className="rounded-t-2xl text-c1 font-bold font-[Montserrat]">
           <Table
@@ -401,14 +450,28 @@ export default function ProStockTable() {
                         variant="contained"
                         style={{
                           backgroundColor:
-                            new Date(row.proExpDate) < new Date() ? "red" : "green",
-                          color: "white"
+                            new Date(row.proExpDate) < new Date()
+                              ? "red"
+                              : "green",
+                          color: "white",
                         }}
                       >
                         <Typography variant="body2" fontWeight="bold">
-                          {new Date(row.proExpDate) < new Date() ? "Expired" : "Consumable"}
+                          {new Date(row.proExpDate) < new Date()
+                            ? "Expired"
+                            : "Consumable"}
                         </Typography>
                       </Button>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.availableFrom}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="right">
+                      <Typography variant="body2" fontWeight="regular">
+                        {row.availableTill}
+                      </Typography>
                     </TableCell>
                     <TableCell align="right">
                       <Typography variant="body2" fontWeight="regular">
@@ -445,7 +508,7 @@ export default function ProStockTable() {
           </Table>
         </TableContainer>
         <TablePagination
-        className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
+          className="bg-c2 text-c1 rounded-b-2xl font-bold font-[Montserrat]"
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}

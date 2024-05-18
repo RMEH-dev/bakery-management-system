@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import AdminDashboard from "./admin/admindashboard";
 import {
   Card,
@@ -17,6 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CurrencyInput from "react-currency-input-field";
 import axios from "axios"; // Import Axios
+import Dropdown from "../components/dropdown";
 
 const categoryMap = {
   "Breads & Buns": ["Bread", "Bun"],
@@ -28,6 +30,8 @@ const categoryMap = {
 };
 
 function AddProInventory() {
+  const { id } = useParams();
+  const 
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -44,6 +48,8 @@ function AddProInventory() {
     expirationDate: "",
     quantity: "",
     pricePerItem: "",
+    availableFrom: "",
+    availableTill: "",
   });
 
   const handleChange = (e) => {
@@ -65,9 +71,8 @@ function AddProInventory() {
       toast.error("Please fill out all the fields.");
       return;
     } else {
-      toast.success("Product added successfully");
+      console.log("Data successfully sent to the backend:");
     }
-
 
     // Include the selected category in the formData
     const dataToSend = {
@@ -81,17 +86,23 @@ function AddProInventory() {
       .then((response) => {
         console.log("Data successfully sent to the backend:", response.data);
         // Reset form fields if needed
+        toast.success("Product Added Successfully");
+
         setFormData({
           proStockName: "",
           manufactureDate: "",
           expirationDate: "",
           quantity: "",
           pricePerItem: "",
+          availableFrom: "",
+          availableTill: "",
         });
+        setSelectedOption1(null);
         setSelectedOption2(null);
       })
       .catch((error) => {
         console.error("Error sending data to the backend:", error);
+        toast.error("All the fields are required", error);
       });
   };
   return (
@@ -170,66 +181,68 @@ function AddProInventory() {
                         Sub Category
                       </Typography>
                       <Typography className="text-c1 font-semibold font-[Montserrat] mb-2">
-                        Quantity
+                        Available From
                       </Typography>
                       <Typography
                         className="cursor-pointer pl-2 mt-1 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
                       >
-                        {selectedOption1 ? selectedOption1: "Select Category"}
+                        {selectedOption1 ? selectedOption1 : "Select Category"}
                         {isDropdownOpen1 && (
                           <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
-                          {Object.keys(categoryMap).map((category) => (
-                            <li
-                              key={category}
-                              onClick={() => handleSelect1(category)}
-                              className={
-                                selectedOption1 === category
-                                  ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
-                                  : "flex justify-between items-center p-4"
-                              }
-                            >
-                              {category}
-                              {selectedOption1 === category && (
-                                <CheckIcon className="w-5 h-5 text-green-500" />
-                              )}
-                            </li>
-                          ))}
-                        </ul>
+                            {Object.keys(categoryMap).map((category) => (
+                              <li
+                                key={category}
+                                onClick={() => handleSelect1(category)}
+                                className={
+                                  selectedOption1 === category
+                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {category}
+                                {selectedOption1 === category && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
+                          </ul>
                         )}
                       </Typography>
                       <Typography
                         className="cursor-pointer pl-6 pt- mt-1 justify-center w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                       >
-                        {selectedOption2 ? selectedOption2: "Select Sub Category"}
+                        {selectedOption2
+                          ? selectedOption2
+                          : "Select Sub Category"}
                         {isDropdownOpen2 && (
-                           <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
-                           {categoryMap[selectedOption1].map((subCategory) => (
-                             <li
-                               key={subCategory}
-                               onClick={() => handleSelect2(subCategory)}
-                               className={
-                                 selectedOption2 === subCategory
-                                   ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
-                                   : "flex justify-between items-center p-4"
-                               }
-                             >
-                               {subCategory}
-                               {selectedOption2 === subCategory && (
-                                 <CheckIcon className="w-5 h-5 text-green-500" />
-                               )}
-                             </li>
-                           ))}
-                         </ul>
+                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                            {categoryMap[selectedOption1].map((subCategory) => (
+                              <li
+                                key={subCategory}
+                                onClick={() => handleSelect2(subCategory)}
+                                className={
+                                  selectedOption2 === subCategory
+                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {subCategory}
+                                {selectedOption2 === subCategory && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
+                          </ul>
                         )}
                       </Typography>
                       <Input
-                        type="number"
+                        type="time"
                         size="md"
-                        placeholder="Quantity"
-                        name="quantity"
-                        value={formData.quantity}
+                        placeholder="available from time"
+                        name="availableFrom"
+                        value={formData.availableFrom}
                         onChange={handleChange}
                         className="w-[350px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
@@ -239,27 +252,64 @@ function AddProInventory() {
                       />
                     </div>
                   </div>
+                  <div className="grid grid-cols-3 gap-10 mb-6">
+                    <Typography className="text-c1 w-[300px] font-semibold font-[Montserrat] mt-5 mb-2">
+                      Available Till
+                    </Typography>
+                    <Typography className="text-c1 w-[300px] font-semibold font-[Montserrat] mt-5 mb-2">
+                      Price Per Item
+                    </Typography>
+                    <Typography className="text-c1 w-[300px] font-semibold font-[Montserrat] mt-5 mb-2">
+                      Quantity
+                    </Typography>
+                    <Input
+                      type="time"
+                      size="md"
+                      placeholder="available till time"
+                      name="availableTill"
+                      value={formData.availableTill}
+                      onChange={handleChange}
+                      className="w-[300px] 2xl:w-[300px] text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      required
+                    />
+                    <CurrencyInput
+                      size="md"
+                      placeholder=" Price Per Item"
+                      decimalScale={2}
+                      name="pricePerItem"
+                      value={formData.pricePerItem}
+                      onChange={handleChange}
+                      className="w-[300px] 2xl:w-[300px] pl-5 h-10 font-semibold font-[Montserrat] bg-c2 border-deep-orange-800 focus:!border-deep-orange-900 outline-2 outline-orange-400 rounded-md"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      required
+                    />
+                    <Input
+                      type="number"
+                      size="md"
+                      placeholder="Specify Quantity"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleChange}
+                      className="w-[300px] 2xl:w-[300px]  text-c1 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c1 rounded-[30px]"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      required
+                    />
+                  </div>
                 </form>
-                <Typography className="text-c1 font-semibold font-[Montserrat] ml-20 mt-5 mb-2">
-                  Price Per Item
-                </Typography>
 
-                <CurrencyInput
-                  size="md"
-                  placeholder=" Price Per Item"
-                  decimalScale={2}
-                  name="pricePerItem"
-                  value={formData.pricePerItem}
-                  onChange={handleChange}
-                  className=" w-[350px] ml-2 -z-50 h-10 relative ml-20 mt-1 2xl:w-[300px] font-semibold font-[Montserrat] bg-c2 border-deep-orange-800 focus:!border-deep-orange-900 outline-2 outline-orange-400 rounded-md"
-                  labelProps={{
-                    className: "before:content-none after:content-none",
-                  }}
-                  required
-                />
                 <div className="flex justify-end w-[800px] 2xl:w-[1150px]">
                   <Link to="/addProInventory">
-                    <Button onClick={handleSubmit} className=" hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
+                    <Button
+                      onClick={handleSubmit}
+                      className=" hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]"
+                    >
                       Save Changes
                     </Button>
                   </Link>
@@ -269,7 +319,7 @@ function AddProInventory() {
           </Card>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </AdminDashboard>
   );
 }

@@ -36,6 +36,8 @@ exports.addProStock = (req, res) => {
     pricePerItem,
     category,
     subCategory,
+    availableFrom,
+    availableTill
   } = req.body;
 
   generateProStockID((err, newProStockID) => {
@@ -50,6 +52,8 @@ exports.addProStock = (req, res) => {
       quantity,
       manufactureDate,
       expirationDate,
+      availableFrom, 
+      availableTill
     ];
 
     insertProStock(valuesProStock, (err) => {
