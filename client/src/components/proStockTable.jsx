@@ -353,11 +353,11 @@ export default function ProStockTable() {
   return (
     <Box
       sx={{ width: "100%" }}
-      className="bg-c2 text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
+      className="bg-white text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
     >
       <div
         sx={{ width: "100%", mb: 2 }}
-        className="bg-deep-orange-100 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
+        className="bg-c5 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
       >
         <EnhancedTableToolbar
           className="text-c1 font-bold font-[Montserrat]"

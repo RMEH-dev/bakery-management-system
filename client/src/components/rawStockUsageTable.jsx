@@ -155,7 +155,7 @@ function EnhancedTableToolbar(props) {
 
   return (
     <Toolbar
-      className="bg-c5 text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
+      className="bg-white text-c1 text-xl rounded-2xl font-semibold font-[Montserrat]"
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
@@ -286,13 +286,13 @@ export default function RawStockUsageTable() {
   };
 
   const handleDelete = () => {
-    const newRows = rows.filter(row => !selected.includes(row.rawStockName));
+    const newRows = rows.filter(row => !selected.includes(row.usageID));
     setRows(newRows);
     setSelected([]);
   };
 
   const handleEdit = () => {
-    const selectedRow = rows.find(row => selected.includes(row.rawStockName));
+    const selectedRow = rows.find(row => selected.includes(row.usageID));
     if (selectedRow) {
       navigate(`/editRawStockUsage/${selectedRow.usageID}`);
     }
@@ -315,11 +315,11 @@ export default function RawStockUsageTable() {
   return (
     <Box
       sx={{ width: "100%" }}
-      className="bg-white text-c1 rounded-2xl font-bold font-[Montserrat] p-5"
+      className="bg-white text-c1 rounded-2xl font-bold font-[Montserrat] p-2"
     >
       <div
         sx={{ width: "100%", mb: 2 }}
-        className="bg-c5 text-c1 rounded-2xl font-bold font-[Montserrat] pb-5"
+        className="bg-white text-c1 rounded-2xl font-bold font-[Montserrat] pb-5 px-2"
       >
         <EnhancedTableToolbar
           className="text-c1 font-bold font-[Montserrat]"
@@ -344,17 +344,17 @@ export default function RawStockUsageTable() {
             />
             <TableBody className="bg-c2 text-c1 text-xl font-semibold font-[Montserrat]">
               {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.rawStockName);
+                const isItemSelected = isSelected(row.usageID);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => handleClick(event, row.rawStockName)}
+                    onClick={(event) => handleClick(event, row.usageID)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
-                    key={row.rawStockName}
+                    key={row.usageID}
                     selected={isItemSelected}
                     sx={{ cursor: "pointer" }}
                   >

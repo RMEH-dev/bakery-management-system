@@ -18,8 +18,8 @@ import RawStockUsageTable from "../components/rawStockUsageTable";
 function RawStockUsage() {
   return (
     <AdminDashboard>
-      <div className="bg-c5 pb-5">
-        <div className="z-150 ml-5 mb-5 mr-5 bg-c5 pt-10 h-[650px] rounded-2xl text-c3 hover:text-c1">
+      <div className="bg-c5 p-5">
+        <div className="z-10 ml-5 mb-5 mr-5 px-2 bg-c5 pt-10 h-[650px] rounded-2xl text-c3 hover:text-c1">
           <Card
             className="flex flex-col mb-6 justify-items-center h-[800px] sm:w-auto bg-c2 rounded-2xl z-80"
             shadow={false}

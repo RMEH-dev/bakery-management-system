@@ -165,6 +165,7 @@ function AddProInventoryStaff() {
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}
+                        disabled={!!id}
                         required
                       />
                       <Input

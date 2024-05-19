@@ -137,10 +137,10 @@ function AddRawStockUsageStaff() {
 
   return (
     <StaffDashboard>
-      <div className="bg-c5 pb-5">
-        <div className="z-150 ml-5 mb-5 mr-5 bg-c5 pt-10 h-[50px] rounded-2xl text-c3 hover:text-c1">
+      <div className="bg-white pb-5">
+        <div className="z-150 ml-5 mb-5 mr-5 bg-white pt-10 h-[50px] rounded-2xl text-c3 hover:text-c1">
           <Card
-            className="flex flex-col mb-6 justify-items-center h-[50px] sm:w-auto bg-c2 rounded-2xl z-80"
+            className="flex flex-col mb-6 justify-items-center h-[50px] sm:w-auto bg-c5 rounded-2xl z-80"
             shadow={true}
           >
             <div className="mb-2 gap-5 flex flex-col">

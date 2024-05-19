@@ -31,8 +31,6 @@ const categoryMap = {
 
 function AddProInventory() {
   const { id } = useParams();
-  const [selectedProStock, setSelectedProStock] = useState("");
-  const [selectedProStockID, setSelectedProStockID] = useState("");
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState(false);
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -93,26 +91,40 @@ function AddProInventory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!formData || !selectedOption1 || !selectedOption2) {
       toast.error("Please fill out all the fields.");
       return;
     }
-  
+
     const dataToSend = {
       ...formData,
       category: selectedOption1,
       subCategory: selectedOption2,
     };
-  
+
+    console.log("Data to send:", dataToSend);
+
     const request = id
-      ? axios.put(`http://localhost:5000/api/routes/updateProStock/${id}`, dataToSend)
+      ? axios.put(
+          `http://localhost:5000/api/routes/updateProStock/${id}`,
+          dataToSend
+        )
       : axios.post("http://localhost:5000/api/routes/addProStock", dataToSend);
-  
+
     request
       .then((response) => {
-        console.log(id ? "Produced stock updated successfully" : "Produced Stock added successfully", response.data);
-        toast.success(id ? "Produced stock updated successfully" : "Produced Stock added successfully");
+        console.log(
+          id
+            ? "Produced stock updated successfully"
+            : "Produced Stock added successfully",
+          response.data
+        );
+        toast.success(
+          id
+            ? "Produced stock updated successfully"
+            : "Produced Stock added successfully"
+        );
         setFormData({
           proStockName: "",
           manufactureDate: "",
@@ -126,8 +138,8 @@ function AddProInventory() {
         setSelectedOption2(null);
       })
       .catch((error) => {
-        console.error("Error sending data to the backend:", error);
-        toast.error("Error sending data to the backend");
+        console.error("Error sending data to the Server:", error);
+        toast.error("Error sending data to the Server");
       });
   };
   return (
@@ -183,6 +195,7 @@ function AddProInventory() {
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}
+                        disabled={!!id}
                         required
                       />
                       <Input
@@ -195,6 +208,7 @@ function AddProInventory() {
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}
+                        disabled={!!id}
                         required
                       />
                     </div>
@@ -209,7 +223,7 @@ function AddProInventory() {
                         Available From
                       </Typography>
                       <Typography
-                        className="cursor-pointer pl-2 mt-1 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        className="cursor-pointer pl-2 mt-1 items-center w-[200px] bg-deep-orange-800 py-2 justify-center rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
                       >
                         {selectedOption1 ? selectedOption1 : "Select Category"}
@@ -221,7 +235,7 @@ function AddProInventory() {
                                 onClick={() => handleSelect1(category)}
                                 className={
                                   selectedOption1 === category
-                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                                     : "flex justify-between items-center p-4"
                                 }
                               >
@@ -235,7 +249,7 @@ function AddProInventory() {
                         )}
                       </Typography>
                       <Typography
-                        className="cursor-pointer pl-6 pt- mt-1 justify-center w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        className="cursor-pointer pl-6 pt- mt-1 justify-center w-[250px] bg-deep-orange-800 py-2 rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                       >
                         {selectedOption2
@@ -249,7 +263,7 @@ function AddProInventory() {
                                 onClick={() => handleSelect2(subCategory)}
                                 className={
                                   selectedOption2 === subCategory
-                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                                     : "flex justify-between items-center p-4"
                                 }
                               >
@@ -326,6 +340,7 @@ function AddProInventory() {
                       labelProps={{
                         className: "before:content-none after:content-none",
                       }}
+                      disabled={!!id}
                       required
                     />
                   </div>

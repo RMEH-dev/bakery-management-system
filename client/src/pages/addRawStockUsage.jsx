@@ -9,6 +9,7 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,9 +19,11 @@ function AddRawStockUsage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedRawStockName, setSelectedRawStockName] = useState("");
+  const [selectedRawStockNames, setSelectedRawStockNames] = useState([]);
   const [selectedRawStockID, setSelectedRawStockID] = useState("");
   const [selectedRawStockIDs, setSelectedRawStockIDs] = useState([]);
   const [selectedProStockName, setSelectedProStockName] = useState("");
+  const [selectedProStockNames, setSelectedProStockNames] = useState("");
   const [selectedProStockID, setSelectedProStockID] = useState("");
   const [selectedProStockIDs, setSelectedProStockIDs] = useState([]);
   const [isDropdownOpen1, setIsDropdownOpen1] = useState("");
@@ -36,12 +39,11 @@ function AddRawStockUsage() {
         .get(`http://localhost:5000/api/routes/editRawStockUsage/${id}`)
         .then((response) => {
           const data = response.data;
-
           setFormData({
             thresholdQuantity: data.thresholdQuantity,
           });
-          setSelectedRawStockIDs(data.rawStockID);
-          setSelectedProStockIDs(data.proStockID);
+          setSelectedRawStockID(data.rawStockID);
+          setSelectedProStockID(data.proStockID);
           setSelectedProStockName(data.proStockName);
           setSelectedRawStockName(data.rawStockName);
         })
@@ -89,9 +91,7 @@ function AddRawStockUsage() {
     e.preventDefault();
 
     if (
-      !selectedRawStockName ||
       !selectedRawStockIDs ||
-      !selectedProStockName ||
       !selectedProStockIDs ||
       !formData
     ) {
@@ -109,8 +109,8 @@ function AddRawStockUsage() {
 
     const dataToSend2 = {
       ...formData,
-      rawStockID: selectedRawStockID,
-      proStockID: selectedProStockID,
+      rawStockID: selectedRawStockIDs,
+      proStockID: selectedProStockIDs,
     };
     const request = id
       ? axios.put(
@@ -163,70 +163,28 @@ function AddRawStockUsage() {
                 <form className="ml-20 mt-12 mb-2 w-[800px] 2xl:w-[1150px] sm:w-96">
                   <div className="mb-1 flex flex-col gap-y-8">
                     <div className="grid grid-cols-3 gap-10 mb-6">
+                    <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
+                        Produced Stock Name
+                      </Typography>
+                      
+                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
+                        Produced Stock ID
+                      </Typography>
                       <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
                         Raw Stock Name
                       </Typography>
-                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
-                        Raw Stock ID
-                      </Typography>
-                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
-                        Produced Stock Name
-                      </Typography>
-                      <Dropdown
-                        endpoint="getRawStockNameUsage"
-                        selectedOption={selectedRawStockName}
-                        setSelectedOption={setSelectedRawStockName}
-                        label="Raw Stock Name"
-                      />
-                      <div>
-                        <div
-                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
-                          onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
-                        >
-                          {selectedRawStockID || "Raw Stock ID"}
-                        </div>
-                        {isDropdownOpen1 && (
-                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
-                            {selectedRawStockIDs.map((option) => (
-                              <li
-                                key={option.rawStockID}
-                                onClick={() => {
-                                  setSelectedRawStockID(option.rawStockID);
-                                  setIsDropdownOpen1(false);
-                                }}
-                                className={
-                                  selectedRawStockID === option.rawStockID
-                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
-                                    : "flex justify-between items-center p-4"
-                                }
-                              >
-                                {option.rawStockID}
-                                {selectedRawStockID === option.rawStockID && (
-                                  <CheckIcon className="w-5 h-5 text-green-500" />
-                                )}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
                       <Dropdown
                         endpoint="getProStockNameUsage"
                         selectedOption={selectedProStockName}
                         setSelectedOption={setSelectedProStockName}
                         label="Pro Stock Name"
+                        disabled={!!id}
                       />
-                    </div>
-                    <div className="grid grid-cols-2 w-[600px] gap-10 mb-6">
-                      <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
-                        Produced Stock ID
-                      </Typography>
-                      <Typography className="text-c1 ml-20 pl-2 mt-2 font-bold text-xl font-[Montserrat] mb-2">
-                        Threshold Quantity
-                      </Typography>
+                     
                       <div>
                         <div
-                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
-                          onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
+                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-deep-orange-800 py-2 justify-center rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
+                          onClick={() => !id && setIsDropdownOpen2(!isDropdownOpen2)}
                         >
                           {selectedProStockID || "Pro Stock ID"}
                         </div>
@@ -241,12 +199,59 @@ function AddRawStockUsage() {
                                 }}
                                 className={
                                   selectedProStockID === option.proStockID
-                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                                     : "flex justify-between items-center p-4"
                                 }
                               >
                                 {option.proStockID}
                                 {selectedProStockID === option.proStockID && (
+                                  <CheckIcon className="w-5 h-5 text-green-500" />
+                                )}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                      <Dropdown
+                        endpoint="getRawStockNameUsage"
+                        selectedOption={selectedRawStockName}
+                        setSelectedOption={setSelectedRawStockName}
+                        label="Raw Stock Name"
+                        disabled={!!id}
+                      />
+                     
+                    </div>
+                    <div className="grid grid-cols-2 w-[600px] gap-10 mb-6">
+                    <Typography className="text-c1 mt-2 font-bold text-xl font-[Montserrat] mb-2">
+                        Raw Stock ID
+                      </Typography>
+                      <Typography className="text-c1 ml-20 pl-2 mt-2 font-bold text-xl font-[Montserrat] mb-2">
+                        Threshold Quantity
+                      </Typography>
+                      <div>
+                        <div
+                          className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-deep-orange-800 py-2 justify-center rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
+                          onClick={() => !id && setIsDropdownOpen1(!isDropdownOpen1)}
+                        >
+                          {selectedRawStockID || "Raw Stock ID"}
+                        </div>
+                        {isDropdownOpen1 && (
+                          <ul className="mt-5 mr-5 absolute z-10 cursor-pointer rounded-2xl text-c1 w-[250px] text-lg font-bold font-[Montserrat] bg-c5 max-h-64 overflow-y-auto shadow-lg">
+                            {selectedRawStockIDs.map((option) => (
+                              <li
+                                key={option.rawStockID}
+                                onClick={() => {
+                                  setSelectedRawStockID(option.rawStockID);
+                                  setIsDropdownOpen1(false);
+                                }}
+                                className={
+                                  selectedRawStockID === option.rawStockID
+                                    ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    : "flex justify-between items-center p-4"
+                                }
+                              >
+                                {option.rawStockID}
+                                {selectedRawStockID === option.rawStockID && (
                                   <CheckIcon className="w-5 h-5 text-green-500" />
                                 )}
                               </li>
@@ -262,7 +267,7 @@ function AddRawStockUsage() {
                         onChange={handleChange}
                         min={1}
                         placeholder="thresholdQuantity"
-                        className=" text-c1 ml-20 pl-5 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
+                        className=" text-c1 ml-20 pl-5 mt-2 font-semibold font-[Montserrat] border-deep-orange-200 focus:!border-deep-orange-900 bg-c4 rounded-[30px]"
                         labelProps={{
                           className: "before:content-none after:content-none",
                         }}

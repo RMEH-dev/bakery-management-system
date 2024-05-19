@@ -194,7 +194,7 @@ function AddRawInventory() {
                     </Typography>
                     <div>
                       <div
-                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-deep-orange-800 py-2 justify-center rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen3(!isDropdownOpen3)}
                       >
                         {selectedProStockID || "Select Pro ID"}
@@ -211,7 +211,7 @@ function AddRawInventory() {
                               }}
                               className={
                                 selectedProStockID === option.proStockID
-                                  ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                  ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                                   : "flex justify-between items-center p-4"
                               }
                             >
@@ -287,7 +287,7 @@ function AddRawInventory() {
                         Supplier
                       </Typography>
                       <Typography
-                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                        className="cursor-pointer pl-2 mt-2 pt-0.5 items-center w-[200px] bg-deep-orange-800 py-2 justify-center rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
                         onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
                       >
                         {selectedOption1 || "Select Category"}
@@ -300,7 +300,7 @@ function AddRawInventory() {
                                 onClick={() => handleSelect1(category)}
                                 className={
                                   selectedOption1 === category
-                                    ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                                    ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                                     : "flex justify-between items-center p-4"
                                 }
                               >
@@ -349,7 +349,7 @@ function AddRawInventory() {
                 </Typography>
 
                 <Typography
-                  className="cursor-pointer  ml-20 right-0 justify-end pl-2 pb-2 mt-2 w-[250px] bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat]"
+                  className="cursor-pointer  ml-20 right-0 justify-end pl-2 pb-2 mt-2 w-[250px] bg-deep-orange-800 py-2 rounded-lg text-c2 font-semibold text-lg font-[Montserrat]"
                   onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                 >
                   {selectedOption2 ? selectedOption2 : "Select package amount"}
@@ -361,7 +361,7 @@ function AddRawInventory() {
                           onClick={() => handleSelect2(packageAmount)}
                           className={
                             selectedOption2 === packageAmount
-                              ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-2"
+                              ? "bg-deep-orange-800 text-c2 flex rounded-2xl justify-between items-center p-2"
                               : "flex justify-between items-center p-4"
                           }
                         >

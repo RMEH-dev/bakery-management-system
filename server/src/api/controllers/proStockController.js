@@ -4,6 +4,7 @@ const {
   getProStockNames,
   getProStockIDs,
   getProStock,
+  updateProStock,
 } = require("../models/proStockModel");
 const generateProStockID = require("../helpers/generateProStockID");
 const generateProBatchNo = require("../helpers/generateProBatchNo");
@@ -139,58 +140,55 @@ exports.getProStock = (req, res) => {
 };
 
 exports.updateProStock = (req, res) => {
-  const id = req.params.id;
-  const updatedData = req.body;
-
+  const { id } = req.params;
   const {
     proStockName,
+    pricePerItem,
     manufactureDate,
     expirationDate,
     quantity,
-    pricePerItem,
     category,
     subCategory,
     availableFrom,
     availableTill,
-  } = updatedData;
+  } = req.body;
 
-  const sqlUpdateProStock = `UPDATE producedstock p 
-  JOIN proitemdetails i ON p.proStockID = i.proStockID
-  SET 
-    p.proStockQuantity = ?, 
-    p.proStockName = ?,  
-    p.proManuDate = ?, 
-    p.proExpDate = ?, 
-    p.availableFrom = ?, 
-    p.availableTill = ?, 
-    i.category = ?, 
-    i.subCategory = ?, 
-    i.pricePerItem = ?
-  WHERE p.proStockID = ?`;
+  if (
+    !proStockName ||
+    !pricePerItem ||
+    !manufactureDate ||
+    !expirationDate ||
+    !quantity ||
+    !category ||
+    !subCategory ||
+    !availableFrom ||
+    !availableTill
+  ) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+  
+  const updateData = [
+    quantity,
+    proStockName,
+    manufactureDate,
+    expirationDate,
+    availableFrom,
+    availableTill,
+    category,
+    subCategory,
+    pricePerItem,
+    id,
+  ];
 
-  db.query(
-    sqlUpdateProStock,
-    [
-      proStockName,
-      manufactureDate,
-      expirationDate,
-      quantity,
-      pricePerItem,
-      category,
-      subCategory,
-      availableFrom,
-      availableTill,
-      id,
-    ],
-    (error, results) => {
-      if (error) {
-        return res
-          .status(500)
-          .json({
-            error: "An error occurred while updating the pro stock data.",
-          });
-      }
-      res.json({ message: "Pro stock data updated successfully." });
+  updateProStock(updateData, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: "Database query error" });
     }
-  );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Produced Stock Not Found" });
+    }
+    res.json({ message: "Produced Stock updated successfully" });
+  });
 };
+
+

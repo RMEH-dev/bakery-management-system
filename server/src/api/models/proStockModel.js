@@ -43,10 +43,31 @@ const getProStock = (id, callback) => {
   db.query(sqlGetProStockDetails, [id], callback);
 };
 
+const updateProStock = (updateData, callback) =>{
+    const sqlUpdateProStock = `UPDATE producedstock p 
+  JOIN proitemdetails i ON p.proStockID = i.proStockID
+  SET 
+    p.proStockQuantity =?,
+    p.proStockName = ?,  
+    p.proManuDate = ?, 
+    p.proExpDate = ?,
+    p.availableFrom = ?, 
+    p.availableTill = ?, 
+    i.category = ?, 
+    i.subCategory = ?, 
+    i.pricePerItem = ?
+  WHERE i.proBatchNo = ?`;
+
+  // const completeUpdateData = [...updateData, id]
+
+  db.query(sqlUpdateProStock, updateData, callback)
+};
+
 module.exports = {
   getProStockDetails,
   insertProStock,
   getProStockNames,
   getProStockIDs,
   getProStock,
+  updateProStock
 };
