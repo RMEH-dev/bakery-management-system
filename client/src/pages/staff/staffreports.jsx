@@ -41,10 +41,10 @@ function StaffReports() {
 
   return (
     <StaffDashboard>
-      <div className="bg-c5 pb-5">
-        <div className="ml-5 mb-5 mr-5 bg-c5 pt-10 h-[650px] rounded-2xl text-c3 hover:text-c1">
+      <div className="bg-white pb-5">
+        <div className="ml-5 mb-5 mr-5 bg-white pt-10 h-[650px] rounded-2xl text-c3 hover:text-c1">
           <Card
-            className="flex flex-col mb-6 justify-items-center h-[800px] sm:w-auto bg-c2 rounded-2xl"
+            className="flex flex-col mb-6 justify-items-center h-[800px] sm:w-auto bg-c5 rounded-2xl"
             shadow={false}
           >
             <div className="mb-2 gap-5 flex flex-col">
@@ -54,7 +54,7 @@ function StaffReports() {
               <div className="gap-20 mr-10 w-[800px] flex-cols grid-cols-2 grid">
                 <Card className="mx-10 mb-10 w-[600px] h-[300px]">
                   <div className="flex-col flex">
-                    <Typography className="pl-5 bg-c5 w-[600px] pt-1 rounded-2xl text-black font-bold text-lg font-[Montserrat]">
+                    <Typography className="pl-5 bg-c2 w-[600px] pt-1 rounded-2xl text-black font-bold text-lg font-[Montserrat]">
                       Monthly Report
                     </Typography>
                     <div className="ml-40 right-0 absolute">
@@ -230,7 +230,7 @@ function StaffReports() {
                 </Card>
                 <Card className="mx-10 mb-10 w-[600px]  h-[300px]">
                   <div className="gap-10 pr-10 flex-col grid-cols-2 grid">
-                    <Typography className="pl-5 pr-10 bg-c5 w-[600px] pt-1 rounded-2xl text-black font-bold text-lg font-[Montserrat]">
+                    <Typography className="pl-5 pr-10 bg-c2 w-[600px] pt-1 rounded-2xl text-black font-bold text-lg font-[Montserrat]">
                       Trending Products
                     </Typography>
                     <div className="ml-40 right-0 absolute">

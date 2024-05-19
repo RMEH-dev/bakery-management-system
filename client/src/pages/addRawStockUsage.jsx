@@ -42,6 +42,8 @@ function AddRawStockUsage() {
           });
           setSelectedRawStockIDs(data.rawStockID);
           setSelectedProStockIDs(data.proStockID);
+          setSelectedProStockName(data.proStockName);
+          setSelectedRawStockName(data.rawStockName);
         })
         .catch((error) => {
           console.error("Error fetching raw stock usage data:", error);
@@ -100,15 +102,20 @@ function AddRawStockUsage() {
     const dataToSend = {
       ...formData,
       rawStockName: selectedRawStockName,
-      rawStockID: selectedRawStockID,
+      rawStockID: selectedRawStockIDs,
       proStockName: selectedProStockName,
-      proStockID: selectedProStockID,
+      proStockID: selectedProStockIDs,
     };
 
+    const dataToSend2 = {
+      ...formData,
+      rawStockID: selectedRawStockID,
+      proStockID: selectedProStockID,
+    };
     const request = id
       ? axios.put(
           `http://localhost:5000/api/routes/updateRawStockUsage/${id}`,
-          dataToSend
+          dataToSend2
         )
       : axios.post(
           "http://localhost:5000/api/routes/addRawStockUsage",

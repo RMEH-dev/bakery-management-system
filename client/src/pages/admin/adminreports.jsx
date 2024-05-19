@@ -44,7 +44,7 @@ function AdminReports() {
       <div className="bg-c5 pb-5">
         <div className="ml-5 mb-5 mr-5 bg-c5 pt-10 h-[650px] rounded-2xl text-c3 hover:text-c1">
           <Card
-            className="flex flex-col mb-6 justify-items-center h-[800px] sm:w-auto bg-c2 rounded-2xl"
+            className="flex flex-col mb-6 justify-items-center h-[800px] sm:w-auto bg-white rounded-2xl"
             shadow={false}
           >
             <div className="mb-2 gap-5 flex flex-col">
@@ -59,7 +59,7 @@ function AdminReports() {
                     </Typography>
                     <div className="ml-40 right-0 absolute">
                       <Typography
-                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
+                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c1 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
                         onClick={() => setIsDropdownOpen1(!isDropdownOpen1)}
                       >
                         Select Month
@@ -235,7 +235,7 @@ function AdminReports() {
                     </Typography>
                     <div className="ml-40 right-0 absolute">
                       <Typography
-                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
+                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c1 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
                         onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
                       >
                         Select Month
@@ -413,7 +413,7 @@ function AdminReports() {
                     </Typography>
                     <div className="ml-40 right-0 absolute">
                       <Typography
-                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
+                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c1 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
                         onClick={() => setIsDropdownOpen3(!isDropdownOpen3)}
                       >
                         Select Month
@@ -589,7 +589,7 @@ function AdminReports() {
                     </Typography>
                     <div className="ml-40 right-0 absolute">
                       <Typography
-                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c3 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
+                        className="cursor-pointer ml-40 justify-center text-center w-[200px] pb-1 bg-c1 rounded-2xl text-c2 font-semibold text-lg font-[Montserrat] z-120"
                         onClick={() => setIsDropdownOpen4(!isDropdownOpen4)}
                       >
                         Select Month

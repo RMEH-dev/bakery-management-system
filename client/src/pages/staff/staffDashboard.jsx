@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import PageLayout from "../../components/pagelayout";
 import { Typography, Button } from "@material-tailwind/react";
-import { ChevronDownIcon, CheckIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, CheckIcon, ArrowRightEndOnRectangleIcon } from "@heroicons/react/24/outline";
 
 function StaffDashboard({ children }) {
   const [selectedOption2, setSelectedOption2] = useState(null);
@@ -24,18 +24,18 @@ function StaffDashboard({ children }) {
         </Link>
         <div className="mr-4">
           <Typography
-            className="cursor-pointer justify-center text-center w-[200px] bg-c5 rounded-2xl text-black font-semibold text-lg font-[Montserrat]"
+            className="cursor-pointer text-center w-[200px] h-[200px] pt-2 pb-2 justify-items-center bg-c5 rounded-2xl text-black font-bold text-lg font-[Montserrat]"
             onClick={() => setIsDropdownOpen2(!isDropdownOpen2)}
           >
             Outlet
             <ChevronDownIcon className="ml-36 -mt-6 w-5 h-5" />
             {isDropdownOpen2 && (
-              <ul className="mt-2 fixed z-250 cursor-pointer rounded-2xl text-c3 w-[200px] text-lg font-bold font-[Montserrat] bg-c2">
+              <ul className="mt-5  absolute z-10 cursor-pointer rounded-2xl text-c3 w-[200px] h-[100px] text-lg font-bold font-[Montserrat] bg-white">
                 <li
                   onClick={() => handleSelect2("Ganemulla")}
                   className={
                     selectedOption2 === "Ganemulla"
-                      ? "bg-c4 flex rounded-2xl justify-between items-center p-4"
+                      ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-4"
                       : "flex justify-between items-center p-4"
                   }
                 >
@@ -48,7 +48,7 @@ function StaffDashboard({ children }) {
                   onClick={() => handleSelect2("Kandana")}
                   className={
                     selectedOption2 === "Kandana"
-                      ? "bg-c4 flex rounded-2xl justify-between items-center p-4"
+                      ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-4"
                       : "flex justify-between items-center p-4"
                   }
                 >
@@ -61,7 +61,7 @@ function StaffDashboard({ children }) {
                   onClick={() => handleSelect2("Bopitiya")}
                   className={
                     selectedOption2 === "Bopitiya"
-                      ? "bg-c4 flex rounded-2xl justify-between items-center p-4"
+                      ? "bg-c3 text-c2 flex rounded-2xl justify-between items-center p-4"
                       : "flex justify-between items-center p-4"
                   }
                 >
@@ -81,9 +81,10 @@ function StaffDashboard({ children }) {
             <h2 className="ml-10 mt-1 font-bold text-c3 text-3xl font-[Montserrat]">
               Navigate to
             </h2>
-            <div className="mt-5 ml-10 mr-5 justify-start bg-c3 w-[600px] h-2 rounded-2xl"></div>
+            <div className="mt-5 ml-10 justify-start bg-c3 w-[600px] h-2 rounded-2xl"></div>
+            <ArrowRightEndOnRectangleIcon className="mt-1 ml-5 flex h-10 w-10 bg-c5 rounded-2xl stroke border-[2px] border-c5"/>
           </div>
-          <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-20">
+          <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-5">
             <Link to="/rawStockUsageStaff">
               <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
                Inventory Usage

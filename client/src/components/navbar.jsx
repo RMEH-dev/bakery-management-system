@@ -211,7 +211,7 @@ function NavList() {
         color="black"
         className="font-bold font-[Montserrat] pl-10  text-c2"
       >
-        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-c2 text-c1 rounded-2xl">
+        <div class="pl-5 flex items-center min-h-8 w-[280px] bg-white text-c1 rounded-2xl">
           <input
             class="w-35 justify-left border-none bg-transparent py-1 placeholder:text-c1 text-c1 outline-none focus:outline-none "
             type="search"

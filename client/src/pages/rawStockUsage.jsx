@@ -27,13 +27,13 @@ function RawStockUsage() {
             <div className="mb-2 gap-5 flex flex-col">
               <div className="gap-80 right-0 mr-10 w-[800px] flex-cols grid-cols-2 grid">
                 <Typography className="text-2xl mt-5 ml-10 text-black font-bold font-[Montserrat]">
-                  Raw Inventory
+                  Inventory Usage
                 </Typography>
                 <Link to="/addRawStockUsage">
                   <div className="flex pr-5 pt-2  justify-end">
                     
                     <Button className=" mt-3 w-[280px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
-                      Add Raw Stock Usage
+                      ADD Inventory Usage
                     </Button>
                   </div>
                 </Link>

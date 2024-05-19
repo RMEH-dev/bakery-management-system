@@ -66,6 +66,15 @@ const editRawStockUsage = (id, callback) => {
       "INSERT INTO rawstockusage (rawStockID, proStockID, thresholdQuantity) VALUES (?, ?, ?)";
     db.query(sqlAddRawStockUsage, values, callback);
   };
+
+  const updateRawStockUsage = (id, data, callback) => {
+    const sqlUpdateRawStockUsage = `
+      UPDATE rawstockusage
+      SET thresholdQuantity = ?
+      WHERE usageID = ?`;
+  
+    db.query(sqlUpdateRawStockUsage, [data.thresholdQuantity, id], callback);
+  };
   
 
-  module.exports = { getRawStockUsage, editRawStockUsage, getRawStockNameUsage, getProStockNameUsage, getRawStockIDUsage, getProStockIDUsage, addRawStockUsage};
+  module.exports = { getRawStockUsage, editRawStockUsage, getRawStockNameUsage, getProStockNameUsage, getRawStockIDUsage, getProStockIDUsage, addRawStockUsage, updateRawStockUsage};

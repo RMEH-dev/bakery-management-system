@@ -6,6 +6,7 @@ const {
   getProStockNameUsage,
   getProStockIDUsage,
   addRawStockUsage,
+  updateRawStockUsage,
 } = require("../models/rawStockUsageModel");
 const db = require("../../config/databaseConnection");
 
@@ -100,33 +101,20 @@ exports.addRawStockUsage = (req, res) => {
 };
 
 exports.updateRawStockUsage = (req, res) => {
-  const id = req.params.id;
-  const updatedData = req.body;
+  const {id} = req.params;
+  const { thresholdQuantity } = req.body;
 
-  const {
-    proStockName,
-    rawStockName,
-    rawStockID,
-    proStockID,
-    thresholdQuantity,
-  } = updatedData;
+  if (thresholdQuantity === undefined) {
+    return res.status(400).json({ error: "Threshold Quantity is required" });
+  }
 
-  const sqlUpdateRawStockUsage = `UPDATE rawstockusage ru 
-    ru.rawStockID = ?,
-    ru.proStockID = ?,
-    ru.thresholdQuantity =?  
-  WHERE ru.usageID = ?`;
-
-  db.query(
-    sqlUpdateRawStockUsage,
-    [proStockName, rawStockName, rawStockID, proStockID, thresholdQuantity, id],
-    (error, results) => {
-      if (error) {
-        return res.status(500).json({
-          error: "An error occurred while updating the raw stock usage data.",
-        });
-      }
-      res.json({ message: "Raw Stock Usage data updated successfully." });
+  updateRawStockUsage(id, { thresholdQuantity }, (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: "Database query error" });
     }
-  );
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Raw Stock Usage Not Found" });
+    }
+    res.json({ message: "Threshold Quantity updated successfully" });
+  });
 };
