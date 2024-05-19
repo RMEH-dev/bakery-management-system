@@ -6,7 +6,7 @@ const {
   findUserByEmailOrContact,
 } = require("../models/authModel");
 const jwtConfig = require("../../config/jwt");
-const { generateUserID } = require("../helpers/generateUserID");
+const { generateUserID } = require("../../api/helpers/generateUserID");
 
 //Logic to check whether the user already exists
 exports.checkExistingUser = (req, res) => {
@@ -35,23 +35,24 @@ exports.signUp = async (req, res) => {
   } = req.body;
 
   try {
-    findUserByEmailOrContact(email, contact, (err, results) => {
+    findUserByEmailOrContact(email, contact, async (err, results) => {
       if (err) {
         console.error("Error checking existing user:", err);
-        res.status(500).json({ message: "Internal server error" });
-        return;
+        return res.status(500).json({ message: "Internal server error" });
       }
       if (results.length > 0) {
-        res.status(400).json({ message: "User already exists" });
-        return;
+        return res.status(400).json({ message: "User already exists" });
       }
 
-      // If user does not exist, create a new user
-      const userType = "Customer"; //setting default user type as Customer
-      const userID = generateUserID(); // Generate a unique userID
+      // If user does not exist, hash passwords and create a new user
+      try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedConfirmPassword = await bcrypt.hash(confirmPassword, 10);
 
-      createUser(
-        {
+        const userType = "Customer"; //setting default user type as Customer
+        const userID = generateUserID(); // Generate a unique userID
+
+        const user = {
           userType,
           userID,
           firstName,
@@ -59,31 +60,31 @@ exports.signUp = async (req, res) => {
           userName,
           email,
           contact,
-          password,
-          confirmPassword,
-        },
-        (err, results) => {
+          password: hashedPassword,
+          confirmPassword: hashedConfirmPassword,
+        };
+
+        createUser(user, (err, results) => {
           if (err) {
             console.error("Error creating user:", err);
-            res.status(500).json({ message: "Internal server error" });
-            return;
+            return res.status(500).json({ message: "Internal server error" });
           }
           // Create JWT token
           const token = jwt.sign({ email }, process.env.JWT_SECRET, {
             expiresIn: jwtConfig.expiresIn,
           });
           res.status(201).json({ message: "User created successfully", token });
-        }
-      );
+        });
+      } catch (error) {
+        console.error("Error hashing password:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
     });
   } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ message: "Internal server error" });
-    return;
-  };
+    console.error("Error checking existing user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 };
-
-
 
 // User login functionality
 exports.login = (req, res) => {
@@ -101,7 +102,12 @@ exports.login = (req, res) => {
         return res.status(400).json({ message: "Invalid credentials" });
 
       const token = jwt.sign(
-        { id: user.id, email: user.email },
+        {
+          id: user.userID,
+          email: user.email,
+          userType: user.userType,
+          password: user.password,
+        },
         jwtConfig.secret,
         {
           expiresIn: jwtConfig.expiresIn,

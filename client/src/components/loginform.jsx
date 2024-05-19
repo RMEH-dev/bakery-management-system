@@ -11,21 +11,19 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from 'jwt-decode';
 
 export function LogInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      // Check if email and password are provided
       if (!email || !password) {
-        setError("Please enter both email and password");
         toast.error("Please enter both email and password");
         return;
       }
@@ -39,26 +37,27 @@ export function LogInForm() {
       );
 
       if (response.status === 200) {
-        const { userType } = response.data; // Extract userType from response.data
+        const { token } = response.data;
+        const { userType } = jwtDecode(token);
+        localStorage.setItem("token", token);
 
-        if (userType === "Admin") {
-          toast.success("Admin Login Successful");
-          navigate("/adminDashboard"); // Redirect to adminDashboard
-        } else if (userType === "Staff") {
-          toast.success("Staff Login Successful");
-          navigate("/staffDashboard"); // Redirect to homepage
-        } else {
-          toast.success("Login Successful");
-          navigate("/"); // Redirect to homepage
-        }
+        setIsButtonClicked(true);
+        toast.success(`${userType} Login Successful`);
+        
+        setTimeout(() => {
+          if (userType === "Admin") {
+            navigate("/adminDashboard");
+          } else if (userType === "Staff") {
+            navigate("/staffDashboard");
+          } else {
+            navigate("/");
+          }
+        }, 3000); // Set a delay of 3 seconds before navigating
       } else {
-        setError("Invalid Credentials");
-        toast.error("Invalid Credentials"); // Display error message
+        toast.error("Invalid Credentials");
       }
     } catch (error) {
       console.error(error);
-      setError("Error during Login");
-      console.log("Error during Login");
       toast.error("An error occurred during Login");
     }
   };
@@ -73,11 +72,8 @@ export function LogInForm() {
     }
     // Clear the timer when the component unmounts or when button is clicked again
     return () => clearTimeout(timer);
-  }, [isButtonClicked, email, password, navigate]); // Include history in dependencies array
+  }, [isButtonClicked, navigate]); // Include history in dependencies array
 
-  const handleButtonClick = () => {
-    setIsButtonClicked(true);
-  };
 
   return (
     <div className="inset-0 flex justify-center items-center bg-gradient-to-br from-c3 to-c2 backdrop-blur-sm">
@@ -93,7 +89,7 @@ export function LogInForm() {
             To taste the flavors of freshness!
           </Typography>
           <Typography className=" mt-3 w-[475px] h-2 rounded-r-2xl bg-c3"></Typography>
-          <form className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
+          <form onSubmit={handleLogin} className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96">
             <div className="mb-1 flex flex-col gap-6">
               <Typography className="-mb-3 text-black font-semibold font-[Montserrat]">
                 Email
@@ -141,9 +137,8 @@ export function LogInForm() {
               </Typography>
             </div>
             <Button
-              onClick={handleLogin} 
+              type="submit"
               className="w-[300px] ml-20 mt-5 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]"
-              onChange={handleButtonClick}
            >
               log in
             </Button>

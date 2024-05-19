@@ -23,6 +23,7 @@ export function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const handleCheckboxChange = (e) => {
     setIsChecked(e.target.checked);
@@ -113,27 +114,6 @@ export function SignUpForm() {
       confirmPassword,
     });
   };
-
-  //This is to check whether the user inputs are captured
-  const displayInfo = () => {
-    console.log(
-      firstName +
-        " " +
-        lastName +
-        " " +
-        userName +
-        " " +
-        email +
-        " " +
-        contact +
-        " " +
-        password +
-        " " +
-        confirmPassword
-    );
-  };
-
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   useEffect(() => {
     let timer;

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./pages/protectedRoute.jsx";
 import App from "./App.jsx";
 import "./index.css";
 import { ThemeProvider } from "@material-tailwind/react";
@@ -20,7 +21,6 @@ import { Cart } from "./components/cart.jsx";
 import { ShoppingCart } from "./components/shoppingcart.jsx";
 import { Checkout } from "./components/checkout.jsx";
 import OrderSuccess from "./components/ordersuccess.jsx";
-import AdminDashboard from "./pages/admin/admindashboard.jsx";
 import AdminReports from "./pages/admin/adminreports.jsx";
 import RawInventory from "./pages/admin/rawInventory.jsx";
 import AddRawInventory from "./pages/admin/addRawInventory.jsx";
@@ -53,21 +53,21 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/adminDashboard", element: <AdminReports />},
-  { path: "/staffDashboard", element: <StaffReports />},
-  { path: "/rawInventory", element: <RawInventory />},
-  { path: "/addRawInventory", element: <AddRawInventory />},
-  { path: "/editRawInventory/:id", element: <AddRawInventory />},
-  { path: "/rawStockUsage", element: <RawStockUsage />},
-  { path: "/rawStockUsageStaff", element: <RawStockUsageStaff />},
-  { path: "/addRawStockUsage", element: <AddRawStockUsage />},
-  { path: "/editRawStockUsage/:id", element: <AddRawStockUsage/>},
-  { path: "/addRawStockUsageStaff", element: <AddRawStockUsageStaff />},
-  { path: "/proInventory", element: <ProInventory/>},
-  { path: "/addProInventory", element: <AddProInventory />},
-  { path: "/editProInventory/:id", element: <AddProInventory />},
-  { path: "/proInventoryStaff", element: <ProInventoryStaff/>},
-  { path: "/addProInventoryStaff", element: <AddProInventoryStaff />},
+  { path: "/adminDashboard", element:<ProtectedRoute component={AdminReports} allowedRoles={['Admin']} />},
+  { path: "/staffDashboard", element: <ProtectedRoute component={StaffReports} allowedRoles={['Staff']} />},
+  { path: "/rawInventory", element: <ProtectedRoute component={RawInventory} allowedRoles={['Admin']} />},
+  { path: "/addRawInventory", element: <ProtectedRoute component={AddRawInventory} allowedRoles={['Admin']} />},
+  { path: "/editRawInventory/:id", element: <ProtectedRoute component={AddRawInventory} allowedRoles={['Admin']} />},
+  { path: "/rawStockUsage", element: <ProtectedRoute component={RawStockUsage} allowedRoles={['Admin']} />},
+  { path: "/rawStockUsageStaff", element: <ProtectedRoute component={RawStockUsageStaff} allowedRoles={['Staff']} />},
+  { path: "/addRawStockUsage", element: <ProtectedRoute component={AddRawStockUsage} allowedRoles={['Admin']} />},
+  { path: "/editRawStockUsage/:id", element: <ProtectedRoute component={AddRawStockUsage} allowedRoles={['Admin']}/>},
+  { path: "/addRawStockUsageStaff", element: <ProtectedRoute component={AddRawStockUsageStaff} allowedRoles={['Staff']} />},
+  { path: "/proInventory", element: <ProtectedRoute component={ProInventory} allowedRoles={['Admin']}/>},
+  { path: "/addProInventory", element: <ProtectedRoute component={AddProInventory} allowedRoles={['Admin']} />},
+  { path: "/editProInventory/:id", element: <ProtectedRoute component={AddProInventory} allowedRoles={['Admin']} />},
+  { path: "/proInventoryStaff", element: <ProtectedRoute component={ProInventoryStaff} allowedRoles={['Staff']}/>},
+  { path: "/addProInventoryStaff", element: <ProtectedRoute component={ProInventoryStaff} allowedRoles={['Staff']} />},
   { path: "/signUp", element: <SignUp /> },
   { path: "/logIn", element: <LogIn /> },
   { path: "/cart", element: <Cart /> },

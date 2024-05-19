@@ -1,5 +1,5 @@
 const db = require("../../config/databaseConnection");
-const bcrypt = require("bcrypt");
+
 
 const createUser = (user, callback) => {
   const {
@@ -14,30 +14,22 @@ const createUser = (user, callback) => {
     confirmPassword,
   } = user;
 
-  bcrypt.hash(
-    password,
-    confirmPassword,
-    10,
-    (err, hashedPassword, hashedConfirmPassword) => {
-      if (err) return callback(err);
-      const sqlCreateUser = `INSERT INTO user (userType, userID, firstName, lastName, userName, email, contact, password, confirmPassword)
+  const sqlCreateUser = `INSERT INTO user (userType, userID, firstName, lastName, userName, email, contact, password, confirmPassword)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-      db.query(
-        sqlCreateUser,
-        [
-          userType,
-          userID,
-          firstName,
-          lastName,
-          userName,
-          email,
-          contact,
-          hashedPassword,
-          hashedConfirmPassword,
-        ],
-        callback
-      );
-    }
+  db.query(
+    sqlCreateUser,
+    [
+      userType,
+      userID,
+      firstName,
+      lastName,
+      userName,
+      email,
+      contact,
+      password,
+      confirmPassword,
+    ],
+    callback
   );
 };
 
