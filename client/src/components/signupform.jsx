@@ -39,25 +39,25 @@ export function SignUpForm() {
         return;
       }
 
-      if (firstName.length <3){
+      if (firstName.length < 3) {
         setError("First name must be at least 3 characters long");
         toast.error("First name must be at least 3 characters long");
         return;
       }
 
-      if (lastName.length <3){
+      if (lastName.length < 3) {
         setError("Last name must be at least 3 characters long");
         toast.error("Last name must be at least 3 characters long");
         return;
       }
 
-      if (userName.length <5){
+      if (userName.length < 5) {
         setError("User name must be at least 3 characters long");
         toast.error("User name must be at least 3 characters long");
         return;
       }
 
-      if (userName.length <5){
+      if (userName.length < 5) {
         setError("User name must be at least 3 characters long");
         toast.error("User name must be at least 3 characters long");
         return;
@@ -65,10 +65,12 @@ export function SignUpForm() {
 
       if (!isChecked) {
         setError("Agree the terms and conditions");
-        toast.error('Please agree to the Terms & Conditions by checking the checkbox.');
+        toast.error(
+          "Please agree to the Terms & Conditions by checking the checkbox."
+        );
         return; // Prevent further processing if checkbox is not checked
       }
-    
+
       // Check if email or contact already exists in the database
       const existingUser = await checkExistingUser(email, contact);
       if (existingUser) {
@@ -112,7 +114,7 @@ export function SignUpForm() {
     });
   };
 
-  //This is to check whether the user inputs are captured 
+  //This is to check whether the user inputs are captured
   const displayInfo = () => {
     console.log(
       firstName +
@@ -155,6 +157,7 @@ export function SignUpForm() {
       className="inset-0 flex justify-center items-center bg-gradient-to-br from-deep-orange-800 to-deep-orange-200 backdrop-blur-sm"
       //   onClick={() => onClose(handleClose)}
     >
+      <ToastContainer />
       <div className="p-5 w-[600px] flex flex-col">
         <Card
           className="w-[565px] h-[900px] bg-white rounded-2xl z-80"
@@ -168,7 +171,9 @@ export function SignUpForm() {
           </Typography>
           <Typography className=" mt-3 w-[450px] h-2 rounded-r-2xl bg-deep-orange-900"></Typography>
           <form
-            onSubmit={(event) => handleSubmit(event, email, contact, setError, addUser)}              
+            onSubmit={(event) =>
+              handleSubmit(event, email, contact, setError, addUser)
+            }
             id="signUp-Form"
             className="ml-[50px] mt-5 mb-2 w-80 h-150 max-w-screen-lg sm:w-96"
           >
@@ -320,11 +325,12 @@ export function SignUpForm() {
               <Button
                 className="ml-10 mt-6 hover:bg-deep-orange-900 bg-deep-orange-500 rounded-3xl text-white text-xl font-[Montserrat]"
                 fullWidth
-                onClick={(event) => handleSubmit(event, email, contact, setError, addUser)}              
+                onClick={(event) =>
+                  handleSubmit(event, email, contact, setError, addUser)
+                }
               >
                 sign up
               </Button>
-              
             </Link>
             <Typography
               color="gray"
@@ -341,7 +347,6 @@ export function SignUpForm() {
           </form>
         </Card>
       </div>
-      <ToastContainer />
     </div>
   );
 }

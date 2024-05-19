@@ -40,16 +40,14 @@ export function LogInForm() {
 
       if (response.status === 200) {
         const { userType } = response.data; // Extract userType from response.data
-        setError("Login Successful");
-        toast.success("Login Successful"); // Display success message
-        
-        // Use history.push to navigate to different routes based on userType
+
         if (userType === "Admin") {
-          console.log("Admin logged in successfully");
           toast.success("Admin Login Successful");
           navigate("/adminDashboard"); // Redirect to adminDashboard
-        } else if (userType === "Customer") {
-          console.log("Customer logged in successfully");
+        } else if (userType === "Staff") {
+          toast.success("Staff Login Successful");
+          navigate("/staffDashboard"); // Redirect to homepage
+        } else {
           toast.success("Login Successful");
           navigate("/"); // Redirect to homepage
         }
@@ -143,9 +141,10 @@ export function LogInForm() {
               </Typography>
             </div>
             <Button
-              onClick={handleLogin}
+              onClick={handleLogin} 
               className="w-[300px] ml-20 mt-5 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-xl font-[Montserrat]"
-            >
+              onChange={handleButtonClick}
+           >
               log in
             </Button>
             <Typography
