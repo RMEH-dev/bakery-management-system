@@ -13,7 +13,7 @@ import {
   CheckIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import ProStockTable from "../../components/proStockTable";
+import ProStockTableStaff from "../../components/proStockTableStaff";
 
 function ProInventoryStaff() {
   return (
@@ -39,7 +39,7 @@ function ProInventoryStaff() {
                 </Link> 
               </div>
               <div className="gap-20 mr-10 w-[850px] flex-cols">
-                <ProStockTable />
+                <ProStockTableStaff />
               </div>
             </div>
           </Card>

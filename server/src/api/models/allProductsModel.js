@@ -35,19 +35,33 @@ exports.getTotalCount = async () => {
 
 exports.getCategories = async () => {
   const sqlGetCategories = `
-        SELECT DISTINCT category, subCategory
+        SELECT category, subCategory
         FROM proitemdetails;
     `;
 
   return new Promise((resolve, reject) => {
     db.query(sqlGetCategories, (err, rows) => {
-      if (err) {
-        return reject(new Error("Error fetching categories: " + err.message));
-      }
-      resolve(rows);
-    });
-  });
-};
+        if (err) {
+            return reject(new Error("Error fetching categories: " + err.message));
+          }
+    
+          const categories = {};
+          rows.forEach(row => {
+            if (!categories[row.category]) {
+              categories[row.category] = [];
+            }
+            if (row.subCategory && !categories[row.category].includes(row.subCategory)) {
+              categories[row.category].push(row.subCategory);
+            }
+          });
+    
+          resolve(Object.keys(categories).map(category => ({
+            category,
+            subCategories: categories[category]
+          })));
+        });
+      });
+    };
 
 exports.getProductsByCategory = async (
   category,
@@ -64,7 +78,7 @@ exports.getProductsByCategory = async (
   const params = [category];
 
   if (subCategory) {
-    sqlGetProductsByCategory += " AND pid.subCategory = ?";
+    sqlGetProductsByCategory += " AND i.subCategory = ?";
     params.push(subCategory);
   }
 
@@ -84,13 +98,13 @@ exports.getProductsByCategory = async (
 };
 
 exports.getTotalCountByCategory = async (category, subCategory) => {
-  const sqlGetTotalCountByCategory = `
+  let sqlGetTotalCountByCategory = `
         SELECT COUNT(*) AS total
         FROM proitemdetails
         WHERE category = ?
     `;
 
-  let params = [category];
+  const params = [category];
 
   if (subCategory) {
     sqlGetTotalCountByCategory += " AND subCategory = ?";

@@ -27,7 +27,7 @@ function StaffDashboard({ children }) {
           </h1>
         </Link>
         <Link to="/staffDashboard">
-          <Button className="w-[200px] h-[20px] text-c1 hover:bg-deep-orange-900 hover:text-white bg-white rounded-3xl text-md font-[Montserrat]">
+          <Button className="w-[200px] h-[20px] text-c1 hover:transition-transform duration-500 ease-in-out hover:scale-105 hover:bg-deep-orange-900 hover:text-white bg-white rounded-xl text-md font-[Montserrat]">
             View Reports
           </Button>
         </Link>
@@ -95,12 +95,12 @@ function StaffDashboard({ children }) {
           </div>
           <div className="pt-5 pl-10 justify-end flex grid-cols-4 gap-5">
             <Link to="/rawStockUsageStaff">
-              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
+              <Button className="w-[250px] hover:transition-transform duration-500 ease-in-out hover:scale-105 hover:bg-deep-orange-900 bg-c3 rounded-3xl hover:text-c2 text-white text-md font-[Montserrat]">
                 Inventory Usage
               </Button>
             </Link>
             <Link to="/proInventoryStaff">
-              <Button className="w-[250px] hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
+              <Button className="w-[250px] hover:transition-transform duration-500 ease-in-out hover:scale-105 hover:bg-deep-orange-900 bg-c3 rounded-3xl text-white text-md font-[Montserrat]">
                 Produced Inventory
               </Button>
             </Link>
