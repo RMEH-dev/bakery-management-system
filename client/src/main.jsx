@@ -37,22 +37,9 @@ import AddRawStockUsageStaff from "./pages/staff/addRawStockUsageStaff.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  {
-    path: "/products",
-    element: <Products />,
-    children: [
-      {
-        path: "/products/Breads&Buns",
-        element: <Products />,
-        children: [
-          {
-            path: "/products/Breads&Buns/:Breads&BunsId",
-            element: <Products />,
-          },
-        ],
-      },
-    ],
-  },
+  { path: "/products", element: <Products />},
+  { path: "/bakery/:category", element: <Products /> },
+  { path: "/bakery/:category/:subCategory", element: <Products /> },
   { path: "/adminDashboard", element:<ProtectedRoute component={AdminReports} allowedRoles={['Admin']} />},
   { path: "/staffDashboard", element: <ProtectedRoute component={StaffReports} allowedRoles={['Staff']} />},
   { path: "/rawInventory", element: <ProtectedRoute component={RawInventory} allowedRoles={['Admin']} />},

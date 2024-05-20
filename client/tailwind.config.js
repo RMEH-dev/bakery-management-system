@@ -43,7 +43,6 @@ module.exports = withMT({
       c7: "#0C9200",
     },
     font: {
-      font1: ["Poppins", "sans-serif"],
       font2: ["Montserrat", "sans-serif"],
     }
   },

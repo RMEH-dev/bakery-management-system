@@ -6,58 +6,34 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-import { useState, useEffect } from "react";
 
-
-
-export function ProductCard() {
-    
-      const [product, setProduct] = useState(null);
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState(null);
-  
-      useEffect(() => {
-          const fetchProduct = async () => {
-              setIsLoading(true);
-              setError(null);
-  
-              try {
-                  const response = await axios.get('/api/products'); // Replace with your actual API endpoint
-                  setProduct(response.data[0]); // Assuming you want the first product
-              } catch (error) {
-                  setError(error);
-              } finally {
-                  setIsLoading(false);
-              }
-          };
-  
-          fetchProduct();
-      }, []);
-
+export function ProductCard({ product }) {
   return (
-    <Card className="w-[250px] bg-c2 shadow shadow-md shadow-c3 h-[300px]">
-      <CardHeader shadow={false} floated={false} className="h-[150px]">
+    <Card className="w-[250px] bg-white text-c3 hover:text-white hover:bg-deep-orange-900 hover:bg-opacity-80 hover:duration-200 hover:transition-transform hover:translate-y-2 duration-500 ease-in-out hover:scale-105  cursor-pointer shadow-md shadow-c3 h-[300px]">
+      <CardHeader shadow={false} floated={false} className="h-[150px] hover:text-c2">
         <img
           src="https://countrywoodsmoke.com/wp-content/uploads/2020/03/IMG_20200130_154847-01-1536x734.jpeg"
           alt="card-image"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover hover:text-c2"
         />
       </CardHeader>
-      <div className="grid grid:cols-2">
-        <CardBody>
-          <div className="mb-1 flex justify-between">
-            <Typography  className="text-c1 font-bold font-[Montserrat] ">
-              Wood-fired Bread
+      <div className="grid hover:text-c2 grid:cols-2">
+        <CardBody className="hover:text-c2">
+          <div className="mb-1  flex justify-between">
+            <Typography className="text-c1 hover:text-c2 font-bold font-[Montserrat] ">
+              {product.proStockName}
             </Typography>
             <Typography className="font-bold font-[Montserrat] text-c1 text-opacity-100 text-nowrap">
-              Rs. 95.00
+              Rs. {product.pricePerItem}
             </Typography>
           </div>
           <Typography
             variant="small"
             className="text-c3 font-medium font-[Montserrat] text-wrap grid grid-cols-2 gap-y-2" // Use grid with gap
           >
-            Freshly baked in the wood
+            From: {product.availableFrom}
+            <br />
+            Till: {product.availableTill}
             <button class="flex items-center ml-10 justify-center bg-c3 w-14 h-8 rounded-3xl text-white hover:bg-c1 hover:text-c2 duration-500">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
